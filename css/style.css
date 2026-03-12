@@ -1,0 +1,46 @@
+body{
+font-family: Arial, sans-serif;
+background-color:#f5f7fa;
+}
+
+/* Header */
+
+header{
+box-shadow:0px 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Hero Bereich */
+
+.hero{
+background: linear-gradient(135deg,#0d6efd,#4dabf7);
+color:white;
+padding:60px 20px;
+border-radius:10px;
+text-align:center;
+}
+
+/* Buttons */
+
+.btn-primary{
+background-color:#0d6efd;
+border:none;
+}
+
+.btn-primary:hover{
+background-color:#0b5ed7;
+}
+
+/* Karten */
+
+.card{
+border-radius:12px;
+box-shadow:0px 4px 15px rgba(0,0,0,0.1);
+border:none;
+}
+
+/* Footer */
+
+footer{
+margin-top:60px;
+background:#f1f3f5;
+}
