@@ -14,7 +14,6 @@
 
 <body>
 
-<!-- HEADER -->
 <header class="bg-dark text-white">
 <div class="container d-flex justify-content-between align-items-center p-3">
 
@@ -31,13 +30,13 @@
 </div>
 </header>
 
-
-<!-- INHALT -->
 <main class="container mt-5">
 
-<h2>Registrierung erfolgreich</h2>
+<h2 class="text-success">Registrierung erfolgreich abgeschlossen</h2>
 
-<p>Vielen Dank für Ihre Kleiderspende.</p>
+<p class="mt-3">
+Vielen Dank für Ihre Kleiderspende. Die folgenden Informationen wurden registriert:
+</p>
 
 <div class="card p-4 mt-4">
 
@@ -61,9 +60,7 @@ Zurück zur Startseite
 
 </main>
 
-
-<!-- FOOTER -->
-<footer class="bg-light text-center p-4 mt-5">
+<footer class="text-center p-4 mt-5">
 
 <a href="impressum.html">Impressum</a> |
 <a href="datenschutz.html">Datenschutz</a>
@@ -72,10 +69,8 @@ Zurück zur Startseite
 
 </footer>
 
-
 <script>
 
-// URL Parameter auslesen
 const params = new URLSearchParams(window.location.search);
 
 document.getElementById("kleidung").innerText = params.get("kleidung");
