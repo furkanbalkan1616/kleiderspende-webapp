@@ -1,91 +1,86 @@
 // Elemente holen
-const radioGeschaeft = document.getElementById("geschaeftsstelle");
+const radioGeschaeftsstelle = document.getElementById("geschaeftsstelle");
 const radioAbholung = document.getElementById("abholung");
-
 const adresseBereich = document.getElementById("adresseBereich");
-
 const form = document.getElementById("spendenForm");
 
 
-// Anzeige der Adresse steuern
-function aktualisiereAnzeige() {
+// Adresse anzeigen wenn Abholung gewählt wird
+radioAbholung.addEventListener("change", function () {
+    adresseBereich.style.display = "block";
+});
 
-if (radioAbholung && radioAbholung.checked) {
-adresseBereich.style.display = "block";
-} else {
-adresseBereich.style.display = "none";
-}
-
-}
-
-
-// Event Listener für Radio Buttons
-if (radioGeschaeft) {
-radioGeschaeft.addEventListener("change", aktualisiereAnzeige);
-}
-
-if (radioAbholung) {
-radioAbholung.addEventListener("change", aktualisiereAnzeige);
-}
-
-
-// Formular absenden
-if (form) {
-
-form.addEventListener("submit", function(e) {
-
-e.preventDefault();
-
-const kleidung = document.getElementById("kleidung").value;
-const krisengebiet = document.getElementById("krisengebiet").value;
-
-const uebergabeart = radioAbholung.checked ? "Abholung" : "Geschaeftsstelle";
-
-let ortText = "Geschäftsstelle";
-
-
-if (uebergabeart === "Abholung") {
-
-const strasse = document.getElementById("strasse").value;
-const plz = document.getElementById("plz").value;
-const ort = document.getElementById("ort").value;
-
-
-// PLZ Prüfung
-if (!plz.startsWith("12")) {
-
-alert("Abholung ist nur im Einzugsgebiet möglich.");
-
-return;
-
-}
-
-ortText = strasse + ", " + plz + " " + ort;
-
-}
-
-
-// Datum und Uhrzeit
-const datum = new Date().toLocaleDateString();
-const uhrzeit = new Date().toLocaleTimeString();
-
-
-// URL Parameter erstellen
-const params = new URLSearchParams({
-
-kleidung: kleidung,
-krisengebiet: krisengebiet,
-uebergabe: uebergabeart,
-ort: ortText,
-datum: datum,
-uhrzeit: uhrzeit
-
+// Adresse verstecken wenn Geschäftsstelle gewählt wird
+radioGeschaeftsstelle.addEventListener("change", function () {
+    adresseBereich.style.display = "none";
 });
 
 
-// Weiterleitung
-window.location.href = "bestaetigung.html?" + params.toString();
+// Formular prüfen
+form.addEventListener("submit", function (event) {
+
+    const kleidung = document.getElementById("kleidung").value;
+    const krisengebiet = document.getElementById("krisengebiet").value;
+    const plz = document.getElementById("plz").value;
+    const ort = document.getElementById("ort").value;
+    const strasse = document.getElementById("strasse").value;
+
+    const uebergabe = document.querySelector('input[name="uebergabe"]:checked').value;
+
+    // Kleidung prüfen
+    if (kleidung === "") {
+        alert("Bitte Kleidung auswählen.");
+        event.preventDefault();
+        return;
+    }
+
+    // Krisengebiet prüfen
+    if (krisengebiet === "") {
+        alert("Bitte Krisengebiet auswählen.");
+        event.preventDefault();
+        return;
+    }
+
+    // Wenn Abholung gewählt wurde
+    if (uebergabe === "Abholung") {
+
+        // Adresse prüfen
+        if (strasse === "" || ort === "" || plz === "") {
+            alert("Bitte vollständige Abholadresse eingeben.");
+            event.preventDefault();
+            return;
+        }
+
+        // PLZ Format prüfen
+        if (!/^[0-9]{5}$/.test(plz)) {
+            alert("Bitte eine gültige Postleitzahl eingeben.");
+            event.preventDefault();
+            return;
+        }
+
+        // PLZ Einzugsgebiet prüfen (z.B. 76)
+        if (plz.substring(0, 2) !== "76") {
+            alert("Adresse liegt nicht im Einzugsgebiet der Geschäftsstelle.");
+            event.preventDefault();
+            return;
+        }
+    }
+
+    // Datum und Uhrzeit erzeugen
+    const jetzt = new Date();
+    const datum = jetzt.toLocaleDateString();
+    const uhrzeit = jetzt.toLocaleTimeString();
+
+    // Weiterleitung zur Bestätigungsseite
+    const url = "bestaetigung.html?" +
+        "kleidung=" + encodeURIComponent(kleidung) +
+        "&krisengebiet=" + encodeURIComponent(krisengebiet) +
+        "&uebergabe=" + encodeURIComponent(uebergabe) +
+        "&ort=" + encodeURIComponent(ort) +
+        "&datum=" + encodeURIComponent(datum) +
+        "&uhrzeit=" + encodeURIComponent(uhrzeit);
+
+    event.preventDefault();
+    window.location.href = url;
 
 });
-
-}
