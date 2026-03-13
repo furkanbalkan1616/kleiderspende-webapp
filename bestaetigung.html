@@ -83,12 +83,17 @@ Zurück zur Startseite
 
 const params = new URLSearchParams(window.location.search);
 
-document.getElementById("kleidung").innerText = params.get("kleidung");
-document.getElementById("krisengebiet").innerText = params.get("krisengebiet");
-document.getElementById("uebergabe").innerText = params.get("uebergabe");
-document.getElementById("ort").innerText = params.get("ort");
-document.getElementById("datum").innerText = params.get("datum");
-document.getElementById("uhrzeit").innerText = params.get("uhrzeit");
+function safeValue(key){
+const value = params.get(key);
+return value ? value : "Keine Angabe";
+}
+
+document.getElementById("kleidung").innerText = safeValue("kleidung");
+document.getElementById("krisengebiet").innerText = safeValue("krisengebiet");
+document.getElementById("uebergabe").innerText = safeValue("uebergabe");
+document.getElementById("ort").innerText = safeValue("ort");
+document.getElementById("datum").innerText = safeValue("datum");
+document.getElementById("uhrzeit").innerText = safeValue("uhrzeit");
 
 </script>
 
