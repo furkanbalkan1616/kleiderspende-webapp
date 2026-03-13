@@ -1,5 +1,5 @@
-Kleiderspenden Webanwendung
-Projektbeschreibung
+# Kleiderspenden Webanwendung
+## Projektbeschreibung
 
 Diese Webanwendung ermöglicht es Nutzern, Kleiderspenden für Menschen in Krisengebieten zu registrieren.
 
@@ -7,42 +7,42 @@ Diese Webanwendung ermöglicht es Nutzern, Kleiderspenden für Menschen in Krise
 
 Nach der Registrierung erhält der Nutzer eine Bestätigungsseite mit allen eingegebenen Daten.
 
-Funktionen
+## Funktionen
 
-Registrierung von Kleiderspenden
+- Registrierung von Kleiderspenden
 
-Auswahl verschiedener Kleidungsarten
+- Auswahl verschiedener Kleidungsarten
 
-Auswahl eines Krisengebiets
+- Auswahl eines Krisengebiets
 
-Auswahl der Übergabeart (Geschäftsstelle oder Abholung)
+- Auswahl der Übergabeart (Geschäftsstelle oder Abholung)
 
-Dynamisches Anzeigen der Adressfelder bei Abholung
+- Dynamisches Anzeigen der Adressfelder bei Abholung
 
-Validierung der Postleitzahl
+- Validierung der Postleitzahl
 
-Anzeige einer Bestätigungsseite mit allen Daten
+- Anzeige einer Bestätigungsseite mit allen Daten
 
-Verwendete Technologien
+## Verwendete Technologien
 
-HTML5
+- HTML5
 
-CSS3
+- CSS3
 
-Bootstrap 5
+- Bootstrap 5
 
-JavaScript
+- JavaScript
 
-Git & GitHub
+- Git & GitHub
 
-GitHub Pages
+- GitHub Pages
 
-Online Version
+## Online Version
 
 Die Webanwendung ist erreichbar unter:
 
 https://furkanbalkan1616.github.io/kleiderspende-webapp/
 
-Autor
+## Autor
 
 Furkan Balkan
