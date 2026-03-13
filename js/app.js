@@ -4,7 +4,6 @@ const radioAbholung = document.getElementById("abholung");
 const adresseBereich = document.getElementById("adresseBereich");
 const form = document.getElementById("spendenForm");
 
-
 // Adresse anzeigen wenn Abholung gewählt wird
 radioAbholung.addEventListener("change", function () {
     adresseBereich.style.display = "block";
@@ -14,7 +13,6 @@ radioAbholung.addEventListener("change", function () {
 radioGeschaeftsstelle.addEventListener("change", function () {
     adresseBereich.style.display = "none";
 });
-
 
 // Formular prüfen
 form.addEventListener("submit", function (event) {
@@ -51,14 +49,14 @@ form.addEventListener("submit", function (event) {
             return;
         }
 
-        // PLZ Format prüfen
+        // Prüfen ob PLZ 5 Zahlen hat
         if (!/^[0-9]{5}$/.test(plz)) {
             alert("Bitte eine gültige Postleitzahl eingeben.");
             event.preventDefault();
             return;
         }
 
-        // PLZ Einzugsgebiet prüfen (z.B. 76)
+        // Prüfen ob erste zwei Ziffern passen (z.B. 76)
         if (plz.substring(0, 2) !== "76") {
             alert("Adresse liegt nicht im Einzugsgebiet der Geschäftsstelle.");
             event.preventDefault();
