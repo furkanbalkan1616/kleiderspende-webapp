@@ -44,3 +44,19 @@ footer{
 margin-top:60px;
 background:#f1f3f5;
 }
+
+/* Navigation */
+
+nav a{
+text-decoration:none;
+font-weight:500;
+}
+
+nav a:hover{
+color:#0d6efd;
+}
+
+nav a.active{
+color:#0d6efd;
+font-weight:bold;
+}
