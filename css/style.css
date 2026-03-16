@@ -1,73 +1,172 @@
-body{
-font-family: Arial, sans-serif;
-background-color:#f5f7fa;
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
 }
 
 /* Header */
+header {
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-header{
-box-shadow:0px 2px 8px rgba(0,0,0,0.1);
+header img {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Navigation */
-
-nav a{
-text-decoration:none;
-font-weight:500;
+nav a {
+  text-decoration: none;
+  font-weight: 500;
 }
 
-nav a:hover{
-color:#0d6efd;
+nav a:hover {
+  color: #0d6efd;
 }
 
-nav a.active{
-color:#0d6efd;
-font-weight:bold;
+nav a.active {
+  color: #0d6efd;
+  font-weight: bold;
 }
 
 /* Hauptbereich */
-
-main{
-margin-top:60px;
+main {
+  margin-top: 60px;
+  margin-bottom: 40px;
 }
 
 /* Überschriften */
-
-h2{
-font-weight:700;
-margin-bottom:30px;
+h2 {
+  font-weight: 700;
+  margin-bottom: 30px;
 }
 
 /* Formular */
-
-.form-label{
-font-weight:500;
-margin-top:10px;
+.form-label {
+  font-weight: 500;
+  margin-top: 10px;
 }
 
 /* Formular Container */
+.card {
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  border: none;
+}
 
-.card{
-border-radius:12px;
-box-shadow:0px 4px 15px rgba(0,0,0,0.1);
-border:none;
+/* Bilder */
+.img-fluid {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Buttons */
-
-.btn-primary{
-background-color:#0d6efd;
-border:none;
+.btn-primary {
+  background-color: #0d6efd;
+  border: none;
 }
 
-.btn-primary:hover{
-background-color:#0b5ed7;
+.btn-primary:hover {
+  background-color: #0b5ed7;
 }
 
 /* Footer */
+footer {
+  margin-top: 60px;
+  background: #f1f3f5;
+  padding: 20px;
+}
 
-footer{
-margin-top:60px;
-background:#f1f3f5;
-padding:20px;
+footer a {
+  text-decoration: none;
+}
+
+/* Mobile und Tablet */
+@media (max-width: 768px) {
+  header .container {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 12px;
+  }
+
+  header .d-flex.align-items-center {
+    width: 100%;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  nav a {
+    padding: 8px 0;
+    margin-right: 0 !important;
+  }
+
+  main {
+    margin-top: 30px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  h1.h4 {
+    font-size: 1.1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .card {
+    padding: 16px !important;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .row {
+    row-gap: 10px;
+  }
+
+  .col-md-6,
+  .col-md-4 {
+    margin-bottom: 10px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 16px;
+  }
+}
+
+/* Sehr kleine Smartphones */
+@media (max-width: 480px) {
+  body {
+    font-size: 15px;
+  }
+
+  h1.h4 {
+    font-size: 1rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .form-label {
+    font-size: 0.95rem;
+  }
+
+  .card {
+    border-radius: 10px;
+  }
+
+  main {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
