@@ -23,6 +23,9 @@ if (form && radioGeschaeftsstelle && radioAbholung && adresseBereich) {
     // Formular stoppen, damit JavaScript prüfen kann
     event.preventDefault();
 
+    const fehlermeldung = document.getElementById("fehlermeldung");
+    fehlermeldung.style.display = "none";
+
     const kleidung = document.getElementById("kleidung").value.trim();
     const krisengebiet = document.getElementById("krisengebiet").value.trim();
     const plz = document.getElementById("plz").value.trim();
@@ -31,15 +34,21 @@ if (form && radioGeschaeftsstelle && radioAbholung && adresseBereich) {
 
     const uebergabe = document.querySelector('input[name="uebergabe"]:checked').value;
 
+    function showError(text) {
+      fehlermeldung.innerText = text;
+      fehlermeldung.style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
     // Kleidung prüfen
     if (kleidung === "") {
-      alert("Bitte Kleidung auswählen.");
+      showError("Bitte Kleidung auswählen.");
       return;
     }
 
     // Krisengebiet prüfen
     if (krisengebiet === "") {
-      alert("Bitte Krisengebiet auswählen.");
+      showError("Bitte Krisengebiet auswählen.");
       return;
     }
 
@@ -50,19 +59,19 @@ if (form && radioGeschaeftsstelle && radioAbholung && adresseBereich) {
 
       // Adresse prüfen
       if (strasse === "" || ortEingabe === "" || plz === "") {
-        alert("Bitte vollständige Abholadresse eingeben.");
+        showError("Bitte vollständige Abholadresse eingeben.");
         return;
       }
 
       // PLZ-Format prüfen
       if (!/^[0-9]{5}$/.test(plz)) {
-        alert("Bitte eine gültige Postleitzahl eingeben.");
+        showError("Bitte eine gültige Postleitzahl eingeben.");
         return;
       }
 
       // PLZ-Einzugsgebiet prüfen
       if (plz.substring(0, 2) !== "76") {
-        alert("Adresse liegt nicht im Einzugsgebiet der Geschäftsstelle.");
+        showError("Adresse liegt nicht im Einzugsgebiet der Geschäftsstelle.");
         return;
       }
 
