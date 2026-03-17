@@ -9,7 +9,6 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
 <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -17,76 +16,68 @@
 <body>
 
 <header class="bg-dark text-white">
-<div class="container d-flex justify-content-between align-items-center p-3">
+  <div class="container d-flex justify-content-between align-items-center p-3">
 
-<div class="d-flex align-items-center">
-<img src="img/logo.png" width="50" class="me-2">
-<h1 class="h4 m-0">Kleiderspenden Portal</h1>
-</div>
+    <a href="index.html" class="d-flex align-items-center text-white text-decoration-none">
+      <img src="img/logo.png" width="50" class="me-2" alt="Logo">
+      <h1 class="h4 m-0">Kleiderspenden Portal</h1>
+    </a>
 
-<nav>
-<a href="index.html" class="text-white me-3">Start</a>
-<a href="registrierung.html" class="text-white">Registrierung</a>
-</nav>
+    <nav class="d-flex gap-3">
+      <a href="index.html" class="text-white">Start</a>
+      <a href="registrierung.html" class="text-white">Registrierung</a>
+    </nav>
 
-</div>
+  </div>
 </header>
-
 
 <main class="container mt-5">
 
-<h2>Registrierung bestätigt</h2>
+  <h2>Registrierung bestätigt</h2>
 
-<div class="alert alert-success">
-<i class="bi bi-check-circle"></i> Ihre Kleiderspende wurde erfolgreich registriert!
-</div>
+  <div class="alert alert-success">
+    <i class="bi bi-check-circle"></i> Ihre Kleiderspende wurde erfolgreich registriert!
+  </div>
 
-<p>Vielen Dank für Ihre Unterstützung. Die folgenden Informationen wurden gespeichert:</p>
+  <p>Vielen Dank für Ihre Unterstützung. Die folgenden Informationen wurden gespeichert:</p>
 
-<div class="card p-4 mt-4">
+  <div class="card p-4 mt-4">
+    <p><strong>Kleidung:</strong> <span id="kleidung"></span></p>
+    <p><strong>Krisengebiet:</strong> <span id="krisengebiet"></span></p>
+    <p><strong>Übergabeart:</strong> <span id="uebergabe"></span></p>
+    <p><strong>Ort:</strong> <span id="ort"></span></p>
+    <p><strong>Datum:</strong> <span id="datum"></span></p>
+    <p><strong>Uhrzeit:</strong> <span id="uhrzeit"></span></p>
+  </div>
 
-<p><strong>Kleidung:</strong> <span id="kleidung"></span></p>
-
-<p><strong>Krisengebiet:</strong> <span id="krisengebiet"></span></p>
-
-<p><strong>Übergabeart:</strong> <span id="uebergabe"></span></p>
-
-<p><strong>Ort:</strong> <span id="ort"></span></p>
-
-<p><strong>Datum:</strong> <span id="datum"></span></p>
-
-<p><strong>Uhrzeit:</strong> <span id="uhrzeit"></span></p>
-
-</div>
-
-<a href="index.html" class="btn btn-primary mt-4">
-Zurück zur Startseite
-</a>
+  <a href="index.html" class="btn btn-primary mt-4">
+    Zurück zur Startseite
+  </a>
 
 </main>
 
-
 <footer class="text-center p-4 mt-5">
-
-<a href="impressum.html">Impressum</a> |
-<a href="datenschutz.html">Datenschutz</a>
-
-<p class="mt-2">© 2026 Kleiderspenden Verein</p>
-
+  <a href="impressum.html">Impressum</a> |
+  <a href="datenschutz.html">Datenschutz</a>
+  <p class="mt-2">© 2026 Kleiderspenden Verein</p>
 </footer>
 
-
 <script>
-
 const params = new URLSearchParams(window.location.search);
 
-document.getElementById("kleidung").innerText = params.get("kleidung");
-document.getElementById("krisengebiet").innerText = params.get("krisengebiet");
-document.getElementById("uebergabe").innerText = params.get("uebergabe");
-document.getElementById("ort").innerText = params.get("ort");
-document.getElementById("datum").innerText = params.get("datum");
-document.getElementById("uhrzeit").innerText = params.get("uhrzeit");
+const kleidung = params.get("kleidung") || "-";
+const krisengebiet = params.get("krisengebiet") || "-";
+const uebergabe = params.get("uebergabe") || "-";
+const ort = params.get("ort") || "Geschäftsstelle";
+const datum = params.get("datum") || "-";
+const uhrzeit = params.get("uhrzeit") || "-";
 
+document.getElementById("kleidung").innerText = kleidung;
+document.getElementById("krisengebiet").innerText = krisengebiet;
+document.getElementById("uebergabe").innerText = uebergabe;
+document.getElementById("ort").innerText = ort;
+document.getElementById("datum").innerText = datum;
+document.getElementById("uhrzeit").innerText = uhrzeit;
 </script>
 
 </body>
