@@ -4,23 +4,43 @@ const radioAbholung = document.getElementById("abholung");
 const adresseBereich = document.getElementById("adresseBereich");
 const form = document.getElementById("spendenForm");
 
+const strasseInput = document.getElementById("strasse");
+const plzInput = document.getElementById("plz");
+const ortInput = document.getElementById("ort");
+
 // Script nur ausführen, wenn Formular auf der Seite vorhanden ist
-if (form && radioGeschaeftsstelle && radioAbholung && adresseBereich) {
+if (
+  form &&
+  radioGeschaeftsstelle &&
+  radioAbholung &&
+  adresseBereich &&
+  strasseInput &&
+  plzInput &&
+  ortInput
+) {
+  function setAbholungFieldsRequired(isRequired) {
+    strasseInput.required = isRequired;
+    plzInput.required = isRequired;
+    ortInput.required = isRequired;
+  }
+
+  // Startzustand
+  setAbholungFieldsRequired(false);
 
   // Adresse anzeigen, wenn Abholung gewählt wird
   radioAbholung.addEventListener("change", function () {
     adresseBereich.style.display = "block";
+    setAbholungFieldsRequired(true);
   });
 
   // Adresse verstecken, wenn Geschäftsstelle gewählt wird
   radioGeschaeftsstelle.addEventListener("change", function () {
     adresseBereich.style.display = "none";
+    setAbholungFieldsRequired(false);
   });
 
   // Formular prüfen
   form.addEventListener("submit", function (event) {
-
-    // Formular stoppen, damit JavaScript prüfen kann
     event.preventDefault();
 
     const fehlermeldung = document.getElementById("fehlermeldung");
@@ -28,9 +48,9 @@ if (form && radioGeschaeftsstelle && radioAbholung && adresseBereich) {
 
     const kleidung = document.getElementById("kleidung").value.trim();
     const krisengebiet = document.getElementById("krisengebiet").value.trim();
-    const plz = document.getElementById("plz").value.trim();
-    const ortEingabe = document.getElementById("ort").value.trim();
-    const strasse = document.getElementById("strasse").value.trim();
+    const plz = plzInput.value.trim();
+    const ortEingabe = ortInput.value.trim();
+    const strasse = strasseInput.value.trim();
 
     const uebergabe = document.querySelector('input[name="uebergabe"]:checked').value;
 
@@ -40,13 +60,11 @@ if (form && radioGeschaeftsstelle && radioAbholung && adresseBereich) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    // Kleidung prüfen
     if (kleidung === "") {
       showError("Bitte Kleidung auswählen.");
       return;
     }
 
-    // Krisengebiet prüfen
     if (krisengebiet === "") {
       showError("Bitte Krisengebiet auswählen.");
       return;
@@ -54,22 +72,17 @@ if (form && radioGeschaeftsstelle && radioAbholung && adresseBereich) {
 
     let ort = "Geschäftsstelle";
 
-    // Wenn Abholung gewählt wurde
     if (uebergabe === "Abholung") {
-
-      // Adresse prüfen
       if (strasse === "" || ortEingabe === "" || plz === "") {
         showError("Bitte vollständige Abholadresse eingeben.");
         return;
       }
 
-      // PLZ-Format prüfen
       if (!/^[0-9]{5}$/.test(plz)) {
         showError("Bitte eine gültige Postleitzahl eingeben.");
         return;
       }
 
-      // PLZ-Einzugsgebiet prüfen
       if (plz.substring(0, 2) !== "76") {
         showError("Adresse liegt nicht im Einzugsgebiet der Geschäftsstelle.");
         return;
@@ -78,13 +91,12 @@ if (form && radioGeschaeftsstelle && radioAbholung && adresseBereich) {
       ort = ortEingabe;
     }
 
-    // Datum und Uhrzeit erzeugen
     const jetzt = new Date();
     const datum = jetzt.toLocaleDateString("de-DE");
     const uhrzeit = jetzt.toLocaleTimeString("de-DE");
 
-    // Weiterleitung zur Bestätigungsseite
-    const url = "bestaetigung.html?" +
+    const url =
+      "bestaetigung.html?" +
       "kleidung=" + encodeURIComponent(kleidung) +
       "&krisengebiet=" + encodeURIComponent(krisengebiet) +
       "&uebergabe=" + encodeURIComponent(uebergabe) +
@@ -92,7 +104,6 @@ if (form && radioGeschaeftsstelle && radioAbholung && adresseBereich) {
       "&datum=" + encodeURIComponent(datum) +
       "&uhrzeit=" + encodeURIComponent(uhrzeit);
 
-    // Weiterleitung
     window.location.href = url;
   });
 }
