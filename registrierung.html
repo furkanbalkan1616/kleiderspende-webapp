@@ -25,7 +25,7 @@
 
     <nav class="d-flex gap-3">
       <a href="index.html" class="text-white">Start</a>
-      <a href="registrierung.html" class="text-white active">Registrierung</a>
+      <a href="registrierung.html" class="text-white active fw-bold">Registrierung</a>
     </nav>
 
   </div>
@@ -33,11 +33,10 @@
 
 <main class="container mt-5">
 
-  <div class="page-intro mb-4">
+  <div class="page-intro mb-4 text-center text-md-start">
     <h2>Kleiderspende registrieren</h2>
     <p class="text-muted">
-      Erfassen Sie Ihre Spende in wenigen Schritten. Wählen Sie die Art der Kleidung,
-      das gewünschte Krisengebiet sowie die passende Übergabeform.
+      Erfassen Sie Ihre Spende in wenigen Schritten.
     </p>
   </div>
 
@@ -48,7 +47,7 @@
       <div id="fehlermeldung" class="alert alert-danger" style="display:none;"></div>
 
       <div class="row">
-        <div class="col-md-6 mb-3">
+        <div class="col-12 col-md-6 mb-3">
           <label class="form-label" for="kleidung">
             <i class="bi bi-bag-heart"></i> Art der Kleidung
           </label>
@@ -63,7 +62,7 @@
           </select>
         </div>
 
-        <div class="col-md-6 mb-3">
+        <div class="col-12 col-md-6 mb-3">
           <label class="form-label" for="krisengebiet">
             <i class="bi bi-globe"></i> Krisengebiet
           </label>
@@ -82,84 +81,47 @@
           <i class="bi bi-truck"></i> Übergabeart
         </label>
 
-        <p class="text-muted small mb-3">
-          Wählen Sie aus, ob die Spende persönlich in der Geschäftsstelle abgegeben
-          oder durch ein Sammelfahrzeug abgeholt werden soll.
-        </p>
-
         <div class="form-check">
           <input class="form-check-input" type="radio" name="uebergabe" id="geschaeftsstelle" value="Geschaeftsstelle" checked>
           <label class="form-check-label" for="geschaeftsstelle">
-            Übergabe in der Geschäftsstelle Karlsruhe
+            Geschäftsstelle Karlsruhe
           </label>
         </div>
 
         <div class="form-check">
           <input class="form-check-input" type="radio" name="uebergabe" id="abholung" value="Abholung">
           <label class="form-check-label" for="abholung">
-            Abholung durch Sammelfahrzeug
+            Abholung
           </label>
         </div>
       </div>
 
       <div id="adresseBereich" class="address-box" style="display:none">
-        <h4><i class="bi bi-geo-alt"></i> Abholadresse</h4>
-
-        <p class="text-muted small mb-3">
-          Bitte geben Sie die vollständige Adresse an. Eine Abholung ist nur im
-          Einzugsgebiet der Geschäftsstelle Karlsruhe möglich.
-        </p>
 
         <div class="row">
-          <div class="col-md-4 mb-3">
-            <label class="form-label" for="strasse">Straße / Hausnummer</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              id="strasse" 
-              name="strasse"
-              placeholder="z. B. Musterstraße 12"
-              required
-            >
+          <div class="col-12 col-md-4 mb-3">
+            <label class="form-label" for="strasse">Straße</label>
+            <input type="text" class="form-control" id="strasse" name="strasse" required autocomplete="street-address">
           </div>
 
-          <div class="col-md-4 mb-3">
-            <label class="form-label" for="plz">Postleitzahl</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              id="plz" 
-              name="plz"
-              placeholder="z. B. 76133"
-              required
-              pattern="[0-9]{5}"
-              maxlength="5"
-            >
-            <small class="text-muted">
-              Die ersten beiden Ziffern müssen zum Einzugsgebiet der Geschäftsstelle passen.
-            </small>
+          <div class="col-12 col-md-4 mb-3">
+            <label class="form-label" for="plz">PLZ</label>
+            <input type="text" class="form-control" id="plz" name="plz" required pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
           </div>
 
-          <div class="col-md-4 mb-3">
+          <div class="col-12 col-md-4 mb-3">
             <label class="form-label" for="ort">Ort</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              id="ort" 
-              name="ort"
-              placeholder="z. B. Karlsruhe"
-              required
-            >
+            <input type="text" class="form-control" id="ort" name="ort" required autocomplete="address-level2">
           </div>
         </div>
       </div>
 
-      <div class="d-flex flex-wrap gap-2 mt-4">
+      <div class="d-flex flex-column flex-md-row gap-2 mt-4">
         <button class="btn btn-primary" type="submit">
           Registrierung abschließen
         </button>
         <a href="index.html" class="btn btn-outline-primary">
-          Zurück zur Startseite
+          Zurück
         </a>
       </div>
 
