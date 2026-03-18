@@ -10,17 +10,19 @@ const UE_ABHOLUNG = "Abholung";
 const form = document.getElementById("spendenForm");
 if (!form) return;
 
-const radioGeschaeftsstelle = document.getElementById("geschaeftsstelle");
-const radioAbholung = document.getElementById("abholung");
-const adresseBereich = document.getElementById("adresseBereich");
+const elements = {
+  radioGeschaeftsstelle: document.getElementById("geschaeftsstelle"),
+  radioAbholung: document.getElementById("abholung"),
+  adresseBereich: document.getElementById("adresseBereich"),
 
-const kleidungInput = document.getElementById("kleidung");
-const krisengebietInput = document.getElementById("krisengebiet");
-const strasseInput = document.getElementById("strasse");
-const plzInput = document.getElementById("plz");
-const ortInput = document.getElementById("ort");
+  kleidung: document.getElementById("kleidung"),
+  krisengebiet: document.getElementById("krisengebiet"),
+  strasse: document.getElementById("strasse"),
+  plz: document.getElementById("plz"),
+  ort: document.getElementById("ort"),
 
-const submitButton = form.querySelector("button[type='submit']");
+  submitButton: form.querySelector("button[type='submit']")
+};
 
 // ==========================
 // HELPER
@@ -42,41 +44,35 @@ function showError(msg) {
 
 function clearError() {
   const box = document.getElementById("fehlermeldung");
-  if (box) {
-    box.style.display = "none";
-    box.innerText = "";
-  }
+  if (!box) return;
+
+  box.style.display = "none";
+  box.innerText = "";
 }
 
 // ==========================
 // ADRESSE TOGGLE
 // ==========================
 function toggleAdresse(show) {
+  const { adresseBereich, strasse, plz, ort } = elements;
   if (!adresseBereich) return;
 
-  if (show) {
-    adresseBereich.style.display = "block";
-    adresseBereich.classList.add("is-visible");
+  adresseBereich.style.display = show ? "block" : "none";
+  adresseBereich.classList.toggle("is-visible", show);
 
-    strasseInput.required = true;
-    plzInput.required = true;
-    ortInput.required = true;
-  } else {
-    adresseBereich.style.display = "none";
-    adresseBereich.classList.remove("is-visible");
+  strasse.required = show;
+  plz.required = show;
+  ort.required = show;
 
-    strasseInput.required = false;
-    plzInput.required = false;
-    ortInput.required = false;
-
-    strasseInput.value = "";
-    plzInput.value = "";
-    ortInput.value = "";
+  if (!show) {
+    strasse.value = "";
+    plz.value = "";
+    ort.value = "";
   }
 }
 
 // ==========================
-// INITIAL STATE (WICHTIG!)
+// INITIAL STATE
 // ==========================
 const selected = document.querySelector('input[name="uebergabe"]:checked');
 toggleAdresse(selected?.value === UE_ABHOLUNG);
@@ -84,64 +80,66 @@ toggleAdresse(selected?.value === UE_ABHOLUNG);
 // ==========================
 // EVENTS
 // ==========================
-radioAbholung?.addEventListener("change", () => toggleAdresse(true));
-radioGeschaeftsstelle?.addEventListener("change", () => toggleAdresse(false));
+elements.radioAbholung?.addEventListener("change", () => toggleAdresse(true));
+elements.radioGeschaeftsstelle?.addEventListener("change", () => toggleAdresse(false));
 
 // ==========================
 // SUBMIT
 // ==========================
-form.addEventListener("submit", function (e) {
+form.addEventListener("submit", (e) => {
   e.preventDefault();
-
   clearError();
 
-  const kleidung = kleidungInput.value.trim();
-  const krisengebiet = krisengebietInput.value.trim();
-  const plz = plzInput.value.trim();
-  const ortInputValue = ortInput.value.trim();
-  const strasse = strasseInput.value.trim();
+  const {
+    kleidung,
+    krisengebiet,
+    strasse,
+    plz,
+    ort,
+    submitButton
+  } = elements;
 
   const selectedRadio = document.querySelector('input[name="uebergabe"]:checked');
-
-  if (!selectedRadio) {
-    showError("Bitte wählen Sie eine Übergabeart.");
-    return;
-  }
+  if (!selectedRadio) return showError("Bitte wählen Sie eine Übergabeart.");
 
   const uebergabe = selectedRadio.value;
+
+  const data = {
+    kleidung: kleidung.value.trim(),
+    krisengebiet: krisengebiet.value.trim(),
+    strasse: strasse.value.trim(),
+    plz: plz.value.trim(),
+    ort: ort.value.trim()
+  };
 
   // ==========================
   // VALIDIERUNG
   // ==========================
-  if (!kleidung || !krisengebiet) {
-    showError("Bitte Kleidung und Krisengebiet auswählen.");
-    return;
+  if (!data.kleidung || !data.krisengebiet) {
+    return showError("Bitte Kleidung und Krisengebiet auswählen.");
   }
 
-  let ort = "Geschäftsstelle Karlsruhe";
+  let ortValue = "Geschäftsstelle Karlsruhe";
 
   if (uebergabe === UE_ABHOLUNG) {
 
-    if (!strasse || !ortInputValue) {
-      showError("Bitte vollständige Adresse eingeben.");
-      return;
+    if (!data.strasse || !data.ort) {
+      return showError("Bitte vollständige Adresse eingeben.");
     }
 
-    if (!/^[0-9]{5}$/.test(plz)) {
-      showError("Bitte eine gültige 5-stellige PLZ eingeben.");
-      return;
+    if (!/^[0-9]{5}$/.test(data.plz)) {
+      return showError("Bitte eine gültige 5-stellige PLZ eingeben.");
     }
 
-    if (!plz.startsWith(GESCHAEFTSSTELLEN_PLZ_PREFIX)) {
-      showError("Adresse liegt nicht im Einzugsgebiet (PLZ muss mit 76 beginnen).");
-      return;
+    if (!data.plz.startsWith(GESCHAEFTSSTELLEN_PLZ_PREFIX)) {
+      return showError("Adresse liegt nicht im Einzugsgebiet (PLZ muss mit 76 beginnen).");
     }
 
-    ort = ortInputValue;
+    ortValue = data.ort;
   }
 
   // ==========================
-  // LOADING UX (WOW-Effekt)
+  // LOADING UX
   // ==========================
   if (submitButton) {
     submitButton.innerText = "Wird verarbeitet...";
@@ -163,12 +161,14 @@ form.addEventListener("submit", function (e) {
   // ==========================
   const url =
     "bestaetigung.html?" +
-    "kleidung=" + encodeURIComponent(kleidung) +
-    "&krisengebiet=" + encodeURIComponent(krisengebiet) +
-    "&uebergabe=" + encodeURIComponent(uebergabe) +
-    "&ort=" + encodeURIComponent(ort) +
-    "&datum=" + encodeURIComponent(datum) +
-    "&uhrzeit=" + encodeURIComponent(uhrzeit);
+    new URLSearchParams({
+      kleidung: data.kleidung,
+      krisengebiet: data.krisengebiet,
+      uebergabe,
+      ort: ortValue,
+      datum,
+      uhrzeit
+    });
 
   setTimeout(() => {
     window.location.href = url;
