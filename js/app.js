@@ -1,193 +1,148 @@
 const GESCHAEFTSSTELLEN_PLZ_PREFIX = "76";
 
 // Elemente holen
-const radioGeschaeftsstelle = document.getElementById("geschaeftsstelle");
-const radioAbholung = document.getElementById("abholung");
-const adresseBereich = document.getElementById("adresseBereich");
 const form = document.getElementById("spendenForm");
 
-const kleidungInput = document.getElementById("kleidung");
-const krisengebietInput = document.getElementById("krisengebiet");
-const strasseInput = document.getElementById("strasse");
-const plzInput = document.getElementById("plz");
-const ortInput = document.getElementById("ort");
+if (form) {
 
-// Script nur ausführen, wenn Formular auf der Seite vorhanden ist
-if (
-  form &&
-  radioGeschaeftsstelle &&
-  radioAbholung &&
-  adresseBereich &&
-  kleidungInput &&
-  krisengebietInput &&
-  strasseInput &&
-  plzInput &&
-  ortInput
-) {
-  function setAbholungFieldsRequired(isRequired) {
+  const radioGeschaeftsstelle = document.getElementById("geschaeftsstelle");
+  const radioAbholung = document.getElementById("abholung");
+  const adresseBereich = document.getElementById("adresseBereich");
+
+  const kleidungInput = document.getElementById("kleidung");
+  const krisengebietInput = document.getElementById("krisengebiet");
+  const strasseInput = document.getElementById("strasse");
+  const plzInput = document.getElementById("plz");
+  const ortInput = document.getElementById("ort");
+
+  // 🔒 Sanitizing (XSS Schutz)
+  function sanitize(input) {
+    return input.replace(/[<>]/g, "");
+  }
+
+  function setRequired(isRequired) {
     strasseInput.required = isRequired;
     plzInput.required = isRequired;
     ortInput.required = isRequired;
   }
 
-  function clearAddressFields() {
-    strasseInput.value = "";
-    plzInput.value = "";
-    ortInput.value = "";
-  }
-
-  function clearValidationState() {
-    [kleidungInput, krisengebietInput, strasseInput, plzInput, ortInput].forEach((field) => {
-      field.classList.remove("is-invalid");
-      field.classList.remove("is-valid");
-    });
-  }
-
-  function setFieldError(field) {
-    field.classList.add("is-invalid");
-    field.classList.remove("is-valid");
-  }
-
-  function setFieldValid(field) {
-    field.classList.add("is-valid");
-    field.classList.remove("is-invalid");
+  function toggleAdresse(show) {
+    if (show) {
+      adresseBereich.style.display = "block";
+      setRequired(true);
+      strasseInput.focus();
+    } else {
+      adresseBereich.style.display = "none";
+      setRequired(false);
+      strasseInput.value = "";
+      plzInput.value = "";
+      ortInput.value = "";
+    }
   }
 
   function showError(text) {
-    const fehlermeldung = document.getElementById("fehlermeldung");
-    fehlermeldung.innerText = text;
-    fehlermeldung.style.display = "block";
+    const box = document.getElementById("fehlermeldung");
+    box.innerText = text;
+    box.style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function clearTopError() {
-    const fehlermeldung = document.getElementById("fehlermeldung");
-    fehlermeldung.style.display = "none";
-    fehlermeldung.innerText = "";
+  function clearError() {
+    const box = document.getElementById("fehlermeldung");
+    box.style.display = "none";
+    box.innerText = "";
   }
 
-  function showAddressSection() {
-    adresseBereich.style.display = "block";
-    requestAnimationFrame(() => {
-      adresseBereich.classList.add("is-visible");
+  function markInvalid(field) {
+    field.classList.add("is-invalid");
+  }
+
+  function markValid(field) {
+    field.classList.remove("is-invalid");
+    field.classList.add("is-valid");
+  }
+
+  function resetValidation() {
+    [kleidungInput, krisengebietInput, strasseInput, plzInput, ortInput].forEach(f => {
+      f.classList.remove("is-invalid", "is-valid");
     });
-    setAbholungFieldsRequired(true);
-    strasseInput.focus();
   }
 
-  function hideAddressSection() {
-    adresseBereich.classList.remove("is-visible");
-    setTimeout(() => {
-      adresseBereich.style.display = "none";
-    }, 200);
+  // Radio Events
+  radioAbholung.addEventListener("change", () => toggleAdresse(true));
+  radioGeschaeftsstelle.addEventListener("change", () => toggleAdresse(false));
 
-    setAbholungFieldsRequired(false);
-    clearAddressFields();
-    clearValidationState();
-    clearTopError();
-  }
+  // Initial
+  toggleAdresse(false);
 
-  // Startzustand
-  setAbholungFieldsRequired(false);
-  adresseBereich.classList.remove("is-visible");
+  // Submit
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  // Adresse anzeigen, wenn Abholung gewählt wird
-  radioAbholung.addEventListener("change", function () {
-    showAddressSection();
-  });
+    clearError();
+    resetValidation();
 
-  // Adresse verstecken, wenn Geschäftsstelle gewählt wird
-  radioGeschaeftsstelle.addEventListener("change", function () {
-    hideAddressSection();
-  });
-
-  // Formular prüfen
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    clearTopError();
-    clearValidationState();
-
-    const kleidung = kleidungInput.value.trim();
-    const krisengebiet = krisengebietInput.value.trim();
-    const plz = plzInput.value.trim();
-    const ortEingabe = ortInput.value.trim();
-    const strasse = strasseInput.value.trim();
+    const kleidung = sanitize(kleidungInput.value.trim());
+    const krisengebiet = sanitize(krisengebietInput.value.trim());
+    const strasse = sanitize(strasseInput.value.trim());
+    const plz = sanitize(plzInput.value.trim());
+    const ortInputValue = sanitize(ortInput.value.trim());
 
     const uebergabe = document.querySelector('input[name="uebergabe"]:checked').value;
 
     let hasError = false;
-    let firstInvalidField = null;
 
-    function markError(field) {
-      setFieldError(field);
-      hasError = true;
-      if (!firstInvalidField) {
-        firstInvalidField = field;
+    function check(field, condition) {
+      if (!condition) {
+        markInvalid(field);
+        hasError = true;
+      } else {
+        markValid(field);
       }
     }
 
-    if (kleidung === "") {
-      markError(kleidungInput);
-    } else {
-      setFieldValid(kleidungInput);
-    }
-
-    if (krisengebiet === "") {
-      markError(krisengebietInput);
-    } else {
-      setFieldValid(krisengebietInput);
-    }
+    check(kleidungInput, kleidung !== "");
+    check(krisengebietInput, krisengebiet !== "");
 
     let ort = "Geschäftsstelle Karlsruhe";
 
     if (uebergabe === "Abholung") {
-      if (strasse === "") {
-        markError(strasseInput);
-      } else {
-        setFieldValid(strasseInput);
-      }
 
-      if (ortEingabe === "") {
-        markError(ortInput);
-      } else {
-        setFieldValid(ortInput);
-      }
+      check(strasseInput, strasse !== "");
+      check(ortInput, ortInputValue !== "");
 
-      if (plz === "") {
-        markError(plzInput);
-      } else if (!/^[0-9]{5}$/.test(plz)) {
-        markError(plzInput);
+      if (!/^[0-9]{5}$/.test(plz)) {
+        markInvalid(plzInput);
         showError("Bitte eine gültige fünfstellige Postleitzahl eingeben.");
         plzInput.focus();
         return;
-      } else if (plz.substring(0, 2) !== GESCHAEFTSSTELLEN_PLZ_PREFIX) {
-        markError(plzInput);
+      }
+
+      if (!plz.startsWith(GESCHAEFTSSTELLEN_PLZ_PREFIX)) {
+        markInvalid(plzInput);
         showError("Die Adresse liegt nicht im Einzugsgebiet der Geschäftsstelle Karlsruhe.");
         plzInput.focus();
         return;
-      } else {
-        setFieldValid(plzInput);
       }
 
-      ort = ortEingabe;
+      markValid(plzInput);
+      ort = ortInputValue;
     }
 
     if (hasError) {
       showError("Bitte prüfen Sie die markierten Felder.");
-      if (firstInvalidField) {
-        firstInvalidField.focus();
-      }
       return;
     }
 
-    const jetzt = new Date();
-    const datum = jetzt.toLocaleDateString("de-DE");
-    const uhrzeit = jetzt.toLocaleTimeString("de-DE", {
+    // Datum & Uhrzeit
+    const now = new Date();
+    const datum = now.toLocaleDateString("de-DE");
+    const uhrzeit = now.toLocaleTimeString("de-DE", {
       hour: "2-digit",
       minute: "2-digit"
     });
 
+    // Weiterleitung
     const url =
       "bestaetigung.html?" +
       "kleidung=" + encodeURIComponent(kleidung) +
@@ -199,4 +154,5 @@ if (
 
     window.location.href = url;
   });
+
 }
