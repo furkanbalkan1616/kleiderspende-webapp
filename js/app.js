@@ -8,7 +8,6 @@ const UE_ABHOLUNG = "Abholung";
 // INIT
 // ==========================
 const form = document.getElementById("spendenForm");
-
 if (!form) return;
 
 const radioGeschaeftsstelle = document.getElementById("geschaeftsstelle");
@@ -30,10 +29,7 @@ if (!kleidungInput || !krisengebietInput || !plzInput) return;
 // SECURITY
 // ==========================
 function sanitize(input) {
-  return input
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .trim();
+  return input.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
 }
 
 // ==========================
@@ -57,18 +53,17 @@ function clearError() {
 }
 
 function markInvalid(field) {
-  if (field) field.classList.add("is-invalid");
+  field?.classList.add("is-invalid");
 }
 
 function markValid(field) {
-  if (!field) return;
-  field.classList.remove("is-invalid");
-  field.classList.add("is-valid");
+  field?.classList.remove("is-invalid");
+  field?.classList.add("is-valid");
 }
 
 function resetValidation() {
   [kleidungInput, krisengebietInput, strasseInput, plzInput, ortInput]
-    .forEach(f => f && f.classList.remove("is-invalid", "is-valid"));
+    .forEach(f => f?.classList.remove("is-invalid", "is-valid"));
 }
 
 function focusFirstError() {
@@ -83,9 +78,9 @@ function focusFirstError() {
 // FORM LOGIC
 // ==========================
 function setRequired(isRequired) {
-  if (strasseInput) strasseInput.required = isRequired;
-  if (plzInput) plzInput.required = isRequired;
-  if (ortInput) ortInput.required = isRequired;
+  strasseInput && (strasseInput.required = isRequired);
+  plzInput && (plzInput.required = isRequired);
+  ortInput && (ortInput.required = isRequired);
 }
 
 function toggleAdresse(show) {
@@ -124,12 +119,9 @@ plzInput?.addEventListener("input", () => {
 radioAbholung?.addEventListener("change", () => toggleAdresse(true));
 radioGeschaeftsstelle?.addEventListener("change", () => toggleAdresse(false));
 
-// 🔥 FIX: Zustand beim Laden korrekt setzen
-if (radioAbholung?.checked) {
-  toggleAdresse(true);
-} else {
-  toggleAdresse(false);
-}
+// 🔥 FINAL FIX (korrekt & sauber)
+const selected = document.querySelector('input[name="uebergabe"]:checked');
+toggleAdresse(selected?.value === UE_ABHOLUNG);
 
 // ==========================
 // SUBMIT
@@ -141,7 +133,6 @@ form.addEventListener("submit", function (e) {
   resetValidation();
 
   const selected = document.querySelector('input[name="uebergabe"]:checked');
-
   if (!selected) {
     showError("Bitte wählen Sie eine Übergabeart.");
     return;
@@ -172,7 +163,6 @@ form.addEventListener("submit", function (e) {
   let ort = "Geschäftsstelle Karlsruhe";
 
   if (uebergabe === UE_ABHOLUNG) {
-
     check(strasseInput, strasse !== "");
     check(ortInput, ortInputValue !== "");
 
@@ -200,17 +190,13 @@ form.addEventListener("submit", function (e) {
     return;
   }
 
-  // ==========================
   // LOADING STATE
-  // ==========================
   if (submitButton) {
     submitButton.innerText = "Wird verarbeitet...";
     submitButton.disabled = true;
   }
 
-  // ==========================
   // DATUM & UHRZEIT
-  // ==========================
   const now = new Date();
   const datum = now.toLocaleDateString("de-DE");
   const uhrzeit = now.toLocaleTimeString("de-DE", {
@@ -218,9 +204,7 @@ form.addEventListener("submit", function (e) {
     minute: "2-digit"
   });
 
-  // ==========================
   // REDIRECT
-  // ==========================
   const url =
     "bestaetigung.html?" +
     "kleidung=" + encodeURIComponent(kleidung) +
