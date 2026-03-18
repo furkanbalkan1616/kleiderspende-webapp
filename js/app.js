@@ -66,23 +66,39 @@ if (
     fehlermeldung.innerText = "";
   }
 
-  // Startzustand
-  setAbholungFieldsRequired(false);
-
-  // Adresse anzeigen, wenn Abholung gewählt wird
-  radioAbholung.addEventListener("change", function () {
+  function showAddressSection() {
     adresseBereich.style.display = "block";
+    requestAnimationFrame(() => {
+      adresseBereich.classList.add("is-visible");
+    });
     setAbholungFieldsRequired(true);
     strasseInput.focus();
-  });
+  }
 
-  // Adresse verstecken, wenn Geschäftsstelle gewählt wird
-  radioGeschaeftsstelle.addEventListener("change", function () {
-    adresseBereich.style.display = "none";
+  function hideAddressSection() {
+    adresseBereich.classList.remove("is-visible");
+    setTimeout(() => {
+      adresseBereich.style.display = "none";
+    }, 200);
+
     setAbholungFieldsRequired(false);
     clearAddressFields();
     clearValidationState();
     clearTopError();
+  }
+
+  // Startzustand
+  setAbholungFieldsRequired(false);
+  adresseBereich.classList.remove("is-visible");
+
+  // Adresse anzeigen, wenn Abholung gewählt wird
+  radioAbholung.addEventListener("change", function () {
+    showAddressSection();
+  });
+
+  // Adresse verstecken, wenn Geschäftsstelle gewählt wird
+  radioGeschaeftsstelle.addEventListener("change", function () {
+    hideAddressSection();
   });
 
   // Formular prüfen
@@ -101,17 +117,24 @@ if (
     const uebergabe = document.querySelector('input[name="uebergabe"]:checked').value;
 
     let hasError = false;
+    let firstInvalidField = null;
+
+    function markError(field) {
+      setFieldError(field);
+      hasError = true;
+      if (!firstInvalidField) {
+        firstInvalidField = field;
+      }
+    }
 
     if (kleidung === "") {
-      setFieldError(kleidungInput);
-      hasError = true;
+      markError(kleidungInput);
     } else {
       setFieldValid(kleidungInput);
     }
 
     if (krisengebiet === "") {
-      setFieldError(krisengebietInput);
-      hasError = true;
+      markError(krisengebietInput);
     } else {
       setFieldValid(krisengebietInput);
     }
@@ -120,29 +143,28 @@ if (
 
     if (uebergabe === "Abholung") {
       if (strasse === "") {
-        setFieldError(strasseInput);
-        hasError = true;
+        markError(strasseInput);
       } else {
         setFieldValid(strasseInput);
       }
 
       if (ortEingabe === "") {
-        setFieldError(ortInput);
-        hasError = true;
+        markError(ortInput);
       } else {
         setFieldValid(ortInput);
       }
 
       if (plz === "") {
-        setFieldError(plzInput);
-        hasError = true;
+        markError(plzInput);
       } else if (!/^[0-9]{5}$/.test(plz)) {
-        setFieldError(plzInput);
+        markError(plzInput);
         showError("Bitte eine gültige fünfstellige Postleitzahl eingeben.");
+        plzInput.focus();
         return;
       } else if (plz.substring(0, 2) !== GESCHAEFTSSTELLEN_PLZ_PREFIX) {
-        setFieldError(plzInput);
+        markError(plzInput);
         showError("Die Adresse liegt nicht im Einzugsgebiet der Geschäftsstelle Karlsruhe.");
+        plzInput.focus();
         return;
       } else {
         setFieldValid(plzInput);
@@ -153,6 +175,9 @@ if (
 
     if (hasError) {
       showError("Bitte prüfen Sie die markierten Felder.");
+      if (firstInvalidField) {
+        firstInvalidField.focus();
+      }
       return;
     }
 

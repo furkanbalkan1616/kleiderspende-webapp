@@ -128,6 +128,18 @@ nav a:focus {
   margin-top: 10px;
 }
 
+/* Sanftes Ein-/Ausblenden */
+#adresseBereich {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+#adresseBereich.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Validierung */
 .invalid-feedback {
   display: block;
