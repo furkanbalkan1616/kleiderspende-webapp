@@ -1,6 +1,12 @@
+// ==========================
+// KONSTANTEN
+// ==========================
 const GESCHAEFTSSTELLEN_PLZ_PREFIX = "76";
+const UE_ABHOLUNG = "Abholung";
 
-// Elemente holen
+// ==========================
+// INIT
+// ==========================
 const form = document.getElementById("spendenForm");
 
 if (form) {
@@ -15,11 +21,60 @@ if (form) {
   const plzInput = document.getElementById("plz");
   const ortInput = document.getElementById("ort");
 
-  // 🔒 Sanitizing (XSS Schutz)
+  const submitButton = form.querySelector("button[type='submit']");
+
+  // ==========================
+  // SECURITY
+  // ==========================
+  // Schutz vor XSS (Script-Injection)
   function sanitize(input) {
-    return input.replace(/[<>]/g, "");
+    return input
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .trim();
   }
 
+  // ==========================
+  // UI HELPERS
+  // ==========================
+  function showError(text) {
+    const box = document.getElementById("fehlermeldung");
+    box.innerText = text;
+    box.style.display = "block";
+    box.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function clearError() {
+    const box = document.getElementById("fehlermeldung");
+    box.style.display = "none";
+    box.innerText = "";
+  }
+
+  function markInvalid(field) {
+    field.classList.add("is-invalid");
+  }
+
+  function markValid(field) {
+    field.classList.remove("is-invalid");
+    field.classList.add("is-valid");
+  }
+
+  function resetValidation() {
+    [kleidungInput, krisengebietInput, strasseInput, plzInput, ortInput]
+      .forEach(f => f.classList.remove("is-invalid", "is-valid"));
+  }
+
+  function focusFirstError() {
+    const firstError = form.querySelector(".is-invalid");
+    if (firstError) {
+      firstError.focus();
+      firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+
+  // ==========================
+  // FORM LOGIC
+  // ==========================
   function setRequired(isRequired) {
     strasseInput.required = isRequired;
     plzInput.required = isRequired;
@@ -40,55 +95,48 @@ if (form) {
     }
   }
 
-  function showError(text) {
-    const box = document.getElementById("fehlermeldung");
-    box.innerText = text;
-    box.style.display = "block";
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  // ==========================
+  // LIVE VALIDATION (WOW FEATURE)
+  // ==========================
+  plzInput.addEventListener("input", () => {
+    if (/^[0-9]{5}$/.test(plzInput.value)) {
+      markValid(plzInput);
+    } else {
+      plzInput.classList.remove("is-valid");
+    }
+  });
 
-  function clearError() {
-    const box = document.getElementById("fehlermeldung");
-    box.style.display = "none";
-    box.innerText = "";
-  }
-
-  function markInvalid(field) {
-    field.classList.add("is-invalid");
-  }
-
-  function markValid(field) {
-    field.classList.remove("is-invalid");
-    field.classList.add("is-valid");
-  }
-
-  function resetValidation() {
-    [kleidungInput, krisengebietInput, strasseInput, plzInput, ortInput].forEach(f => {
-      f.classList.remove("is-invalid", "is-valid");
-    });
-  }
-
-  // Radio Events
+  // ==========================
+  // RADIO EVENTS
+  // ==========================
   radioAbholung.addEventListener("change", () => toggleAdresse(true));
   radioGeschaeftsstelle.addEventListener("change", () => toggleAdresse(false));
 
-  // Initial
   toggleAdresse(false);
 
-  // Submit
+  // ==========================
+  // SUBMIT
+  // ==========================
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
     clearError();
     resetValidation();
 
-    const kleidung = sanitize(kleidungInput.value.trim());
-    const krisengebiet = sanitize(krisengebietInput.value.trim());
-    const strasse = sanitize(strasseInput.value.trim());
-    const plz = sanitize(plzInput.value.trim());
-    const ortInputValue = sanitize(ortInput.value.trim());
+    const selected = document.querySelector('input[name="uebergabe"]:checked');
 
-    const uebergabe = document.querySelector('input[name="uebergabe"]:checked').value;
+    if (!selected) {
+      showError("Bitte wählen Sie eine Übergabeart.");
+      return;
+    }
+
+    const uebergabe = selected.value;
+
+    const kleidung = sanitize(kleidungInput.value);
+    const krisengebiet = sanitize(krisengebietInput.value);
+    const strasse = sanitize(strasseInput.value);
+    const plz = sanitize(plzInput.value);
+    const ortInputValue = sanitize(ortInput.value);
 
     let hasError = false;
 
@@ -106,7 +154,7 @@ if (form) {
 
     let ort = "Geschäftsstelle Karlsruhe";
 
-    if (uebergabe === "Abholung") {
+    if (uebergabe === UE_ABHOLUNG) {
 
       check(strasseInput, strasse !== "");
       check(ortInput, ortInputValue !== "");
@@ -114,14 +162,14 @@ if (form) {
       if (!/^[0-9]{5}$/.test(plz)) {
         markInvalid(plzInput);
         showError("Bitte eine gültige fünfstellige Postleitzahl eingeben.");
-        plzInput.focus();
+        focusFirstError();
         return;
       }
 
       if (!plz.startsWith(GESCHAEFTSSTELLEN_PLZ_PREFIX)) {
         markInvalid(plzInput);
         showError("Die Adresse liegt nicht im Einzugsgebiet der Geschäftsstelle Karlsruhe.");
-        plzInput.focus();
+        focusFirstError();
         return;
       }
 
@@ -131,10 +179,19 @@ if (form) {
 
     if (hasError) {
       showError("Bitte prüfen Sie die markierten Felder.");
+      focusFirstError();
       return;
     }
 
-    // Datum & Uhrzeit
+    // ==========================
+    // LOADING STATE (WOW)
+    // ==========================
+    submitButton.innerText = "Wird verarbeitet...";
+    submitButton.disabled = true;
+
+    // ==========================
+    // DATUM & UHRZEIT
+    // ==========================
     const now = new Date();
     const datum = now.toLocaleDateString("de-DE");
     const uhrzeit = now.toLocaleTimeString("de-DE", {
@@ -142,7 +199,9 @@ if (form) {
       minute: "2-digit"
     });
 
-    // Weiterleitung
+    // ==========================
+    // REDIRECT
+    // ==========================
     const url =
       "bestaetigung.html?" +
       "kleidung=" + encodeURIComponent(kleidung) +
@@ -152,7 +211,9 @@ if (form) {
       "&datum=" + encodeURIComponent(datum) +
       "&uhrzeit=" + encodeURIComponent(uhrzeit);
 
-    window.location.href = url;
+    setTimeout(() => {
+      window.location.href = url;
+    }, 500);
   });
 
 }
