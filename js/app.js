@@ -23,10 +23,12 @@ if (form) {
 
   const submitButton = form.querySelector("button[type='submit']");
 
+  // 🔒 Safety Check (Best Practice)
+  if (!kleidungInput || !krisengebietInput || !plzInput) return;
+
   // ==========================
   // SECURITY
   // ==========================
-  // Schutz vor XSS (Script-Injection)
   function sanitize(input) {
     return input
       .replace(/</g, "&lt;")
@@ -96,15 +98,17 @@ if (form) {
   }
 
   // ==========================
-  // LIVE VALIDATION (WOW FEATURE)
+  // LIVE VALIDATION
   // ==========================
-  plzInput.addEventListener("input", () => {
-    if (/^[0-9]{5}$/.test(plzInput.value)) {
-      markValid(plzInput);
-    } else {
-      plzInput.classList.remove("is-valid");
-    }
-  });
+  if (plzInput) {
+    plzInput.addEventListener("input", () => {
+      if (/^[0-9]{5}$/.test(plzInput.value)) {
+        markValid(plzInput);
+      } else {
+        plzInput.classList.remove("is-valid");
+      }
+    });
+  }
 
   // ==========================
   // RADIO EVENTS
@@ -113,6 +117,15 @@ if (form) {
   radioGeschaeftsstelle.addEventListener("change", () => toggleAdresse(false));
 
   toggleAdresse(false);
+
+  // ==========================
+  // ENTER SUBMIT (UX BONUS)
+  // ==========================
+  form.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      form.requestSubmit();
+    }
+  });
 
   // ==========================
   // SUBMIT
@@ -184,7 +197,7 @@ if (form) {
     }
 
     // ==========================
-    // LOADING STATE (WOW)
+    // LOADING STATE
     // ==========================
     submitButton.innerText = "Wird verarbeitet...";
     submitButton.disabled = true;
