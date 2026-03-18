@@ -36,7 +36,8 @@
   <div class="page-intro mb-4">
     <h2>Kleiderspende registrieren</h2>
     <p class="text-muted">
-      Bitte wählen Sie die Art Ihrer Spende, das gewünschte Krisengebiet und die passende Übergabeart aus.
+      Erfassen Sie Ihre Spende in wenigen Schritten. Wählen Sie die Art der Kleidung,
+      das gewünschte Krisengebiet sowie die passende Übergabeform.
     </p>
   </div>
 
@@ -44,17 +45,13 @@
 
     <form id="spendenForm" novalidate>
 
-      <div id="fehlermeldung" class="alert alert-danger" style="display:none;">
-        Bitte Formular korrekt ausfüllen.
-      </div>
+      <div id="fehlermeldung" class="alert alert-danger" style="display:none;"></div>
 
       <div class="row">
-
         <div class="col-md-6 mb-3">
           <label class="form-label" for="kleidung">
             <i class="bi bi-bag-heart"></i> Art der Kleidung
           </label>
-
           <select class="form-select" id="kleidung" required>
             <option value="">Bitte auswählen</option>
             <option>Jacken</option>
@@ -70,7 +67,6 @@
           <label class="form-label" for="krisengebiet">
             <i class="bi bi-globe"></i> Krisengebiet
           </label>
-
           <select class="form-select" id="krisengebiet" required>
             <option value="">Bitte auswählen</option>
             <option>Ukraine</option>
@@ -79,18 +75,22 @@
             <option>Afrika</option>
           </select>
         </div>
-
       </div>
 
-      <div class="mb-3">
+      <div class="address-box mb-3">
         <label class="form-label">
           <i class="bi bi-truck"></i> Übergabeart
         </label>
 
+        <p class="text-muted small mb-3">
+          Wählen Sie aus, ob die Spende persönlich in der Geschäftsstelle abgegeben
+          oder durch ein Sammelfahrzeug abgeholt werden soll.
+        </p>
+
         <div class="form-check">
           <input class="form-check-input" type="radio" name="uebergabe" id="geschaeftsstelle" value="Geschaeftsstelle" checked>
           <label class="form-check-label" for="geschaeftsstelle">
-            Übergabe in der Geschäftsstelle
+            Übergabe in der Geschäftsstelle Karlsruhe
           </label>
         </div>
 
@@ -103,11 +103,14 @@
       </div>
 
       <div id="adresseBereich" class="address-box" style="display:none">
-
         <h4><i class="bi bi-geo-alt"></i> Abholadresse</h4>
 
-        <div class="row">
+        <p class="text-muted small mb-3">
+          Bitte geben Sie die vollständige Adresse an. Eine Abholung ist nur im
+          Einzugsgebiet der Geschäftsstelle Karlsruhe möglich.
+        </p>
 
+        <div class="row">
           <div class="col-md-4 mb-3">
             <label class="form-label" for="strasse">Straße / Hausnummer</label>
             <input type="text" class="form-control" id="strasse" placeholder="z. B. Musterstraße 12">
@@ -116,9 +119,8 @@
           <div class="col-md-4 mb-3">
             <label class="form-label" for="plz">Postleitzahl</label>
             <input type="text" class="form-control" id="plz" placeholder="z. B. 76133">
-
             <small class="text-muted">
-              Abholung ist nur im Einzugsgebiet der Geschäftsstelle Karlsruhe möglich.
+              Die ersten beiden Ziffern müssen zum Einzugsgebiet der Geschäftsstelle passen.
             </small>
           </div>
 
@@ -126,13 +128,17 @@
             <label class="form-label" for="ort">Ort</label>
             <input type="text" class="form-control" id="ort" placeholder="z. B. Karlsruhe">
           </div>
-
         </div>
       </div>
 
-      <button class="btn btn-primary mt-3" type="submit">
-        Registrierung abschließen
-      </button>
+      <div class="d-flex flex-wrap gap-2 mt-4">
+        <button class="btn btn-primary" type="submit">
+          Registrierung abschließen
+        </button>
+        <a href="index.html" class="btn btn-outline-primary">
+          Zurück zur Startseite
+        </a>
+      </div>
 
     </form>
 
