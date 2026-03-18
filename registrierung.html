@@ -33,11 +33,16 @@
 
 <main class="container mt-5">
 
-  <h2>Kleiderspende registrieren</h2>
+  <div class="page-intro mb-4">
+    <h2>Kleiderspende registrieren</h2>
+    <p class="text-muted">
+      Bitte wählen Sie die Art Ihrer Spende, das gewünschte Krisengebiet und die passende Übergabeart aus.
+    </p>
+  </div>
 
   <div class="card p-4">
 
-    <form id="spendenForm">
+    <form id="spendenForm" novalidate>
 
       <div id="fehlermeldung" class="alert alert-danger" style="display:none;">
         Bitte Formular korrekt ausfüllen.
@@ -97,7 +102,7 @@
         </div>
       </div>
 
-      <div id="adresseBereich" style="display:none">
+      <div id="adresseBereich" class="address-box" style="display:none">
 
         <h4><i class="bi bi-geo-alt"></i> Abholadresse</h4>
 
@@ -105,21 +110,21 @@
 
           <div class="col-md-4 mb-3">
             <label class="form-label" for="strasse">Straße / Hausnummer</label>
-            <input type="text" class="form-control" id="strasse" placeholder="z.B. Musterstraße 12">
+            <input type="text" class="form-control" id="strasse" placeholder="z. B. Musterstraße 12">
           </div>
 
           <div class="col-md-4 mb-3">
             <label class="form-label" for="plz">Postleitzahl</label>
-            <input type="text" class="form-control" id="plz" placeholder="z.B. 76133">
+            <input type="text" class="form-control" id="plz" placeholder="z. B. 76133">
 
             <small class="text-muted">
-              Abholung nur möglich, wenn die ersten zwei Ziffern der PLZ zur Geschäftsstelle passen.
+              Abholung ist nur im Einzugsgebiet der Geschäftsstelle Karlsruhe möglich.
             </small>
           </div>
 
           <div class="col-md-4 mb-3">
             <label class="form-label" for="ort">Ort</label>
-            <input type="text" class="form-control" id="ort" placeholder="z.B. Stuttgart">
+            <input type="text" class="form-control" id="ort" placeholder="z. B. Karlsruhe">
           </div>
 
         </div>
