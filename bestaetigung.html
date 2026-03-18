@@ -33,21 +33,51 @@
 
 <main class="container mt-5">
 
-  <h2>Registrierung bestätigt</h2>
-
-  <div class="alert alert-success">
-    <i class="bi bi-check-circle"></i> Ihre Kleiderspende wurde erfolgreich registriert!
+  <div class="page-intro mb-4">
+    <h2>Registrierung bestätigt</h2>
+    <p class="text-muted">
+      Ihre Kleiderspende wurde erfolgreich erfasst. Nachfolgend finden Sie eine Übersicht der registrierten Angaben.
+    </p>
   </div>
 
-  <p>Vielen Dank für Ihre Unterstützung. Die folgenden Informationen wurden gespeichert:</p>
+  <div class="alert alert-success">
+    <i class="bi bi-check-circle"></i> Ihre Kleiderspende wurde erfolgreich registriert.
+  </div>
 
-  <div class="card p-4 mt-4">
-    <p><strong>Kleidung:</strong> <span id="kleidung"></span></p>
-    <p><strong>Krisengebiet:</strong> <span id="krisengebiet"></span></p>
-    <p><strong>Übergabeart:</strong> <span id="uebergabe"></span></p>
-    <p><strong>Ort:</strong> <span id="ort"></span></p>
-    <p><strong>Datum:</strong> <span id="datum"></span></p>
-    <p><strong>Uhrzeit:</strong> <span id="uhrzeit"></span></p>
+  <div class="card p-4 mt-4 confirmation-card">
+    <div class="confirmation-row">
+      <span><i class="bi bi-bag-heart"></i> Kleidung</span>
+      <strong id="kleidung"></strong>
+    </div>
+
+    <div class="confirmation-row">
+      <span><i class="bi bi-globe"></i> Krisengebiet</span>
+      <strong id="krisengebiet"></strong>
+    </div>
+
+    <div class="confirmation-row">
+      <span><i class="bi bi-truck"></i> Übergabeart</span>
+      <strong id="uebergabe"></strong>
+    </div>
+
+    <div class="confirmation-row">
+      <span><i class="bi bi-geo-alt"></i> Ort</span>
+      <strong id="ort"></strong>
+    </div>
+
+    <div class="confirmation-row">
+      <span><i class="bi bi-calendar-event"></i> Datum</span>
+      <strong id="datum"></strong>
+    </div>
+
+    <div class="confirmation-row">
+      <span><i class="bi bi-clock"></i> Uhrzeit</span>
+      <strong id="uhrzeit"></strong>
+    </div>
+  </div>
+
+  <div class="info-box mt-4">
+    <p class="mb-0" id="hinweistext"></p>
   </div>
 
   <a href="index.html" class="btn btn-primary mt-4">
@@ -68,7 +98,7 @@ const params = new URLSearchParams(window.location.search);
 const kleidung = params.get("kleidung") || "-";
 const krisengebiet = params.get("krisengebiet") || "-";
 const uebergabe = params.get("uebergabe") || "-";
-const ort = params.get("ort") || "Geschäftsstelle";
+const ort = params.get("ort") || "Geschäftsstelle Karlsruhe";
 const datum = params.get("datum") || "-";
 const uhrzeit = params.get("uhrzeit") || "-";
 
@@ -78,6 +108,14 @@ document.getElementById("uebergabe").innerText = uebergabe;
 document.getElementById("ort").innerText = ort;
 document.getElementById("datum").innerText = datum;
 document.getElementById("uhrzeit").innerText = uhrzeit;
+
+const hinweistext = document.getElementById("hinweistext");
+
+if (uebergabe === "Abholung") {
+  hinweistext.innerText = "Ihre Abholanfrage wurde registriert. Die Geschäftsstelle wird die weiteren Schritte zur Abholung vorbereiten.";
+} else {
+  hinweistext.innerText = "Bitte bringen Sie Ihre Kleiderspende während der Öffnungszeiten zur Geschäftsstelle Karlsruhe.";
+}
 </script>
 
 </body>
