@@ -93,10 +93,12 @@ function toggleAdresse(show) {
 
   if (show) {
     adresseBereich.style.display = "block";
+    adresseBereich.classList.add("is-visible");
     setRequired(true);
     strasseInput?.focus();
   } else {
     adresseBereich.style.display = "none";
+    adresseBereich.classList.remove("is-visible");
     setRequired(false);
 
     if (strasseInput) strasseInput.value = "";
@@ -122,7 +124,12 @@ plzInput?.addEventListener("input", () => {
 radioAbholung?.addEventListener("change", () => toggleAdresse(true));
 radioGeschaeftsstelle?.addEventListener("change", () => toggleAdresse(false));
 
-toggleAdresse(false);
+// 🔥 FIX: Zustand beim Laden korrekt setzen
+if (radioAbholung?.checked) {
+  toggleAdresse(true);
+} else {
+  toggleAdresse(false);
+}
 
 // ==========================
 // SUBMIT
