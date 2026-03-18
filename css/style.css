@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f5f7fa;
+  background: linear-gradient(to bottom, #f8f9fb 0%, #f3f6fb 100%);
   margin: 0;
   padding: 0;
   color: #212529;
@@ -8,7 +8,8 @@ body {
 
 /* Header */
 header {
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #1f2a37 0%, #111827 100%);
+  box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.12);
 }
 
 header img {
@@ -20,28 +21,31 @@ header .container {
   gap: 16px;
 }
 
-/* Klickbares Logo */
 header a.text-decoration-none h1 {
   color: white;
+  letter-spacing: 0.2px;
 }
 
 header a.text-decoration-none:hover {
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 /* Navigation */
 nav a {
   text-decoration: none;
   font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 nav a:hover {
-  color: #0d6efd;
+  color: #9ec5fe !important;
 }
 
 nav a.active {
-  color: #0d6efd;
-  font-weight: bold;
+  color: #ffffff;
+  font-weight: 700;
+  border-bottom: 2px solid #60a5fa;
+  padding-bottom: 2px;
 }
 
 /* Hauptbereich */
@@ -54,6 +58,7 @@ main {
 h2 {
   font-weight: 700;
   margin-bottom: 20px;
+  letter-spacing: -0.3px;
 }
 
 h4 {
@@ -63,50 +68,70 @@ h4 {
 
 /* Text */
 p {
-  line-height: 1.6;
+  line-height: 1.65;
+  color: #374151;
 }
 
-/* Intro (Startseite) */
+/* Intro */
 .page-intro {
   max-width: 760px;
 }
 
+/* Hero */
+.hero-text {
+  max-width: 620px;
+}
+
+.hero-buttons .btn {
+  min-width: 180px;
+}
+
 /* Formular */
 .form-label {
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 10px;
+  color: #1f2937;
 }
 
 .form-check {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .form-control,
 .form-select {
-  min-height: 44px;
-  border-radius: 8px;
+  min-height: 46px;
+  border-radius: 10px;
+  border: 1px solid #d6dbe3;
+  transition: all 0.2s ease;
+}
+
+.form-control:hover,
+.form-select:hover {
+  border-color: #9bbcf7;
 }
 
 .form-control:focus,
 .form-select:focus,
 .btn:focus,
 nav a:focus {
+  border-color: #86b7fe;
   box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
   outline: none;
 }
 
 /* Adressbereich */
 .address-box {
-  padding: 18px;
-  border-radius: 12px;
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  margin-top: 8px;
+  padding: 20px;
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e4e9f0;
+  margin-top: 10px;
 }
 
 /* Validierung */
 .invalid-feedback {
   display: block;
+  font-size: 0.9rem;
 }
 
 .is-valid,
@@ -116,14 +141,26 @@ nav a:focus {
 
 /* Karten */
 .card {
-  border-radius: 12px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-  border: none;
+  border-radius: 16px;
+  box-shadow: 0px 8px 24px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(255, 255, 255, 0.98);
 }
 
-/* Icons in Karten */
 .card h4 i {
   margin-right: 6px;
+}
+
+/* Ablauf/Vorteile */
+.feature-card,
+.step-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover,
+.step-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 12px 26px rgba(15, 23, 42, 0.12);
 }
 
 /* Bestätigungsseite */
@@ -149,9 +186,9 @@ nav a:focus {
 
 /* Hinweisbox */
 .info-box {
-  padding: 16px 18px;
-  border-radius: 12px;
-  background: #eef5ff;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #eef5ff 0%, #e8f0ff 100%);
   border: 1px solid #d7e6ff;
 }
 
@@ -163,24 +200,31 @@ nav a:focus {
 
 /* Buttons */
 .btn-primary {
-  background-color: #0d6efd;
+  background: linear-gradient(135deg, #2563eb 0%, #0d6efd 100%);
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.18);
 }
 
 .btn-primary:hover {
-  background-color: #0b5ed7;
+  background: linear-gradient(135deg, #1d4ed8 0%, #0b5ed7 100%);
+  transform: translateY(-1px);
 }
 
 .btn-outline-primary {
-  border-radius: 8px;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-weight: 600;
 }
 
 /* Footer */
 footer {
   margin-top: 60px;
-  background: #f1f3f5;
-  padding: 20px;
+  background: #eef2f7;
+  padding: 24px 20px;
+  border-top: 1px solid #dde5ef;
 }
 
 footer a {
@@ -196,7 +240,7 @@ footer a {
 
 .legal-page p,
 .legal-page li {
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
 /* Tablet und Mobile */
@@ -215,20 +259,21 @@ footer a {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 6px !important;
+    gap: 8px !important;
   }
 
   nav a {
     display: block;
     width: 100%;
-    padding: 10px 12px;
+    padding: 11px 12px;
     margin-right: 0 !important;
-    border-radius: 8px;
+    border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.08);
   }
 
   nav a.active {
-    background-color: rgba(13, 110, 253, 0.2);
+    background-color: rgba(96, 165, 250, 0.2);
+    border-bottom: none;
   }
 
   main {
@@ -238,23 +283,30 @@ footer a {
   }
 
   h1.h4 {
-    font-size: 1.1rem;
+    font-size: 1.08rem;
   }
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.45rem;
   }
 
   h4 {
-    font-size: 1.1rem;
+    font-size: 1.08rem;
   }
 
   .card {
-    padding: 16px !important;
+    padding: 18px !important;
+    border-radius: 14px;
   }
 
   .btn {
     width: 100%;
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .row {
@@ -274,12 +326,24 @@ footer a {
 
   footer {
     text-align: center;
-    padding: 16px;
+    padding: 18px 16px;
   }
 
   .legal-page {
     padding-left: 0;
     padding-right: 0;
+  }
+}
+
+/* Kleine Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  main {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .hero-buttons .btn {
+    min-width: 160px;
   }
 }
 
@@ -294,7 +358,7 @@ footer a {
   }
 
   h2 {
-    font-size: 1.3rem;
+    font-size: 1.28rem;
   }
 
   h4 {
@@ -306,7 +370,7 @@ footer a {
   }
 
   .card {
-    border-radius: 10px;
+    border-radius: 12px;
   }
 
   main {
