@@ -53,7 +53,7 @@ main {
 /* Überschriften */
 h2 {
   font-weight: 700;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 h4 {
@@ -64,6 +64,11 @@ h4 {
 /* Text */
 p {
   line-height: 1.6;
+}
+
+/* Intro (Startseite) */
+.page-intro {
+  max-width: 760px;
 }
 
 /* Formular */
@@ -82,11 +87,72 @@ p {
   border-radius: 8px;
 }
 
-/* Formular / Cards */
+.form-control:focus,
+.form-select:focus,
+.btn:focus,
+nav a:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+  outline: none;
+}
+
+/* Adressbereich */
+.address-box {
+  padding: 18px;
+  border-radius: 12px;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  margin-top: 8px;
+}
+
+/* Validierung */
+.invalid-feedback {
+  display: block;
+}
+
+.is-valid,
+.is-invalid {
+  background-image: none !important;
+}
+
+/* Karten */
 .card {
   border-radius: 12px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   border: none;
+}
+
+/* Icons in Karten */
+.card h4 i {
+  margin-right: 6px;
+}
+
+/* Bestätigungsseite */
+.confirmation-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.confirmation-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ececec;
+}
+
+.confirmation-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Hinweisbox */
+.info-box {
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: #eef5ff;
+  border: 1px solid #d7e6ff;
 }
 
 /* Bilder */
@@ -104,6 +170,10 @@ p {
 
 .btn-primary:hover {
   background-color: #0b5ed7;
+}
+
+.btn-outline-primary {
+  border-radius: 8px;
 }
 
 /* Footer */
@@ -148,7 +218,6 @@ footer a {
     gap: 6px !important;
   }
 
-  /* 🔥 Verbesserte Mobile Navigation */
   nav a {
     display: block;
     width: 100%;
@@ -174,7 +243,6 @@ footer a {
 
   h2 {
     font-size: 1.5rem;
-    margin-bottom: 20px;
   }
 
   h4 {
@@ -196,6 +264,12 @@ footer a {
   .col-md-6,
   .col-md-4 {
     margin-bottom: 10px;
+  }
+
+  .confirmation-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 
   footer {

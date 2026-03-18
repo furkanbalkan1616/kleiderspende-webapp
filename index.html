@@ -8,6 +8,7 @@
 <title>Kleiderspenden Portal</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -15,59 +16,154 @@
 <body>
 
 <header class="bg-dark text-white">
-<div class="container d-flex justify-content-between align-items-center p-3">
+  <div class="container d-flex justify-content-between align-items-center p-3">
 
-<!-- 🔥 Klickbares Logo + Titel -->
-<a href="index.html" class="d-flex align-items-center text-white text-decoration-none">
-  <img src="img/logo.png" alt="Logo" width="50" class="me-2">
-  <h1 class="h4 m-0">Kleiderspenden Portal</h1>
-</a>
+    <a href="index.html" class="d-flex align-items-center text-white text-decoration-none">
+      <img src="img/logo.png" alt="Logo" width="50" class="me-2">
+      <h1 class="h4 m-0">Kleiderspenden Portal</h1>
+    </a>
 
-<!-- Navigation -->
-<nav class="d-flex gap-3">
-  <a href="index.html" class="text-white active">Start</a>
-  <a href="registrierung.html" class="text-white">Registrierung</a>
-</nav>
+    <nav class="d-flex gap-3">
+      <a href="index.html" class="text-white active">Start</a>
+      <a href="registrierung.html" class="text-white">Registrierung</a>
+    </nav>
 
-</div>
+  </div>
 </header>
 
 <main class="container mt-5">
 
-<div class="row align-items-center">
+  <!-- Hero-Bereich -->
+  <section class="row align-items-center mb-5">
+    <div class="col-md-6">
+      <h2>Kleidung spenden – Menschen in Krisengebieten unterstützen</h2>
 
-<div class="col-md-6">
+      <p class="mt-3">
+        Über dieses Portal können Sie Ihre Kleiderspende schnell und unkompliziert registrieren.
+        Ziel ist es, den organisatorischen Ablauf zu vereinfachen und bedarfsgerechte Hilfe
+        für Menschen in Krisengebieten zu ermöglichen.
+      </p>
 
-<h2>Kleidung spenden – Menschen helfen</h2>
+      <div class="d-flex flex-wrap gap-2 mt-4">
+        <a href="registrierung.html" class="btn btn-primary btn-lg">
+          Spende registrieren
+        </a>
+        <a href="#ablauf" class="btn btn-outline-primary btn-lg">
+          So funktioniert es
+        </a>
+      </div>
+    </div>
 
-<p class="mt-3">
-Über dieses Portal können Sie Ihre Kleiderspende registrieren
-und Menschen in Krisengebieten unterstützen.
-</p>
+    <div class="col-md-6 text-center mt-4 mt-md-0">
+      <img src="img/donation.jpg" class="img-fluid rounded shadow" alt="Kleiderspende">
+    </div>
+  </section>
 
-<a href="registrierung.html" class="btn btn-primary btn-lg mt-3">
-Spende registrieren
-</a>
+  <!-- Ablauf -->
+  <section id="ablauf" class="mb-5">
+    <div class="text-center mb-4">
+      <h2>So funktioniert das Portal</h2>
+      <p class="text-muted">
+        Die Registrierung Ihrer Kleiderspende erfolgt in wenigen Schritten.
+      </p>
+    </div>
 
-</div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+          <div class="mb-3">
+            <i class="bi bi-pencil-square fs-1 text-primary"></i>
+          </div>
+          <h4>1. Spende erfassen</h4>
+          <p>
+            Wählen Sie die Art der Kleidung sowie das gewünschte Krisengebiet aus
+            und geben Sie an, wie die Übergabe erfolgen soll.
+          </p>
+        </div>
+      </div>
 
-<div class="col-md-6 text-center">
+      <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+          <div class="mb-3">
+            <i class="bi bi-truck fs-1 text-primary"></i>
+          </div>
+          <h4>2. Übergabe festlegen</h4>
+          <p>
+            Entscheiden Sie, ob Sie die Spende selbst in der Geschäftsstelle abgeben
+            oder eine Abholung durch das Sammelfahrzeug wünschen.
+          </p>
+        </div>
+      </div>
 
-<img src="img/donation.jpg" class="img-fluid rounded shadow" alt="Kleiderspende">
+      <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+          <div class="mb-3">
+            <i class="bi bi-check-circle fs-1 text-primary"></i>
+          </div>
+          <h4>3. Bestätigung erhalten</h4>
+          <p>
+            Nach erfolgreicher Registrierung erhalten Sie eine Bestätigungsseite mit
+            allen erfassten Angaben zu Ihrer Spende.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-</div>
+  <!-- Vorteile -->
+  <section class="mb-5">
+    <div class="text-center mb-4">
+      <h2>Ihre Vorteile</h2>
+      <p class="text-muted">
+        Das Portal wurde so gestaltet, dass die Registrierung möglichst einfach und benutzerfreundlich erfolgt.
+      </p>
+    </div>
 
-</div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 p-4">
+          <h4><i class="bi bi-lightning-charge text-primary"></i> Schnell</h4>
+          <p class="mb-0">
+            Die Spende kann in wenigen Minuten registriert werden.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 p-4">
+          <h4><i class="bi bi-phone text-primary"></i> Responsiv</h4>
+          <p class="mb-0">
+            Die Anwendung ist auf Desktop, Tablet und Smartphone gut nutzbar.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 p-4">
+          <h4><i class="bi bi-shield-check text-primary"></i> Übersichtlich</h4>
+          <p class="mb-0">
+            Klare Formulare, strukturierte Seiten und rechtliche Hinweise sorgen für Transparenz.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hinweis -->
+  <section class="info-box mb-4">
+    <h4>Hinweis zur Registrierung</h4>
+    <p class="mb-0">
+      Für eine Abholung muss sich die angegebene Adresse im Einzugsgebiet der Geschäftsstelle befinden.
+      Die Prüfung erfolgt über die ersten beiden Ziffern der Postleitzahl.
+    </p>
+  </section>
 
 </main>
 
 <footer class="text-center p-4 mt-5">
-
-<a href="impressum.html">Impressum</a> |
-<a href="datenschutz.html">Datenschutz</a>
-
-<p class="mt-2">© 2026 Kleiderspenden Verein</p>
-
+  <a href="impressum.html">Impressum</a> |
+  <a href="datenschutz.html">Datenschutz</a>
+  <p class="mt-2">© 2026 Kleiderspenden Verein</p>
 </footer>
 
 <script src="js/app.js"></script>
