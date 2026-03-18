@@ -52,7 +52,7 @@
           <label class="form-label" for="kleidung">
             <i class="bi bi-bag-heart"></i> Art der Kleidung
           </label>
-          <select class="form-select" id="kleidung" required>
+          <select class="form-select" id="kleidung" name="kleidung" required>
             <option value="">Bitte auswählen</option>
             <option>Jacken</option>
             <option>Hosen</option>
@@ -67,7 +67,7 @@
           <label class="form-label" for="krisengebiet">
             <i class="bi bi-globe"></i> Krisengebiet
           </label>
-          <select class="form-select" id="krisengebiet" required>
+          <select class="form-select" id="krisengebiet" name="krisengebiet" required>
             <option value="">Bitte auswählen</option>
             <option>Ukraine</option>
             <option>Syrien</option>
@@ -113,12 +113,28 @@
         <div class="row">
           <div class="col-md-4 mb-3">
             <label class="form-label" for="strasse">Straße / Hausnummer</label>
-            <input type="text" class="form-control" id="strasse" placeholder="z. B. Musterstraße 12">
+            <input 
+              type="text" 
+              class="form-control" 
+              id="strasse" 
+              name="strasse"
+              placeholder="z. B. Musterstraße 12"
+              required
+            >
           </div>
 
           <div class="col-md-4 mb-3">
             <label class="form-label" for="plz">Postleitzahl</label>
-            <input type="text" class="form-control" id="plz" placeholder="z. B. 76133">
+            <input 
+              type="text" 
+              class="form-control" 
+              id="plz" 
+              name="plz"
+              placeholder="z. B. 76133"
+              required
+              pattern="[0-9]{5}"
+              maxlength="5"
+            >
             <small class="text-muted">
               Die ersten beiden Ziffern müssen zum Einzugsgebiet der Geschäftsstelle passen.
             </small>
@@ -126,7 +142,14 @@
 
           <div class="col-md-4 mb-3">
             <label class="form-label" for="ort">Ort</label>
-            <input type="text" class="form-control" id="ort" placeholder="z. B. Karlsruhe">
+            <input 
+              type="text" 
+              class="form-control" 
+              id="ort" 
+              name="ort"
+              placeholder="z. B. Karlsruhe"
+              required
+            >
           </div>
         </div>
       </div>
