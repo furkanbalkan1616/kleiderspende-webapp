@@ -10,7 +10,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="css/style.css">
-
 </head>
 
 <body>
@@ -25,19 +24,17 @@
 
     <nav class="d-flex gap-3">
       <a href="index.html" class="text-white">Start</a>
-      <a href="registrierung.html" class="text-white fw-bold text-decoration-underline">Registrierung</a>
+      <a href="registrierung.html" class="text-white active fw-bold">Registrierung</a>
     </nav>
 
   </div>
 </header>
 
-<main class="container mt-5 mb-5">
+<main class="container mt-5">
 
   <div class="page-intro mb-4 text-center text-md-start">
     <h2>Kleiderspende registrieren</h2>
-    <p class="text-muted">
-      Erfassen Sie Ihre Spende in wenigen Schritten.
-    </p>
+    <p class="text-muted">Erfassen Sie Ihre Spende in wenigen Schritten.</p>
   </div>
 
   <div class="card p-4">
@@ -47,9 +44,9 @@
       <div id="fehlermeldung" class="alert alert-danger" style="display:none;"></div>
 
       <!-- ÜBERGABE -->
-      <div class="address-box mb-3">
+      <div class="mb-3">
         <label class="form-label">
-          <i class="bi bi-truck"></i> Übergabeart *
+          <i class="bi bi-truck"></i> Übergabeart
         </label>
 
         <div class="form-check">
@@ -68,63 +65,61 @@
       </div>
 
       <!-- ADRESSE -->
-      <div id="adresseBereich" class="address-box mb-3" style="display:none">
+      <div id="adresseBereich" class="address-box mb-3">
 
-        <label class="form-label" for="strasse">Straße & Hausnummer</label>
-        <input type="text" class="form-control mb-2" id="strasse" placeholder="z. B. Musterstraße 12">
+        <div class="mb-3">
+          <label class="form-label">Straße & Hausnummer</label>
+          <input type="text" class="form-control" id="strasse" placeholder="z. B. Musterstraße 12">
+        </div>
 
-        <label class="form-label" for="plz">Postleitzahl</label>
-        <input type="text" class="form-control mb-2" id="plz" placeholder="z. B. 76xxx">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Postleitzahl</label>
+            <input type="text" class="form-control" id="plz" placeholder="z. B. 76133">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Ort</label>
+            <input type="text" class="form-control" id="ort" placeholder="z. B. Karlsruhe">
+          </div>
+        </div>
 
         <small class="text-muted">
-          Abholung nur im Einzugsgebiet (PLZ muss mit 76 beginnen).
+          Abholung nur, wenn die ersten zwei Ziffern zur Geschäftsstelle passen.
         </small>
 
-        <label class="form-label mt-2" for="ort">Ort</label>
-        <input type="text" class="form-control" id="ort" placeholder="z. B. Karlsruhe">
-
       </div>
 
-      <!-- KLEIDUNG -->
-      <div class="mb-3">
-        <label class="form-label" for="kleidung">
-          <i class="bi bi-bag-heart"></i> Art der Kleidung *
-        </label>
-        <select class="form-select" id="kleidung" required>
-          <option value="">Bitte auswählen</option>
-          <option>Jacken</option>
-          <option>Hosen</option>
-          <option>T-Shirts</option>
-          <option>Schuhe</option>
-          <option>Kinderkleidung</option>
-          <option>Decken / Schlafsäcke</option>
-        </select>
-      </div>
+      <!-- KLEIDUNG + GEBIET -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Art der Kleidung</label>
+          <select class="form-select" id="kleidung" required>
+            <option value="">Bitte auswählen...</option>
+            <option>Jacken</option>
+            <option>Hosen</option>
+            <option>T-Shirts</option>
+            <option>Schuhe</option>
+            <option>Kinderkleidung</option>
+          </select>
+        </div>
 
-      <!-- KRISENGEBIET -->
-      <div class="mb-3">
-        <label class="form-label" for="krisengebiet">
-          <i class="bi bi-globe"></i> Krisengebiet *
-        </label>
-        <select class="form-select" id="krisengebiet" required>
-          <option value="">Bitte auswählen</option>
-          <option>Ukraine</option>
-          <option>Syrien</option>
-          <option>Türkei</option>
-          <option>Afrika</option>
-          <option>Sudan</option>
-        </select>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Krisengebiet</label>
+          <select class="form-select" id="krisengebiet" required>
+            <option value="">Bitte auswählen...</option>
+            <option>Ukraine</option>
+            <option>Syrien</option>
+            <option>Türkei</option>
+            <option>Afrika</option>
+          </select>
+        </div>
       </div>
 
       <!-- BUTTON -->
-      <div class="d-flex flex-column flex-md-row gap-2 mt-4">
-        <button class="btn btn-primary w-100" type="submit">
-          Registrierung abschließen
-        </button>
-        <a href="index.html" class="btn btn-outline-primary w-100">
-          Zurück
-        </a>
-      </div>
+      <button class="btn btn-primary mt-3" type="submit">
+        Registrierung abschließen
+      </button>
 
     </form>
 
