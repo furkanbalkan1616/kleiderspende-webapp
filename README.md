@@ -1,48 +1,83 @@
-# Kleiderspenden Webanwendung
-## Projektbeschreibung
+Kleiderspenden Webanwendung
+Projektbeschreibung
 
-Diese Webanwendung ermöglicht es Nutzern, Kleiderspenden für Menschen in Krisengebieten zu registrieren.
+Die entwickelte Webanwendung dient der strukturierten Erfassung von Kleiderspenden für Menschen in Krisengebieten.
+Nutzer haben die Möglichkeit, ihre Spende über ein benutzerfreundliches Formular zu registrieren und eine geeignete Übergabeart auszuwählen.
 
-Über ein Formular können Spenden erfasst und entweder direkt in einer Geschäftsstelle abgegeben oder von einem Sammelfahrzeug abgeholt werden.
+Die Anwendung unterstützt sowohl die Abgabe in einer Geschäftsstelle als auch die Abholung durch ein Sammelfahrzeug.
+Nach erfolgreicher Eingabe wird eine Bestätigungsseite generiert, die alle relevanten Daten übersichtlich darstellt.
 
-Nach der Registrierung erhält der Nutzer eine Bestätigungsseite mit allen eingegebenen Daten.
+Funktionen
 
-## Funktionen
+Erfassung von Kleiderspenden über ein Formular
 
-- Registrierung von Kleiderspenden
+Auswahl verschiedener Kleidungsarten (z. B. Jacken, Schuhe, Kinderkleidung)
 
-- Auswahl verschiedener Kleidungsarten
+Auswahl eines Ziel-Krisengebiets
 
-- Auswahl eines Krisengebiets
+Auswahl der Übergabeart:
 
-- Auswahl der Übergabeart (Geschäftsstelle oder Abholung)
+Geschäftsstelle Karlsruhe
 
-- Dynamisches Anzeigen der Adressfelder bei Abholung
+Abholung durch Sammelfahrzeug
 
-- Validierung der Postleitzahl
+Dynamisches Ein- und Ausblenden der Adressfelder bei Auswahl „Abholung“
 
-- Anzeige einer Bestätigungsseite mit allen Daten
+Validierung der Eingaben (z. B. Pflichtfelder, Postleitzahl-Format)
 
-## Verwendete Technologien
+Einschränkung des Abholgebiets anhand der Postleitzahl (PLZ beginnt mit „76“)
 
-- HTML5
+Anzeige einer Bestätigungsseite mit allen übergebenen Daten (inkl. Datum und Uhrzeit)
 
-- CSS3
+Responsives Design für Desktop, Tablet und Smartphone
 
-- Bootstrap 5
+Technische Umsetzung
 
-- JavaScript
+Die Anwendung wurde als clientseitige Webanwendung umgesetzt und basiert auf folgenden Technologien:
 
-- Git & GitHub
+HTML5 zur Strukturierung der Inhalte
 
-- GitHub Pages
+CSS3 zur Gestaltung und Layout-Anpassung
 
-## Online Version
+Bootstrap 5 für ein responsives und modernes UI
 
-Die Webanwendung ist erreichbar unter:
+JavaScript zur Umsetzung der Formularlogik und Validierung
+
+URL-Parameter zur Übergabe der Formulardaten an die Bestätigungsseite
+
+Git zur Versionsverwaltung
+
+GitHub Pages zur Veröffentlichung der Anwendung
+
+Zusätzlich wurden Aspekte der Benutzerfreundlichkeit (UX) sowie Barrierefreiheit berücksichtigt, wie z. B. klare Navigation, visuelles Feedback und semantische HTML-Strukturen.
+
+Nutzung der Anwendung
+
+Aufrufen der Startseite
+
+Wechsel zur Registrierungsseite
+
+Auswahl von Kleidung und Krisengebiet
+
+Auswahl der Übergabeart
+
+(Optional) Eingabe der Adresse bei Abholung
+
+Absenden des Formulars
+
+Anzeige der Bestätigungsseite mit allen Angaben
+
+Online-Version
+
+Die Anwendung ist unter folgendem Link erreichbar:
 
 https://furkanbalkan1616.github.io/kleiderspende-webapp/
 
-## Autor
+Entwicklung & Testing
+
+Die Anwendung wurde lokal über einen HTTP-Server getestet (z. B. mit npx serve), um eine realistische Browserumgebung sicherzustellen.
+Der Code wurde mithilfe von Git versioniert und schrittweise weiterentwickelt.
+
+Autor
 
 Furkan Balkan
