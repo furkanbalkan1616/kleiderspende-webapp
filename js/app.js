@@ -10,6 +10,7 @@ const UE_ABHOLUNG = "Abholung";
 const form = document.getElementById("spendenForm");
 if (!form) return;
 
+// Alle Elemente zentral sammeln (Best Practice)
 const elements = {
   radioGeschaeftsstelle: document.getElementById("geschaeftsstelle"),
   radioAbholung: document.getElementById("abholung"),
@@ -50,7 +51,7 @@ function clearError() {
   box.innerText = "";
 }
 
-// Feldstatus (rot/grün)
+// Validierung visuell
 function markInvalid(field) {
   field?.classList.add("is-invalid");
 }
@@ -61,11 +62,8 @@ function markValid(field) {
 }
 
 function resetValidation() {
-  Object.values(elements).forEach(el => {
-    if (el?.classList) {
-      el.classList.remove("is-invalid", "is-valid");
-    }
-  });
+  [elements.kleidung, elements.krisengebiet, elements.strasse, elements.plz, elements.ort]
+    .forEach(el => el?.classList.remove("is-invalid", "is-valid"));
 }
 
 function focusFirstError() {
@@ -81,6 +79,7 @@ function focusFirstError() {
 // ==========================
 function toggleAdresse(show) {
   const { adresseBereich, strasse, plz, ort } = elements;
+
   if (!adresseBereich) return;
 
   adresseBereich.style.display = show ? "block" : "none";
@@ -109,7 +108,7 @@ toggleAdresse(selected?.value === UE_ABHOLUNG);
 elements.radioAbholung?.addEventListener("change", () => toggleAdresse(true));
 elements.radioGeschaeftsstelle?.addEventListener("change", () => toggleAdresse(false));
 
-// Live PLZ Validation (WOW)
+// Live PLZ Feedback
 elements.plz?.addEventListener("input", () => {
   if (/^[0-9]{5}$/.test(elements.plz.value)) {
     markValid(elements.plz);
@@ -127,14 +126,7 @@ form.addEventListener("submit", (e) => {
   clearError();
   resetValidation();
 
-  const {
-    kleidung,
-    krisengebiet,
-    strasse,
-    plz,
-    ort,
-    submitButton
-  } = elements;
+  const { kleidung, krisengebiet, strasse, plz, ort, submitButton } = elements;
 
   const selectedRadio = document.querySelector('input[name="uebergabe"]:checked');
   if (!selectedRadio) {
@@ -163,9 +155,7 @@ form.addEventListener("submit", (e) => {
     }
   }
 
-  // ==========================
-  // VALIDIERUNG
-  // ==========================
+  // Pflichtfelder
   check(kleidung, data.kleidung !== "");
   check(krisengebiet, data.krisengebiet !== "");
 
@@ -178,14 +168,14 @@ form.addEventListener("submit", (e) => {
 
     if (!/^[0-9]{5}$/.test(data.plz)) {
       markInvalid(plz);
-      showError("Bitte eine gültige 5-stellige PLZ eingeben.");
+      showError("Bitte eine gültige fünfstellige Postleitzahl eingeben.");
       focusFirstError();
       return;
     }
 
     if (!data.plz.startsWith(GESCHAEFTSSTELLEN_PLZ_PREFIX)) {
       markInvalid(plz);
-      showError("Adresse liegt nicht im Einzugsgebiet (76).");
+      showError("Die Adresse liegt nicht im Einzugsgebiet (PLZ muss mit 76 beginnen).");
       focusFirstError();
       return;
     }
@@ -195,7 +185,7 @@ form.addEventListener("submit", (e) => {
   }
 
   if (hasError) {
-    showError("Bitte alle Pflichtfelder korrekt ausfüllen.");
+    showError("Bitte prüfen Sie die markierten Felder.");
     focusFirstError();
     return;
   }
@@ -209,7 +199,7 @@ form.addEventListener("submit", (e) => {
   }
 
   // ==========================
-  // DATUM
+  // DATUM & UHRZEIT
   // ==========================
   const now = new Date();
   const datum = now.toLocaleDateString("de-DE");
@@ -219,7 +209,7 @@ form.addEventListener("submit", (e) => {
   });
 
   // ==========================
-  // REDIRECT (WICHTIG FIX!)
+  // REDIRECT
   // ==========================
   const url =
     "bestaetigung.html?" +
