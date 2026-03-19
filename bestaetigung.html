@@ -44,7 +44,9 @@
     <i class="bi bi-check-circle"></i> Ihre Kleiderspende wurde erfolgreich registriert.
   </div>
 
+  <!-- DATEN -->
   <div class="card p-4 mt-4">
+
     <div class="d-flex justify-content-between border-bottom py-2">
       <span>Kleidung</span>
       <strong id="kleidung"></strong>
@@ -61,6 +63,16 @@
     </div>
 
     <div class="d-flex justify-content-between border-bottom py-2">
+      <span>Straße</span>
+      <strong id="strasse"></strong>
+    </div>
+
+    <div class="d-flex justify-content-between border-bottom py-2">
+      <span>PLZ</span>
+      <strong id="plz"></strong>
+    </div>
+
+    <div class="d-flex justify-content-between border-bottom py-2">
       <span>Ort</span>
       <strong id="ort"></strong>
     </div>
@@ -74,12 +86,15 @@
       <span>Uhrzeit</span>
       <strong id="uhrzeit"></strong>
     </div>
+
   </div>
 
+  <!-- HINWEIS -->
   <div class="info-box mt-4">
     <p id="hinweistext"></p>
   </div>
 
+  <!-- BUTTONS -->
   <div class="d-flex flex-column flex-md-row gap-2 mt-4">
     <a href="index.html" class="btn btn-primary">
       Zurück zur Startseite
@@ -100,26 +115,35 @@
 <script>
 const params = new URLSearchParams(window.location.search);
 
+// DATEN HOLEN
 const kleidung = params.get("kleidung") || "-";
 const krisengebiet = params.get("krisengebiet") || "-";
 const uebergabe = params.get("uebergabe") || "-";
 const ort = params.get("ort") || "Geschäftsstelle Karlsruhe";
+const strasse = params.get("strasse") || "-";
+const plz = params.get("plz") || "-";
 const datum = params.get("datum") || "-";
 const uhrzeit = params.get("uhrzeit") || "-";
 
+// EINSETZEN
 document.getElementById("kleidung").innerText = kleidung;
 document.getElementById("krisengebiet").innerText = krisengebiet;
 document.getElementById("uebergabe").innerText = uebergabe;
 document.getElementById("ort").innerText = ort;
+document.getElementById("strasse").innerText = strasse;
+document.getElementById("plz").innerText = plz;
 document.getElementById("datum").innerText = datum;
 document.getElementById("uhrzeit").innerText = uhrzeit;
 
+// HINWEIS TEXT (AUFGABE!)
 const hinweistext = document.getElementById("hinweistext");
 
 if (uebergabe === "Abholung") {
-  hinweistext.innerText = "Ihre Abholanfrage wurde registriert.";
+  hinweistext.innerText =
+    "Ihre Abholanfrage wurde registriert. Die Geschäftsstelle wird sich zeitnah bei Ihnen melden.";
 } else {
-  hinweistext.innerText = "Bitte bringen Sie Ihre Spende zur Geschäftsstelle Karlsruhe.";
+  hinweistext.innerText =
+    "Bitte bringen Sie Ihre Spende während der Öffnungszeiten zur Geschäftsstelle Karlsruhe.";
 }
 </script>
 

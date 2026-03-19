@@ -50,6 +50,32 @@ function clearError() {
   box.innerText = "";
 }
 
+// Feldstatus (rot/grün)
+function markInvalid(field) {
+  field?.classList.add("is-invalid");
+}
+
+function markValid(field) {
+  field?.classList.remove("is-invalid");
+  field?.classList.add("is-valid");
+}
+
+function resetValidation() {
+  Object.values(elements).forEach(el => {
+    if (el?.classList) {
+      el.classList.remove("is-invalid", "is-valid");
+    }
+  });
+}
+
+function focusFirstError() {
+  const firstError = form.querySelector(".is-invalid");
+  if (firstError) {
+    firstError.focus();
+    firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}
+
 // ==========================
 // ADRESSE TOGGLE
 // ==========================
@@ -83,12 +109,23 @@ toggleAdresse(selected?.value === UE_ABHOLUNG);
 elements.radioAbholung?.addEventListener("change", () => toggleAdresse(true));
 elements.radioGeschaeftsstelle?.addEventListener("change", () => toggleAdresse(false));
 
+// Live PLZ Validation (WOW)
+elements.plz?.addEventListener("input", () => {
+  if (/^[0-9]{5}$/.test(elements.plz.value)) {
+    markValid(elements.plz);
+  } else {
+    elements.plz.classList.remove("is-valid");
+  }
+});
+
 // ==========================
 // SUBMIT
 // ==========================
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+
   clearError();
+  resetValidation();
 
   const {
     kleidung,
@@ -100,7 +137,10 @@ form.addEventListener("submit", (e) => {
   } = elements;
 
   const selectedRadio = document.querySelector('input[name="uebergabe"]:checked');
-  if (!selectedRadio) return showError("Bitte wählen Sie eine Übergabeart.");
+  if (!selectedRadio) {
+    showError("Bitte wählen Sie eine Übergabeart.");
+    return;
+  }
 
   const uebergabe = selectedRadio.value;
 
@@ -112,30 +152,52 @@ form.addEventListener("submit", (e) => {
     ort: ort.value.trim()
   };
 
+  let hasError = false;
+
+  function check(field, condition) {
+    if (!condition) {
+      markInvalid(field);
+      hasError = true;
+    } else {
+      markValid(field);
+    }
+  }
+
   // ==========================
   // VALIDIERUNG
   // ==========================
-  if (!data.kleidung || !data.krisengebiet) {
-    return showError("Bitte Kleidung und Krisengebiet auswählen.");
-  }
+  check(kleidung, data.kleidung !== "");
+  check(krisengebiet, data.krisengebiet !== "");
 
   let ortValue = "Geschäftsstelle Karlsruhe";
 
   if (uebergabe === UE_ABHOLUNG) {
 
-    if (!data.strasse || !data.ort) {
-      return showError("Bitte vollständige Adresse eingeben.");
-    }
+    check(strasse, data.strasse !== "");
+    check(ort, data.ort !== "");
 
     if (!/^[0-9]{5}$/.test(data.plz)) {
-      return showError("Bitte eine gültige 5-stellige PLZ eingeben.");
+      markInvalid(plz);
+      showError("Bitte eine gültige 5-stellige PLZ eingeben.");
+      focusFirstError();
+      return;
     }
 
     if (!data.plz.startsWith(GESCHAEFTSSTELLEN_PLZ_PREFIX)) {
-      return showError("Adresse liegt nicht im Einzugsgebiet (PLZ muss mit 76 beginnen).");
+      markInvalid(plz);
+      showError("Adresse liegt nicht im Einzugsgebiet (76).");
+      focusFirstError();
+      return;
     }
 
+    markValid(plz);
     ortValue = data.ort;
+  }
+
+  if (hasError) {
+    showError("Bitte alle Pflichtfelder korrekt ausfüllen.");
+    focusFirstError();
+    return;
   }
 
   // ==========================
@@ -157,7 +219,7 @@ form.addEventListener("submit", (e) => {
   });
 
   // ==========================
-  // REDIRECT
+  // REDIRECT (WICHTIG FIX!)
   // ==========================
   const url =
     "bestaetigung.html?" +
@@ -166,6 +228,8 @@ form.addEventListener("submit", (e) => {
       krisengebiet: data.krisengebiet,
       uebergabe,
       ort: ortValue,
+      strasse: data.strasse,
+      plz: data.plz,
       datum,
       uhrzeit
     });
