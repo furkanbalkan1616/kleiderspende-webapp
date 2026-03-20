@@ -1,107 +1,104 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kleiderspende registrieren</title>
 
-<title>Kleiderspende registrieren</title>
-
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<link rel="stylesheet" href="css/style.css">
-
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<header class="bg-dark text-white">
-  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
+  <header class="bg-dark text-white">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
+      <a href="index.html"
+         class="d-flex align-items-center text-white text-decoration-none mb-2 mb-md-0"
+         aria-label="Startseite">
+        <img src="img/logo.png" width="50" class="me-2" alt="Logo Kleiderspenden Portal">
+        <h1 class="m-0 fs-4">Kleiderspenden Portal</h1>
+      </a>
 
-    <a href="index.html"
-       class="d-flex align-items-center text-white text-decoration-none mb-2 mb-md-0"
-       aria-label="Startseite">
-      <img src="img/logo.png" width="50" class="me-2" alt="Logo Kleiderspenden Portal">
-      <h1 class="m-0 fs-4">Kleiderspenden Portal</h1>
-    </a>
+      <nav aria-label="Hauptnavigation">
+        <ul class="d-flex gap-3 list-unstyled m-0">
+          <li><a href="index.html" class="text-white">Start</a></li>
+          <li>
+            <a href="registrierung.html"
+               class="text-white fw-bold text-decoration-underline"
+               aria-current="page">
+              Registrierung
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-    <nav aria-label="Hauptnavigation">
-      <ul class="d-flex gap-3 list-unstyled m-0">
-        <li><a href="index.html" class="text-white">Start</a></li>
-        <li>
-          <a href="registrierung.html"
-             class="text-white fw-bold text-decoration-underline"
-             aria-current="page">
-             Registrierung
-          </a>
-        </li>
-      </ul>
-    </nav>
+  <main class="container mt-5" role="main">
+    <div class="text-center text-md-start mb-4">
+      <h2>Kleiderspende registrieren</h2>
+      <p class="text-muted">Erfassen Sie Ihre Spende in wenigen Schritten.</p>
+    </div>
 
-  </div>
-</header>
+    <div class="card p-4">
+      <form id="spendenForm" novalidate>
+        <div id="fehlermeldung" class="alert alert-danger d-none"></div>
 
-<main class="container mt-5" role="main">
+        <!-- ÜBERGABE -->
+        <div class="mb-4">
+          <label class="form-label fw-semibold">
+            <i class="bi bi-truck"></i> Übergabeart
+          </label>
 
-  <div class="text-center text-md-start mb-4">
-    <h2>Kleiderspende registrieren</h2>
-    <p class="text-muted">Erfassen Sie Ihre Spende in wenigen Schritten.</p>
-  </div>
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="radio"
+                   name="uebergabe"
+                   id="geschaeftsstelle"
+                   value="Geschaeftsstelle"
+                   checked>
+            <label class="form-check-label" for="geschaeftsstelle">
+              Übergabe an der Geschäftsstelle
+            </label>
+          </div>
 
-  <div class="card p-4">
-
-    <form id="spendenForm" novalidate>
-
-      <div id="fehlermeldung" class="alert alert-danger d-none"></div>
-
-      <!-- ÜBERGABE -->
-      <div class="mb-3">
-        <label class="form-label">
-          <i class="bi bi-truck"></i> Übergabeart
-        </label>
-
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="uebergabe" id="geschaeftsstelle" value="Geschaeftsstelle" checked>
-          <label class="form-check-label">Übergabe an der Geschäftsstelle</label>
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="radio"
+                   name="uebergabe"
+                   id="abholung"
+                   value="Abholung">
+            <label class="form-check-label" for="abholung">
+              Abholung (Sammelfahrzeug)
+            </label>
+          </div>
         </div>
 
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="uebergabe" id="abholung" value="Abholung">
-          <label class="form-check-label">Abholung (Sammelfahrzeug)</label>
-        </div>
-      </div>
+        <!-- ADRESSE -->
+        <div id="adresseBereich" class="mb-4" aria-hidden="true">
+          <div class="mb-3">
+            <label class="form-label">Straße &amp; Hausnummer</label>
+            <input type="text" class="form-control" id="strasse" placeholder="z. B. Musterstraße 12">
+          </div>
 
-      <!-- ADRESSE -->
-      <div id="adresseBereich" class="mb-3">
-
-        <div class="mb-3">
-          <label class="form-label">Straße & Hausnummer</label>
-          <input type="text" class="form-control" id="strasse">
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 mb-3">
+          <div class="mb-3">
             <label class="form-label">Postleitzahl</label>
-            <input type="text" class="form-control" id="plz">
+            <input type="text" class="form-control" id="plz" placeholder="z. B. 70xxx" inputmode="numeric">
+            <small class="text-muted d-block mt-2">
+              Abholung nur möglich, wenn die ersten zwei Ziffern der PLZ übereinstimmen.
+            </small>
           </div>
 
-          <div class="col-md-6 mb-3">
+          <div class="mb-3">
             <label class="form-label">Ort</label>
-            <input type="text" class="form-control" id="ort">
+            <input type="text" class="form-control" id="ort" placeholder="z. B. Stuttgart">
           </div>
         </div>
 
-        <small class="text-muted">
-          Abholung nur möglich, wenn die ersten zwei Ziffern der PLZ übereinstimmen.
-        </small>
-
-      </div>
-
-      <!-- KLEIDUNG + GEBIET -->
-      <div class="row">
-        <div class="col-md-6 mb-3">
+        <!-- KLEIDUNG -->
+        <div class="mb-3">
           <label class="form-label">Art der Kleidung</label>
           <select class="form-select" id="kleidung" required>
             <option value="">Bitte auswählen...</option>
@@ -113,7 +110,8 @@
           </select>
         </div>
 
-        <div class="col-md-6 mb-3">
+        <!-- KRISENGEBIET -->
+        <div class="mb-3">
           <label class="form-label">Krisengebiet</label>
           <select class="form-select" id="krisengebiet" required>
             <option value="">Bitte auswählen...</option>
@@ -121,28 +119,23 @@
             <option>Syrien</option>
             <option>Türkei</option>
             <option>Afrika</option>
+            <option>Sudan</option>
           </select>
         </div>
-      </div>
 
-      <button class="btn btn-primary mt-3" type="submit">
-        Registrierung abschließen
-      </button>
+        <button class="btn btn-primary mt-3" type="submit">
+          Registrierung abschließen
+        </button>
+      </form>
+    </div>
+  </main>
 
-    </form>
+  <footer class="text-center p-4 mt-5 bg-light border-top">
+    <a href="impressum.html">Impressum</a> |
+    <a href="datenschutz.html">Datenschutz</a>
+    <p class="mt-2 small text-muted">© 2026 Kleiderspenden Verein</p>
+  </footer>
 
-  </div>
-
-</main>
-
-<footer class="text-center p-4 mt-5 bg-light border-top">
-  <a href="impressum.html">Impressum</a> |
-  <a href="datenschutz.html">Datenschutz</a>
-  <p class="mt-2 small text-muted">© 2026 Kleiderspenden Verein</p>
-</footer>
-
-<!-- 🔥 FINAL FIX -->
-<script src="js/app.js?v=10"></script>
-
+  <script src="js/app.js?v=11"></script>
 </body>
 </html>

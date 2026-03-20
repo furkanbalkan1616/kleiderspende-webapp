@@ -1,234 +1,128 @@
-document.addEventListener("DOMContentLoaded", () => {
-
-  // ==========================
-  // KONSTANTEN
-  // ==========================
-  const GESCHAEFTSSTELLEN_PLZ_PREFIX = "76";
-  const UE_ABHOLUNG = "Abholung";
-
-  // ==========================
-  // INIT
-  // ==========================
+document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("spendenForm");
-  if (!form) return;
+  const fehlermeldung = document.getElementById("fehlermeldung");
 
-  const elements = {
-    radioGeschaeftsstelle: document.getElementById("geschaeftsstelle"),
-    radioAbholung: document.getElementById("abholung"),
-    adresseBereich: document.getElementById("adresseBereich"),
+  const geschaeftsstelleRadio = document.getElementById("geschaeftsstelle");
+  const abholungRadio = document.getElementById("abholung");
+  const adresseBereich = document.getElementById("adresseBereich");
 
-    kleidung: document.getElementById("kleidung"),
-    krisengebiet: document.getElementById("krisengebiet"),
-    strasse: document.getElementById("strasse"),
-    plz: document.getElementById("plz"),
-    ort: document.getElementById("ort"),
+  const strasseInput = document.getElementById("strasse");
+  const plzInput = document.getElementById("plz");
+  const ortInput = document.getElementById("ort");
+  const kleidungSelect = document.getElementById("kleidung");
+  const krisengebietSelect = document.getElementById("krisengebiet");
 
-    submitButton: form.querySelector("button[type='submit']")
-  };
-
-  // ==========================
-  // HELPER
-  // ==========================
-  function showError(msg) {
-    let box = document.getElementById("fehlermeldung");
-
-    if (!box) {
-      box = document.createElement("div");
-      box.id = "fehlermeldung";
-      box.className = "alert alert-danger";
-      form.prepend(box);
-    }
-
-    box.innerText = msg;
-    box.classList.remove("d-none");
-    box.scrollIntoView({ behavior: "smooth" });
-  }
-
-  function clearError() {
-    const box = document.getElementById("fehlermeldung");
-    if (!box) return;
-
-    box.classList.add("d-none");
-    box.innerText = "";
-  }
-
-  function markInvalid(field) {
-    field?.classList.add("is-invalid");
-  }
-
-  function markValid(field) {
-    field?.classList.remove("is-invalid");
-    field?.classList.add("is-valid");
-  }
-
-  function resetValidation() {
-    [elements.kleidung, elements.krisengebiet, elements.strasse, elements.plz, elements.ort]
-      .forEach(el => el?.classList.remove("is-invalid", "is-valid"));
-  }
-
-  function focusFirstError() {
-    const firstError = form.querySelector(".is-invalid");
-    if (firstError) {
-      firstError.focus();
-      firstError.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  }
-
-  // ==========================
-  // ADRESSE TOGGLE
-  // ==========================
-  function toggleAdresse(show) {
-    const { adresseBereich, strasse, plz, ort } = elements;
-
-    if (!adresseBereich) return;
-
-    adresseBereich.style.display = show ? "block" : "none";
-
-    strasse.required = show;
-    plz.required = show;
-    ort.required = show;
-
-    if (!show) {
-      strasse.value = "";
-      plz.value = "";
-      ort.value = "";
-    }
-  }
-
-  // ==========================
-  // INITIAL STATE
-  // ==========================
-  const selected = document.querySelector('input[name="uebergabe"]:checked');
-  toggleAdresse(selected?.value === UE_ABHOLUNG);
-
-  // ==========================
-  // EVENTS
-  // ==========================
-  elements.radioAbholung?.addEventListener("change", () => toggleAdresse(true));
-  elements.radioGeschaeftsstelle?.addEventListener("change", () => toggleAdresse(false));
-
-  // Live PLZ Feedback
-  elements.plz?.addEventListener("input", () => {
-    if (/^[0-9]{5}$/.test(elements.plz.value)) {
-      markValid(elements.plz);
+  function updateAdresseSichtbarkeit() {
+    if (abholungRadio.checked) {
+      adresseBereich.style.display = "block";
+      adresseBereich.classList.add("is-visible");
+      adresseBereich.setAttribute("aria-hidden", "false");
     } else {
-      elements.plz.classList.remove("is-valid");
-    }
-  });
+      adresseBereich.classList.remove("is-visible");
+      adresseBereich.style.display = "none";
+      adresseBereich.setAttribute("aria-hidden", "true");
 
-  // ==========================
-  // SUBMIT
-  // ==========================
-  form.addEventListener("submit", (e) => {
+      strasseInput.value = "";
+      plzInput.value = "";
+      ortInput.value = "";
+
+      strasseInput.classList.remove("is-invalid", "is-valid");
+      plzInput.classList.remove("is-invalid", "is-valid");
+      ortInput.classList.remove("is-invalid", "is-valid");
+    }
+  }
+
+  function setInvalid(field) {
+    field.classList.add("is-invalid");
+    field.classList.remove("is-valid");
+  }
+
+  function setValid(field) {
+    field.classList.remove("is-invalid");
+    field.classList.add("is-valid");
+  }
+
+  function clearValidation(field) {
+    field.classList.remove("is-invalid", "is-valid");
+  }
+
+  function validateForm() {
+    let errors = [];
+
+    fehlermeldung.classList.add("d-none");
+    fehlermeldung.innerHTML = "";
+
+    if (abholungRadio.checked) {
+      if (!strasseInput.value.trim()) {
+        errors.push("Bitte Straße und Hausnummer angeben.");
+        setInvalid(strasseInput);
+      } else {
+        setValid(strasseInput);
+      }
+
+      const plz = plzInput.value.trim();
+      if (!plz) {
+        errors.push("Bitte eine Postleitzahl angeben.");
+        setInvalid(plzInput);
+      } else {
+        setValid(plzInput);
+      }
+
+      if (!ortInput.value.trim()) {
+        errors.push("Bitte einen Ort angeben.");
+        setInvalid(ortInput);
+      } else {
+        setValid(ortInput);
+      }
+    } else {
+      clearValidation(strasseInput);
+      clearValidation(plzInput);
+      clearValidation(ortInput);
+    }
+
+    if (!kleidungSelect.value) {
+      errors.push("Bitte eine Art der Kleidung auswählen.");
+      setInvalid(kleidungSelect);
+    } else {
+      setValid(kleidungSelect);
+    }
+
+    if (!krisengebietSelect.value) {
+      errors.push("Bitte ein Krisengebiet auswählen.");
+      setInvalid(krisengebietSelect);
+    } else {
+      setValid(krisengebietSelect);
+    }
+
+    if (errors.length > 0) {
+      fehlermeldung.innerHTML = errors.join("<br>");
+      fehlermeldung.classList.remove("d-none");
+      return false;
+    }
+
+    return true;
+  }
+
+  abholungRadio.addEventListener("change", updateAdresseSichtbarkeit);
+  geschaeftsstelleRadio.addEventListener("change", updateAdresseSichtbarkeit);
+
+  form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    clearError();
-    resetValidation();
+    if (validateForm()) {
+      const daten = {
+        uebergabe: abholungRadio.checked ? "Abholung (Sammelfahrzeug)" : "Übergabe an der Geschäftsstelle",
+        strasse: strasseInput.value.trim(),
+        plz: plzInput.value.trim(),
+        ort: ortInput.value.trim(),
+        kleidung: kleidungSelect.value,
+        krisengebiet: krisengebietSelect.value
+      };
 
-    const { kleidung, krisengebiet, strasse, plz, ort, submitButton } = elements;
-
-    const selectedRadio = document.querySelector('input[name="uebergabe"]:checked');
-    if (!selectedRadio) {
-      showError("Bitte wählen Sie eine Übergabeart.");
-      return;
+      localStorage.setItem("spendenDaten", JSON.stringify(daten));
+      window.location.href = "bestaetigung.html";
     }
-
-    const uebergabe = selectedRadio.value;
-
-    const data = {
-      kleidung: kleidung.value.trim(),
-      krisengebiet: krisengebiet.value.trim(),
-      strasse: strasse.value.trim(),
-      plz: plz.value.trim(),
-      ort: ort.value.trim()
-    };
-
-    let hasError = false;
-
-    function check(field, condition) {
-      if (!condition) {
-        markInvalid(field);
-        hasError = true;
-      } else {
-        markValid(field);
-      }
-    }
-
-    // Pflichtfelder
-    check(kleidung, data.kleidung !== "");
-    check(krisengebiet, data.krisengebiet !== "");
-
-    let ortValue = "Geschäftsstelle Karlsruhe";
-
-    if (uebergabe === UE_ABHOLUNG) {
-
-      check(strasse, data.strasse !== "");
-      check(ort, data.ort !== "");
-
-      // PLZ Format
-      if (!/^[0-9]{5}$/.test(data.plz)) {
-        markInvalid(plz);
-        showError("Bitte eine gültige fünfstellige Postleitzahl eingeben.");
-        focusFirstError();
-        return;
-      }
-
-      // PLZ Regel (erste 2 Ziffern)
-      if (data.plz.substring(0, 2) !== GESCHAEFTSSTELLEN_PLZ_PREFIX) {
-        markInvalid(plz);
-        showError("Die Adresse liegt nicht im Einzugsgebiet (PLZ muss mit 76 beginnen).");
-        focusFirstError();
-        return;
-      }
-
-      markValid(plz);
-      ortValue = data.ort;
-    }
-
-    if (hasError) {
-      showError("Bitte prüfen Sie die markierten Felder.");
-      focusFirstError();
-      return;
-    }
-
-    // ==========================
-    // LOADING UX
-    // ==========================
-    if (submitButton) {
-      submitButton.innerText = "Wird verarbeitet...";
-      submitButton.disabled = true;
-    }
-
-    // ==========================
-    // DATUM & UHRZEIT
-    // ==========================
-    const now = new Date();
-    const datum = now.toLocaleDateString("de-DE");
-    const uhrzeit = now.toLocaleTimeString("de-DE", {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
-
-    // ==========================
-    // REDIRECT
-    // ==========================
-    const url =
-      "bestaetigung.html?" +
-      new URLSearchParams({
-        kleidung: data.kleidung,
-        krisengebiet: data.krisengebiet,
-        uebergabe,
-        ort: ortValue,
-        strasse: data.strasse,
-        plz: data.plz,
-        datum,
-        uhrzeit
-      });
-
-    setTimeout(() => {
-      window.location.href = url;
-    }, 400);
-
   });
 
+  updateAdresseSichtbarkeit();
 });
