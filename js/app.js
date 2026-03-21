@@ -24,12 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateAdresseSichtbarkeit() {
     if (abholungRadio.checked) {
       adresseBereich.classList.remove("d-none");
-      adresseBereich.setAttribute("aria-hidden", "false");
     } else {
       adresseBereich.classList.add("d-none");
-      adresseBereich.setAttribute("aria-hidden", "true");
 
-      // Felder zurücksetzen
       strasseInput.value = "";
       plzInput.value = "";
       ortInput.value = "";
@@ -60,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // 🔍 Formular prüfen
   function validateForm() {
     let errors = [];
+    let firstErrorField = null;
 
     fehlermeldung.classList.add("d-none");
     fehlermeldung.innerHTML = "";
@@ -70,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!strasseInput.value.trim()) {
         errors.push("Bitte Straße und Hausnummer angeben.");
         setInvalid(strasseInput);
+        if (!firstErrorField) firstErrorField = strasseInput;
       } else {
         setValid(strasseInput);
       }
@@ -80,14 +79,17 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!plz) {
         errors.push("Bitte eine Postleitzahl angeben.");
         setInvalid(plzInput);
+        if (!firstErrorField) firstErrorField = plzInput;
       } 
       else if (!/^\d+$/.test(plz)) {
         errors.push("PLZ darf nur Zahlen enthalten.");
         setInvalid(plzInput);
+        if (!firstErrorField) firstErrorField = plzInput;
       }
       else if (plz.substring(0, 2) !== "70") {
         errors.push("Adresse liegt nicht im Einzugsgebiet (PLZ muss mit 70 beginnen).");
         setInvalid(plzInput);
+        if (!firstErrorField) firstErrorField = plzInput;
       } 
       else {
         setValid(plzInput);
@@ -97,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!ortInput.value.trim()) {
         errors.push("Bitte einen Ort angeben.");
         setInvalid(ortInput);
+        if (!firstErrorField) firstErrorField = ortInput;
       } else {
         setValid(ortInput);
       }
@@ -111,6 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!kleidungSelect.value) {
       errors.push("Bitte eine Art der Kleidung auswählen.");
       setInvalid(kleidungSelect);
+      if (!firstErrorField) firstErrorField = kleidungSelect;
     } else {
       setValid(kleidungSelect);
     }
@@ -119,6 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!krisengebietSelect.value) {
       errors.push("Bitte ein Krisengebiet auswählen.");
       setInvalid(krisengebietSelect);
+      if (!firstErrorField) firstErrorField = krisengebietSelect;
     } else {
       setValid(krisengebietSelect);
     }
@@ -126,6 +131,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (errors.length > 0) {
       fehlermeldung.innerHTML = errors.join("<br>");
       fehlermeldung.classList.remove("d-none");
+
+      // 🔥 UX-Upgrade
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (firstErrorField) {
+        firstErrorField.focus();
+      }
+
       return false;
     }
 
@@ -138,6 +151,10 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
 
     if (validateForm()) {
+
+      // 🔥 Button deaktivieren (UX)
+      const button = form.querySelector("button");
+      button.disabled = true;
 
       const daten = {
         uebergabe: abholungRadio.checked
@@ -163,7 +180,6 @@ document.addEventListener("DOMContentLoaded", function () {
   abholungRadio.addEventListener("change", updateAdresseSichtbarkeit);
   geschaeftsstelleRadio.addEventListener("change", updateAdresseSichtbarkeit);
 
-  // Initial
   updateAdresseSichtbarkeit();
 
 });
