@@ -1,17 +1,32 @@
 /* ==========================
+   🎨 DESIGN SYSTEM
+========================== */
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --text: #212529;
+  --muted: #6b7280;
+  --bg-light: #f8f9fb;
+  --bg-card: #ffffff;
+  --border: #ececec;
+}
+
+
+/* ==========================
    BASIS
 ========================== */
 body {
-  font-family: Arial, sans-serif;
+  font-family: system-ui, -apple-system, Arial, sans-serif;
   background: linear-gradient(to bottom, #f8f9fb 0%, #f3f6fb 100%);
   margin: 0;
   padding: 0;
-  color: #212529;
+  color: var(--text);
 }
 
 html {
   scroll-behavior: smooth;
 }
+
 
 /* ==========================
    HEADER
@@ -25,7 +40,7 @@ header img {
   max-width: 100%;
 }
 
-/* Navigation */
+/* NAVIGATION */
 nav a {
   position: relative;
   text-decoration: none;
@@ -57,6 +72,7 @@ nav a[aria-current="page"] {
   font-weight: 600;
 }
 
+
 /* ==========================
    TYPO
 ========================== */
@@ -74,7 +90,8 @@ p {
   line-height: 1.6;
 }
 
-/* 🔥 HERO WOW */
+
+/* HERO */
 .hero-text h2 {
   font-size: 2.4rem;
   line-height: 1.2;
@@ -83,15 +100,17 @@ p {
 
 .hero-text p {
   font-size: 1.05rem;
-  color: #4b5563;
+  color: var(--muted);
 }
 
+
 /* ==========================
-   SECTION SPACING
+   SECTIONS
 ========================== */
 section {
   margin-bottom: 80px;
 }
+
 
 /* ==========================
    FORMULAR
@@ -100,11 +119,13 @@ section {
 .form-select {
   border-radius: 10px;
   min-height: 46px;
+  border: 1px solid #ddd;
 }
 
 .form-control:focus,
 .form-select:focus {
-  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
+  border-color: var(--primary);
 }
 
 /* VALIDATION */
@@ -116,8 +137,9 @@ section {
   border-color: #198754 !important;
 }
 
+
 /* ==========================
-   BUTTONS (WOW)
+   BUTTONS
 ========================== */
 .btn {
   transition: all 0.2s ease;
@@ -132,7 +154,7 @@ section {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #2563eb, #0d6efd);
+  background: linear-gradient(135deg, var(--primary), #0d6efd);
   border: none;
   border-radius: 10px;
   padding: 12px 20px;
@@ -140,10 +162,13 @@ section {
 }
 
 .btn-primary:hover {
-  filter: brightness(1.05);
+  background: linear-gradient(135deg, var(--primary-hover), #0b5ed7);
 }
 
-/* Secondary Button */
+.btn-outline-primary {
+  border-radius: 10px;
+}
+
 .btn-light {
   border-radius: 10px;
   font-weight: 500;
@@ -154,10 +179,12 @@ section {
   min-width: 180px;
 }
 
+
 /* ==========================
-   CARD (WOW)
+   CARD
 ========================== */
 .card {
+  background: var(--bg-card);
   border-radius: 16px;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
   animation: fadeIn 0.4s ease;
@@ -171,12 +198,13 @@ section {
 }
 
 .card p {
-  color: #6b7280;
+  color: var(--muted);
   font-size: 0.95rem;
 }
 
+
 /* ==========================
-   ADRESSE (KEIN KONFLIKT)
+   ADRESSE
 ========================== */
 #adresseBereich {
   opacity: 0;
@@ -188,6 +216,7 @@ section {
   opacity: 1;
   transform: translateY(0);
 }
+
 
 /* ==========================
    BESTÄTIGUNG
@@ -201,7 +230,7 @@ section {
 .confirmation-row {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 10px;
 }
 
@@ -215,13 +244,15 @@ section {
   background: #eef5ff;
 }
 
+
 /* ==========================
-   FOKUS (BONUS UX)
+   FOKUS (ACCESSIBILITY)
 ========================== */
-:focus {
-  outline: 2px solid #2563eb;
+:focus-visible {
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
+
 
 /* ==========================
    ANIMATION
@@ -237,6 +268,22 @@ section {
   }
 }
 
+
+/* ==========================
+   SCROLL ANIMATION
+========================== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
 /* ==========================
    RESPONSIVE
 ========================== */
@@ -251,5 +298,10 @@ section {
 
   .confirmation-row {
     flex-direction: column;
+    gap: 4px;
+  }
+
+  .hero-text h2 {
+    font-size: 1.8rem;
   }
 }

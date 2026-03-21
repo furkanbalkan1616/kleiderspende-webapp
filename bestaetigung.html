@@ -8,6 +8,7 @@
 
   <meta name="description" content="Bestätigung Ihrer Kleiderspende">
   <meta name="author" content="DEIN NAME">
+  <meta name="theme-color" content="#111827">
 
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,17 +18,17 @@
 
 <body>
 
-<!-- 🔥 EINHEITLICHER HEADER -->
 <header class="bg-dark text-white">
   <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
 
     <a href="index.html"
-       class="d-flex align-items-center text-white text-decoration-none">
+       class="d-flex align-items-center text-white text-decoration-none"
+       aria-label="Startseite">
       <img src="img/logo.png" width="50" class="me-2" alt="Logo Kleiderspenden Portal">
       <h1 class="m-0 fs-4">Kleiderspenden Portal</h1>
     </a>
 
-    <nav>
+    <nav aria-label="Hauptnavigation">
       <a href="index.html" class="text-white me-3">Start</a>
       <a href="registrierung.html" class="text-white">Registrierung</a>
     </nav>
@@ -42,14 +43,16 @@
     <p class="text-muted">Ihre Kleiderspende wurde erfolgreich erfasst.</p>
   </div>
 
-  <!-- 🔥 WOW SUCCESS BOX -->
-  <div class="alert alert-success text-center fade-in">
+  <!-- ✅ SUCCESS -->
+  <div class="alert alert-success text-center fade-in" role="alert">
     <i class="bi bi-check-circle-fill fs-4 me-2"></i>
     <strong>Registrierung erfolgreich!</strong>
   </div>
 
-  <!-- 🔥 DATEN -->
-  <div class="card p-4 mt-4 confirmation-card fade-in">
+  <!-- ✅ DATEN -->
+  <div class="card p-4 mt-4 confirmation-card fade-in"
+       id="datenBox"
+       aria-live="polite">
     <div class="confirmation-row"><span>Kleidung</span><strong id="kleidung">-</strong></div>
     <div class="confirmation-row"><span>Krisengebiet</span><strong id="krisengebiet">-</strong></div>
     <div class="confirmation-row"><span>Übergabeart</span><strong id="uebergabe">-</strong></div>
@@ -60,12 +63,12 @@
     <div class="confirmation-row"><span>Uhrzeit</span><strong id="uhrzeit">-</strong></div>
   </div>
 
-  <!-- 🔥 HINWEIS -->
+  <!-- ✅ HINWEIS -->
   <div class="info-box mt-4 fade-in">
     <p id="hinweistext" class="mb-0"></p>
   </div>
 
-  <!-- 🔥 BUTTONS -->
+  <!-- ✅ BUTTONS -->
   <div class="d-flex flex-column flex-md-row gap-2 mt-4 fade-in">
     <a href="index.html" class="btn btn-primary">Startseite</a>
     <a href="registrierung.html" class="btn btn-outline-primary">Neue Spende</a>
@@ -82,16 +85,31 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  const gespeicherteDaten = localStorage.getItem("spendenDaten");
-  const daten = gespeicherteDaten ? JSON.parse(gespeicherteDaten) : null;
+  const datenBox = document.getElementById("datenBox");
+  const hinweis = document.getElementById("hinweistext");
 
-  // 🔥 BESSERE UX statt harter Redirect
+  let daten = null;
+
+  try {
+    const gespeicherteDaten = localStorage.getItem("spendenDaten");
+    daten = gespeicherteDaten ? JSON.parse(gespeicherteDaten) : null;
+  } catch (e) {
+    console.error("Fehler beim Laden der Daten:", e);
+  }
+
+  // 🔥 KEINE DATEN → saubere Anzeige
   if (!daten) {
-    document.querySelector(".confirmation-card").innerHTML =
-      "<p>Keine Daten vorhanden. Bitte registrieren Sie eine Spende.</p>";
+    datenBox.innerHTML = `
+      <p class="text-center mb-0">
+        Keine Daten vorhanden.<br>
+        Bitte registrieren Sie eine neue Spende.
+      </p>
+    `;
+    hinweis.textContent = "";
     return;
   }
 
+  // 👉 Datum / Uhrzeit
   let datum = "-";
   let uhrzeit = "-";
 
@@ -104,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // 👉 Daten einsetzen
   const ausgabe = {
     kleidung: daten.kleidung || "-",
     krisengebiet: daten.krisengebiet || "-",
@@ -115,21 +134,21 @@ document.addEventListener("DOMContentLoaded", () => {
     uhrzeit: uhrzeit
   };
 
-  Object.keys(ausgabe).forEach((key) => {
+  Object.entries(ausgabe).forEach(([key, value]) => {
     const el = document.getElementById(key);
-    if (el) el.textContent = ausgabe[key];
+    if (el) el.textContent = value;
   });
 
-  const hinweis = document.getElementById("hinweistext");
-
+  // 👉 Hinweis
   if (daten.uebergabe === "Abholung (Sammelfahrzeug)") {
     hinweis.textContent =
-      "Ihre Abholanfrage wurde registriert. Wir melden uns zeitnah.";
+      "Ihre Abholanfrage wurde registriert. Wir melden uns zeitnah bei Ihnen.";
   } else {
     hinweis.textContent =
       "Bitte bringen Sie Ihre Spende während der Öffnungszeiten zur Geschäftsstelle.";
   }
 
+  // 👉 Geschäftsstelle Sonderfall
   if (daten.uebergabe === "Übergabe an der Geschäftsstelle") {
     document.getElementById("strasse").textContent = "-";
     document.getElementById("plz").textContent = "-";

@@ -1,6 +1,8 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("spendenForm");
+  if (!form) return; // 🔥 Safety
+
   const fehlermeldung = document.getElementById("fehlermeldung");
 
   const geschaeftsstelleRadio = document.getElementById("geschaeftsstelle");
@@ -14,13 +16,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const krisengebietSelect = document.getElementById("krisengebiet");
 
 
-  // 🔐 Sicherheit
+  /* ==========================
+     🔐 SANITIZE
+  ========================== */
   function sanitize(input) {
-    return input.replace(/</g, "").replace(/>/g, "");
+    return input.replace(/[<>]/g, "");
   }
 
 
-  // 🔄 Adresse anzeigen/verstecken
+  /* ==========================
+     🔄 ADRESSE TOGGLE
+  ========================== */
   function updateAdresseSichtbarkeit() {
     if (abholungRadio.checked) {
       adresseBereich.classList.remove("d-none");
@@ -38,7 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // 🎨 Validation UI
+  /* ==========================
+     🎨 VALIDATION UI
+  ========================== */
   function setInvalid(field) {
     field.classList.add("is-invalid");
     field.classList.remove("is-valid");
@@ -54,55 +62,49 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // 🔍 Formular validieren
+  /* ==========================
+     🔍 VALIDATE FORM
+  ========================== */
   function validateForm() {
     let errors = [];
     let firstErrorField = null;
 
     fehlermeldung.classList.add("d-none");
     fehlermeldung.innerHTML = "";
+    fehlermeldung.setAttribute("aria-live", "assertive");
 
     if (abholungRadio.checked) {
 
-      // Straße
       if (!strasseInput.value.trim()) {
         errors.push("Bitte Straße und Hausnummer angeben.");
         setInvalid(strasseInput);
-        if (!firstErrorField) firstErrorField = strasseInput;
-      } else {
-        setValid(strasseInput);
-      }
+        firstErrorField ??= strasseInput;
+      } else setValid(strasseInput);
 
-      // PLZ
       const plz = plzInput.value.trim();
 
       if (!plz) {
         errors.push("Bitte eine Postleitzahl angeben.");
         setInvalid(plzInput);
-        if (!firstErrorField) firstErrorField = plzInput;
+        firstErrorField ??= plzInput;
       } 
       else if (!/^\d+$/.test(plz)) {
         errors.push("PLZ darf nur Zahlen enthalten.");
         setInvalid(plzInput);
-        if (!firstErrorField) firstErrorField = plzInput;
+        firstErrorField ??= plzInput;
       }
-      else if (plz.substring(0, 2) !== "70") {
+      else if (!plz.startsWith("70")) {
         errors.push("Adresse liegt nicht im Einzugsgebiet (PLZ muss mit 70 beginnen).");
         setInvalid(plzInput);
-        if (!firstErrorField) firstErrorField = plzInput;
+        firstErrorField ??= plzInput;
       } 
-      else {
-        setValid(plzInput);
-      }
+      else setValid(plzInput);
 
-      // Ort
       if (!ortInput.value.trim()) {
         errors.push("Bitte einen Ort angeben.");
         setInvalid(ortInput);
-        if (!firstErrorField) firstErrorField = ortInput;
-      } else {
-        setValid(ortInput);
-      }
+        firstErrorField ??= ortInput;
+      } else setValid(ortInput);
 
     } else {
       clearValidation(strasseInput);
@@ -110,35 +112,24 @@ document.addEventListener("DOMContentLoaded", function () {
       clearValidation(ortInput);
     }
 
-    // Kleidung
     if (!kleidungSelect.value) {
       errors.push("Bitte eine Art der Kleidung auswählen.");
       setInvalid(kleidungSelect);
-      if (!firstErrorField) firstErrorField = kleidungSelect;
-    } else {
-      setValid(kleidungSelect);
-    }
+      firstErrorField ??= kleidungSelect;
+    } else setValid(kleidungSelect);
 
-    // Krisengebiet
     if (!krisengebietSelect.value) {
       errors.push("Bitte ein Krisengebiet auswählen.");
       setInvalid(krisengebietSelect);
-      if (!firstErrorField) firstErrorField = krisengebietSelect;
-    } else {
-      setValid(krisengebietSelect);
-    }
+      firstErrorField ??= krisengebietSelect;
+    } else setValid(krisengebietSelect);
 
     if (errors.length > 0) {
       fehlermeldung.innerHTML = errors.join("<br>");
       fehlermeldung.classList.remove("d-none");
 
-      // 🔥 UX: nach oben scrollen
       window.scrollTo({ top: 0, behavior: "smooth" });
-
-      // 🔥 Fokus auf erstes Feld
-      if (firstErrorField) {
-        firstErrorField.focus();
-      }
+      firstErrorField?.focus();
 
       return false;
     }
@@ -147,18 +138,20 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // 📩 Formular absenden (WOW Version)
-  form.addEventListener("submit", function (e) {
+  /* ==========================
+     📩 SUBMIT
+  ========================== */
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    if (validateForm()) {
+    if (!validateForm()) return;
 
-      const button = form.querySelector("button");
+    const button = form.querySelector("button");
 
-      // 🔥 UX WOW
-      button.disabled = true;
-      button.innerText = "Wird verarbeitet...";
+    button.disabled = true;
+    button.textContent = "Wird verarbeitet...";
 
+    try {
       const daten = {
         uebergabe: abholungRadio.checked
           ? "Abholung (Sammelfahrzeug)"
@@ -169,20 +162,27 @@ document.addEventListener("DOMContentLoaded", function () {
         ort: sanitize(ortInput.value.trim()),
         kleidung: sanitize(kleidungSelect.value),
         krisengebiet: sanitize(krisengebietSelect.value),
-        datum: new Date().toLocaleString()
+        datum: new Date().toISOString()
       };
 
       localStorage.setItem("spendenDaten", JSON.stringify(daten));
 
-      // 🔥 kleine Verzögerung (realistisch)
       setTimeout(() => {
         window.location.href = "bestaetigung.html";
-      }, 600);
+      }, 500);
+
+    } catch (error) {
+      console.error(error);
+
+      button.disabled = false;
+      button.textContent = "Registrierung abschließen";
     }
   });
 
 
-  // 🔁 Events
+  /* ==========================
+     🔁 EVENTS
+  ========================== */
   abholungRadio.addEventListener("change", updateAdresseSichtbarkeit);
   geschaeftsstelleRadio.addEventListener("change", updateAdresseSichtbarkeit);
 
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* ==========================
-     SCROLL ANIMATION (WOW)
+     ✨ SCROLL ANIMATION
   ========================== */
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -200,8 +200,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document.querySelectorAll(".fade-in").forEach(el => {
-    observer.observe(el);
-  });
+  document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
 
 });
