@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registrierung bestätigt</title>
 
+  <meta name="description" content="Bestätigung Ihrer Kleiderspende">
+  <meta name="author" content="DEIN NAME">
+
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -14,113 +17,127 @@
 
 <body>
 
-  <header class="bg-dark text-white">
-    <div class="container d-flex justify-content-between align-items-center p-3">
-      <a href="index.html"
-         class="d-flex align-items-center text-white text-decoration-none"
-         aria-label="Startseite">
-        <img src="img/logo.png" width="50" class="me-2" alt="Logo Kleiderspenden Portal">
-        <h1 class="m-0 fs-4">Kleiderspenden Portal</h1>
-      </a>
+<header class="bg-dark text-white">
+  <div class="container d-flex justify-content-between align-items-center p-3">
 
-      <nav aria-label="Hauptnavigation">
-        <ul class="d-flex gap-3 list-unstyled m-0">
-          <li><a href="index.html" class="text-white">Start</a></li>
-          <li><a href="registrierung.html" class="text-white">Registrierung</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+    <!-- Logo klickbar -->
+    <a href="index.html"
+       class="d-flex align-items-center text-white text-decoration-none"
+       aria-label="Startseite">
+      <img src="img/logo.png" width="50" class="me-2" alt="Logo Kleiderspenden Portal">
+      <h1 class="m-0 fs-4">Kleiderspenden Portal</h1>
+    </a>
 
-  <main class="container mt-5" role="main">
+    <nav aria-label="Hauptnavigation">
+      <ul class="d-flex gap-3 list-unstyled m-0">
+        <li><a href="index.html" class="text-white">Start</a></li>
+        <li><a href="registrierung.html" class="text-white">Registrierung</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-    <div class="text-center mb-4">
-      <h2>Registrierung bestätigt</h2>
-      <p class="text-muted">Ihre Kleiderspende wurde erfolgreich erfasst.</p>
-    </div>
+<main class="container mt-5" role="main">
 
-    <div class="alert alert-success" role="alert">
-      <i class="bi bi-check-circle"></i> Registrierung erfolgreich!
-    </div>
+  <div class="text-center mb-4">
+    <h2>Registrierung bestätigt</h2>
+    <p class="text-muted">Ihre Kleiderspende wurde erfolgreich erfasst.</p>
+  </div>
 
-    <div class="card p-4 mt-4 confirmation-card">
-      <div class="confirmation-row"><span>Kleidung</span><strong id="kleidung">-</strong></div>
-      <div class="confirmation-row"><span>Krisengebiet</span><strong id="krisengebiet">-</strong></div>
-      <div class="confirmation-row"><span>Übergabeart</span><strong id="uebergabe">-</strong></div>
-      <div class="confirmation-row"><span>Straße</span><strong id="strasse">-</strong></div>
-      <div class="confirmation-row"><span>PLZ</span><strong id="plz">-</strong></div>
-      <div class="confirmation-row"><span>Ort</span><strong id="ort">-</strong></div>
-      <div class="confirmation-row"><span>Datum</span><strong id="datum">-</strong></div>
-      <div class="confirmation-row"><span>Uhrzeit</span><strong id="uhrzeit">-</strong></div>
-    </div>
+  <div class="alert alert-success" role="alert">
+    <i class="bi bi-check-circle"></i> Registrierung erfolgreich!
+  </div>
 
-    <div class="info-box mt-4">
-      <p id="hinweistext" class="mb-0"></p>
-    </div>
+  <div class="card p-4 mt-4 confirmation-card">
+    <div class="confirmation-row"><span>Kleidung</span><strong id="kleidung">-</strong></div>
+    <div class="confirmation-row"><span>Krisengebiet</span><strong id="krisengebiet">-</strong></div>
+    <div class="confirmation-row"><span>Übergabeart</span><strong id="uebergabe">-</strong></div>
+    <div class="confirmation-row"><span>Straße</span><strong id="strasse">-</strong></div>
+    <div class="confirmation-row"><span>PLZ</span><strong id="plz">-</strong></div>
+    <div class="confirmation-row"><span>Ort</span><strong id="ort">-</strong></div>
+    <div class="confirmation-row"><span>Datum</span><strong id="datum">-</strong></div>
+    <div class="confirmation-row"><span>Uhrzeit</span><strong id="uhrzeit">-</strong></div>
+  </div>
 
-    <div class="d-flex flex-column flex-md-row gap-2 mt-4">
-      <a href="index.html" class="btn btn-primary">Startseite</a>
-      <a href="registrierung.html" class="btn btn-outline-primary">Neue Spende</a>
-    </div>
+  <div class="info-box mt-4">
+    <p id="hinweistext" class="mb-0"></p>
+  </div>
 
-  </main>
+  <div class="d-flex flex-column flex-md-row gap-2 mt-4">
+    <a href="index.html" class="btn btn-primary">Startseite</a>
+    <a href="registrierung.html" class="btn btn-outline-primary">Neue Spende</a>
+  </div>
 
-  <footer class="text-center p-4 mt-5 bg-light border-top">
-    <a href="impressum.html">Impressum</a> |
-    <a href="datenschutz.html">Datenschutz</a>
-    <p class="mt-2 small text-muted">© 2026 Kleiderspenden Verein</p>
-  </footer>
+</main>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const gespeicherteDaten = localStorage.getItem("spendenDaten");
-      const daten = gespeicherteDaten ? JSON.parse(gespeicherteDaten) : null;
+<footer class="text-center p-4 mt-5 bg-light border-top">
+  <a href="impressum.html">Impressum</a> |
+  <a href="datenschutz.html">Datenschutz</a>
+  <p class="mt-2 small text-muted">© 2026 Kleiderspenden Verein</p>
+</footer>
 
-      const heute = new Date();
-      const datum = heute.toLocaleDateString("de-DE");
-      const uhrzeit = heute.toLocaleTimeString("de-DE", {
-        hour: "2-digit",
-        minute: "2-digit"
-      });
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
-      const ausgabe = {
-        kleidung: daten?.kleidung || "-",
-        krisengebiet: daten?.krisengebiet || "-",
-        uebergabe: daten?.uebergabe || "-",
-        strasse: daten?.strasse || "-",
-        plz: daten?.plz || "-",
-        ort: daten?.ort || "-",
-        datum: datum,
-        uhrzeit: uhrzeit
-      };
+  const gespeicherteDaten = localStorage.getItem("spendenDaten");
+  const daten = gespeicherteDaten ? JSON.parse(gespeicherteDaten) : null;
 
-      Object.keys(ausgabe).forEach((key) => {
-        const el = document.getElementById(key);
-        if (el) {
-          el.textContent = ausgabe[key];
-        }
-      });
+  // 🔥 Falls nichts gespeichert → zurück zur Registrierung
+  if (!daten) {
+    window.location.href = "registrierung.html";
+    return;
+  }
 
-      const hinweis = document.getElementById("hinweistext");
+  // 👉 Datum/Uhrzeit aus Speicherung ODER fallback
+  let datum = "-";
+  let uhrzeit = "-";
 
-      if (daten?.uebergabe === "Abholung (Sammelfahrzeug)") {
-        hinweis.textContent =
-          "Ihre Abholanfrage wurde registriert. Die Geschäftsstelle wird sich zeitnah bei Ihnen melden.";
-      } else if (daten?.uebergabe === "Übergabe an der Geschäftsstelle") {
-        hinweis.textContent =
-          "Bitte bringen Sie Ihre Spende während der Öffnungszeiten zur Geschäftsstelle.";
-      } else {
-        hinweis.textContent =
-          "Ihre Spende wurde erfolgreich registriert.";
-      }
-
-      if (daten?.uebergabe === "Übergabe an der Geschäftsstelle") {
-        document.getElementById("strasse").textContent = "-";
-        document.getElementById("plz").textContent = "-";
-        document.getElementById("ort").textContent = "Geschäftsstelle Karlsruhe";
-      }
+  if (daten.datum) {
+    const d = new Date(daten.datum);
+    datum = d.toLocaleDateString("de-DE");
+    uhrzeit = d.toLocaleTimeString("de-DE", {
+      hour: "2-digit",
+      minute: "2-digit"
     });
-  </script>
+  }
+
+  const ausgabe = {
+    kleidung: daten.kleidung || "-",
+    krisengebiet: daten.krisengebiet || "-",
+    uebergabe: daten.uebergabe || "-",
+    strasse: daten.strasse || "-",
+    plz: daten.plz || "-",
+    ort: daten.ort || "-",
+    datum: datum,
+    uhrzeit: uhrzeit
+  };
+
+  Object.keys(ausgabe).forEach((key) => {
+    const el = document.getElementById(key);
+    if (el) {
+      el.textContent = ausgabe[key];
+    }
+  });
+
+  const hinweis = document.getElementById("hinweistext");
+
+  if (daten.uebergabe === "Abholung (Sammelfahrzeug)") {
+    hinweis.textContent =
+      "Ihre Abholanfrage wurde registriert. Die Geschäftsstelle wird sich zeitnah bei Ihnen melden.";
+  } else {
+    hinweis.textContent =
+      "Bitte bringen Sie Ihre Spende während der Öffnungszeiten zur Geschäftsstelle.";
+  }
+
+  // 👉 Adresse bei Geschäftsstelle anpassen
+  if (daten.uebergabe === "Übergabe an der Geschäftsstelle") {
+    document.getElementById("strasse").textContent = "-";
+    document.getElementById("plz").textContent = "-";
+    document.getElementById("ort").textContent = "Geschäftsstelle Karlsruhe";
+  }
+
+});
+</script>
 
 </body>
 </html>
