@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+
   const form = document.getElementById("spendenForm");
   const fehlermeldung = document.getElementById("fehlermeldung");
 
@@ -12,26 +13,35 @@ document.addEventListener("DOMContentLoaded", function () {
   const kleidungSelect = document.getElementById("kleidung");
   const krisengebietSelect = document.getElementById("krisengebiet");
 
+
+  // 🔐 Sicherheit
+  function sanitize(input) {
+    return input.replace(/</g, "").replace(/>/g, "");
+  }
+
+
+  // 🔄 Anzeige Adresse
   function updateAdresseSichtbarkeit() {
     if (abholungRadio.checked) {
-      adresseBereich.style.display = "block";
-      adresseBereich.classList.add("is-visible");
+      adresseBereich.classList.remove("d-none");
       adresseBereich.setAttribute("aria-hidden", "false");
     } else {
-      adresseBereich.classList.remove("is-visible");
-      adresseBereich.style.display = "none";
+      adresseBereich.classList.add("d-none");
       adresseBereich.setAttribute("aria-hidden", "true");
 
+      // Felder zurücksetzen
       strasseInput.value = "";
       plzInput.value = "";
       ortInput.value = "";
 
-      strasseInput.classList.remove("is-invalid", "is-valid");
-      plzInput.classList.remove("is-invalid", "is-valid");
-      ortInput.classList.remove("is-invalid", "is-valid");
+      clearValidation(strasseInput);
+      clearValidation(plzInput);
+      clearValidation(ortInput);
     }
   }
 
+
+  // 🎨 Validierung UI
   function setInvalid(field) {
     field.classList.add("is-invalid");
     field.classList.remove("is-valid");
@@ -46,6 +56,8 @@ document.addEventListener("DOMContentLoaded", function () {
     field.classList.remove("is-invalid", "is-valid");
   }
 
+
+  // 🔍 Formular prüfen
   function validateForm() {
     let errors = [];
 
@@ -53,6 +65,8 @@ document.addEventListener("DOMContentLoaded", function () {
     fehlermeldung.innerHTML = "";
 
     if (abholungRadio.checked) {
+
+      // Straße
       if (!strasseInput.value.trim()) {
         errors.push("Bitte Straße und Hausnummer angeben.");
         setInvalid(strasseInput);
@@ -60,26 +74,40 @@ document.addEventListener("DOMContentLoaded", function () {
         setValid(strasseInput);
       }
 
+      // PLZ
       const plz = plzInput.value.trim();
+
       if (!plz) {
         errors.push("Bitte eine Postleitzahl angeben.");
         setInvalid(plzInput);
-      } else {
+      } 
+      else if (!/^\d+$/.test(plz)) {
+        errors.push("PLZ darf nur Zahlen enthalten.");
+        setInvalid(plzInput);
+      }
+      else if (plz.substring(0, 2) !== "70") {
+        errors.push("Adresse liegt nicht im Einzugsgebiet (PLZ muss mit 70 beginnen).");
+        setInvalid(plzInput);
+      } 
+      else {
         setValid(plzInput);
       }
 
+      // Ort
       if (!ortInput.value.trim()) {
         errors.push("Bitte einen Ort angeben.");
         setInvalid(ortInput);
       } else {
         setValid(ortInput);
       }
+
     } else {
       clearValidation(strasseInput);
       clearValidation(plzInput);
       clearValidation(ortInput);
     }
 
+    // Kleidung
     if (!kleidungSelect.value) {
       errors.push("Bitte eine Art der Kleidung auswählen.");
       setInvalid(kleidungSelect);
@@ -87,6 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
       setValid(kleidungSelect);
     }
 
+    // Krisengebiet
     if (!krisengebietSelect.value) {
       errors.push("Bitte ein Krisengebiet auswählen.");
       setInvalid(krisengebietSelect);
@@ -103,26 +132,38 @@ document.addEventListener("DOMContentLoaded", function () {
     return true;
   }
 
-  abholungRadio.addEventListener("change", updateAdresseSichtbarkeit);
-  geschaeftsstelleRadio.addEventListener("change", updateAdresseSichtbarkeit);
 
+  // 📩 Formular absenden
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
     if (validateForm()) {
+
       const daten = {
-        uebergabe: abholungRadio.checked ? "Abholung (Sammelfahrzeug)" : "Übergabe an der Geschäftsstelle",
-        strasse: strasseInput.value.trim(),
-        plz: plzInput.value.trim(),
-        ort: ortInput.value.trim(),
-        kleidung: kleidungSelect.value,
-        krisengebiet: krisengebietSelect.value
+        uebergabe: abholungRadio.checked
+          ? "Abholung (Sammelfahrzeug)"
+          : "Übergabe an der Geschäftsstelle",
+
+        strasse: sanitize(strasseInput.value.trim()),
+        plz: sanitize(plzInput.value.trim()),
+        ort: sanitize(ortInput.value.trim()),
+        kleidung: sanitize(kleidungSelect.value),
+        krisengebiet: sanitize(krisengebietSelect.value),
+        datum: new Date().toLocaleString()
       };
 
       localStorage.setItem("spendenDaten", JSON.stringify(daten));
+
       window.location.href = "bestaetigung.html";
     }
   });
 
+
+  // 🔁 Events
+  abholungRadio.addEventListener("change", updateAdresseSichtbarkeit);
+  geschaeftsstelleRadio.addEventListener("change", updateAdresseSichtbarkeit);
+
+  // Initial
   updateAdresseSichtbarkeit();
+
 });
