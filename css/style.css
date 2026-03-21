@@ -25,12 +25,17 @@ header img {
   max-width: 100%;
 }
 
+/* Navigation */
 nav a {
   position: relative;
   text-decoration: none;
   font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
+/* Hover Linie */
 nav a::after {
   content: "";
   position: absolute;
@@ -44,6 +49,12 @@ nav a::after {
 
 nav a:hover::after {
   width: 100%;
+}
+
+/* 🔥 ACTIVE TAB */
+nav a[aria-current="page"] {
+  background: rgba(255, 255, 255, 0.15);
+  font-weight: 600;
 }
 
 /* ==========================
@@ -100,10 +111,17 @@ p {
   border: none;
   border-radius: 10px;
   padding: 12px 20px;
+  font-weight: 600;
 }
 
 .btn-primary:hover {
   filter: brightness(1.05);
+}
+
+/* 🔥 FIXED BUTTON (So funktioniert es) */
+.btn-light {
+  border-radius: 10px;
+  font-weight: 500;
 }
 
 /* ==========================
@@ -122,7 +140,7 @@ p {
 }
 
 /* ==========================
-   ADRESSE (FIXED – KEIN KONFLIKT)
+   ADRESSE (KEIN KONFLIKT)
 ========================== */
 #adresseBereich {
   opacity: 0;
