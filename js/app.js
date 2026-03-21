@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // 🔄 Anzeige Adresse
+  // 🔄 Adresse anzeigen/verstecken
   function updateAdresseSichtbarkeit() {
     if (abholungRadio.checked) {
       adresseBereich.classList.remove("d-none");
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // 🎨 Validierung UI
+  // 🎨 Validation UI
   function setInvalid(field) {
     field.classList.add("is-invalid");
     field.classList.remove("is-valid");
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // 🔍 Formular prüfen
+  // 🔍 Formular validieren
   function validateForm() {
     let errors = [];
     let firstErrorField = null;
@@ -132,9 +132,10 @@ document.addEventListener("DOMContentLoaded", function () {
       fehlermeldung.innerHTML = errors.join("<br>");
       fehlermeldung.classList.remove("d-none");
 
-      // 🔥 UX-Upgrade
+      // 🔥 UX: nach oben scrollen
       window.scrollTo({ top: 0, behavior: "smooth" });
 
+      // 🔥 Fokus auf erstes Feld
       if (firstErrorField) {
         firstErrorField.focus();
       }
@@ -146,15 +147,17 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // 📩 Formular absenden
+  // 📩 Formular absenden (WOW Version)
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
     if (validateForm()) {
 
-      // 🔥 Button deaktivieren (UX)
       const button = form.querySelector("button");
+
+      // 🔥 UX WOW
       button.disabled = true;
+      button.innerText = "Wird verarbeitet...";
 
       const daten = {
         uebergabe: abholungRadio.checked
@@ -171,7 +174,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       localStorage.setItem("spendenDaten", JSON.stringify(daten));
 
-      window.location.href = "bestaetigung.html";
+      // 🔥 kleine Verzögerung (realistisch)
+      setTimeout(() => {
+        window.location.href = "bestaetigung.html";
+      }, 600);
     }
   });
 
@@ -181,5 +187,21 @@ document.addEventListener("DOMContentLoaded", function () {
   geschaeftsstelleRadio.addEventListener("change", updateAdresseSichtbarkeit);
 
   updateAdresseSichtbarkeit();
+
+
+  /* ==========================
+     SCROLL ANIMATION (WOW)
+  ========================== */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  });
+
+  document.querySelectorAll(".fade-in").forEach(el => {
+    observer.observe(el);
+  });
 
 });

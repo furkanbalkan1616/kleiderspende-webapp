@@ -51,7 +51,7 @@ nav a:hover::after {
   width: 100%;
 }
 
-/* 🔥 ACTIVE TAB */
+/* Active Tab */
 nav a[aria-current="page"] {
   background: rgba(255, 255, 255, 0.15);
   font-weight: 600;
@@ -62,14 +62,35 @@ nav a[aria-current="page"] {
 ========================== */
 h2 {
   font-weight: 700;
+  margin-bottom: 12px;
 }
 
 h4 {
   font-weight: 600;
+  margin-top: 10px;
 }
 
 p {
   line-height: 1.6;
+}
+
+/* 🔥 HERO WOW */
+.hero-text h2 {
+  font-size: 2.4rem;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.hero-text p {
+  font-size: 1.05rem;
+  color: #4b5563;
+}
+
+/* ==========================
+   SECTION SPACING
+========================== */
+section {
+  margin-bottom: 80px;
 }
 
 /* ==========================
@@ -96,14 +117,18 @@ p {
 }
 
 /* ==========================
-   BUTTONS
+   BUTTONS (WOW)
 ========================== */
 .btn {
   transition: all 0.2s ease;
 }
 
+.btn:hover {
+  transform: translateY(-2px);
+}
+
 .btn:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
 .btn-primary {
@@ -118,25 +143,36 @@ p {
   filter: brightness(1.05);
 }
 
-/* 🔥 FIXED BUTTON (So funktioniert es) */
+/* Secondary Button */
 .btn-light {
   border-radius: 10px;
   font-weight: 500;
 }
 
+/* Hero Buttons */
+.hero-buttons .btn {
+  min-width: 180px;
+}
+
 /* ==========================
-   CARD
+   CARD (WOW)
 ========================== */
 .card {
   border-radius: 16px;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
   animation: fadeIn 0.4s ease;
   border: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card p {
+  color: #6b7280;
+  font-size: 0.95rem;
 }
 
 /* ==========================
