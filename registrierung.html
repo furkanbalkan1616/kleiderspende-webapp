@@ -10,22 +10,19 @@
 </head>
 <body>
 
-<header class="bg-dark text-white p-3">
-  <div class="container d-flex justify-content-between align-items-center">
+<!-- 🔥 EINHEITLICHER HEADER -->
+<header class="bg-dark text-white">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
 
-    <!-- 🔥 LOGO + TITEL (FIXED) -->
     <a href="index.html"
        class="d-flex align-items-center text-white text-decoration-none">
-
       <img src="img/logo.png"
            alt="Logo Kleiderspenden Portal"
            width="50"
            class="me-2">
-
-      <h1 class="fs-4 m-0">Kleiderspenden Portal</h1>
+      <h1 class="m-0 fs-4">Kleiderspenden Portal</h1>
     </a>
 
-    <!-- 🔥 Navigation mit aktivem Tab -->
     <nav>
       <a href="index.html" class="text-white me-3">Start</a>
       <a href="registrierung.html"
@@ -39,15 +36,15 @@
 </header>
 
 <main class="container mt-5">
-  <h2>Kleiderspende registrieren</h2>
+  <h2 class="mb-4">Kleiderspende registrieren</h2>
 
   <form id="spendenForm" novalidate>
 
     <div id="fehlermeldung" class="alert alert-danger d-none fw-bold"></div>
 
     <!-- Übergabe -->
-    <div class="mb-3">
-      <label class="form-label">Übergabeart</label>
+    <div class="mb-4 fade-in">
+      <label class="form-label fw-semibold">Übergabeart</label>
 
       <div class="form-check">
         <input type="radio" name="uebergabe" id="geschaeftsstelle" checked>
@@ -61,7 +58,7 @@
     </div>
 
     <!-- Adresse -->
-    <div id="adresseBereich" class="mb-3 d-none">
+    <div id="adresseBereich" class="mb-4 d-none fade-in">
       <label for="strasse">Straße & Hausnummer</label>
       <input type="text" id="strasse" class="form-control mb-2" placeholder="z. B. Musterstraße 12">
 
@@ -73,28 +70,32 @@
     </div>
 
     <!-- Kleidung -->
-    <label for="kleidung">Art der Kleidung</label>
-    <select id="kleidung" class="form-select mb-3" required>
-      <option value="">Bitte auswählen...</option>
-      <option>Jacken</option>
-      <option>Hosen</option>
-      <option>T-Shirts</option>
-      <option>Schuhe</option>
-      <option>Kinderkleidung</option>
-    </select>
+    <div class="fade-in">
+      <label for="kleidung">Art der Kleidung</label>
+      <select id="kleidung" class="form-select mb-3" required>
+        <option value="">Bitte auswählen...</option>
+        <option>Jacken</option>
+        <option>Hosen</option>
+        <option>T-Shirts</option>
+        <option>Schuhe</option>
+        <option>Kinderkleidung</option>
+      </select>
+    </div>
 
     <!-- Krisengebiet -->
-    <label for="krisengebiet">Krisengebiet</label>
-    <select id="krisengebiet" class="form-select mb-3" required>
-      <option value="">Bitte auswählen...</option>
-      <option>Ukraine</option>
-      <option>Syrien</option>
-      <option>Türkei</option>
-      <option>Afrika</option>
-      <option>Sudan</option>
-    </select>
+    <div class="fade-in">
+      <label for="krisengebiet">Krisengebiet</label>
+      <select id="krisengebiet" class="form-select mb-4" required>
+        <option value="">Bitte auswählen...</option>
+        <option>Ukraine</option>
+        <option>Syrien</option>
+        <option>Türkei</option>
+        <option>Afrika</option>
+        <option>Sudan</option>
+      </select>
+    </div>
 
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" class="btn btn-primary fade-in">
       Registrierung abschließen
     </button>
 

@@ -17,38 +17,39 @@
 
 <body>
 
+<!-- 🔥 EINHEITLICHER HEADER -->
 <header class="bg-dark text-white">
-  <div class="container d-flex justify-content-between align-items-center p-3">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
 
-    <!-- Logo klickbar -->
     <a href="index.html"
-       class="d-flex align-items-center text-white text-decoration-none"
-       aria-label="Startseite">
+       class="d-flex align-items-center text-white text-decoration-none">
       <img src="img/logo.png" width="50" class="me-2" alt="Logo Kleiderspenden Portal">
       <h1 class="m-0 fs-4">Kleiderspenden Portal</h1>
     </a>
 
-    <nav aria-label="Hauptnavigation">
-      <ul class="d-flex gap-3 list-unstyled m-0">
-        <li><a href="index.html" class="text-white">Start</a></li>
-        <li><a href="registrierung.html" class="text-white">Registrierung</a></li>
-      </ul>
+    <nav>
+      <a href="index.html" class="text-white me-3">Start</a>
+      <a href="registrierung.html" class="text-white">Registrierung</a>
     </nav>
+
   </div>
 </header>
 
 <main class="container mt-5" role="main">
 
-  <div class="text-center mb-4">
+  <div class="text-center mb-4 fade-in">
     <h2>Registrierung bestätigt</h2>
     <p class="text-muted">Ihre Kleiderspende wurde erfolgreich erfasst.</p>
   </div>
 
-  <div class="alert alert-success" role="alert">
-    <i class="bi bi-check-circle"></i> Registrierung erfolgreich!
+  <!-- 🔥 WOW SUCCESS BOX -->
+  <div class="alert alert-success text-center fade-in">
+    <i class="bi bi-check-circle-fill fs-4 me-2"></i>
+    <strong>Registrierung erfolgreich!</strong>
   </div>
 
-  <div class="card p-4 mt-4 confirmation-card">
+  <!-- 🔥 DATEN -->
+  <div class="card p-4 mt-4 confirmation-card fade-in">
     <div class="confirmation-row"><span>Kleidung</span><strong id="kleidung">-</strong></div>
     <div class="confirmation-row"><span>Krisengebiet</span><strong id="krisengebiet">-</strong></div>
     <div class="confirmation-row"><span>Übergabeart</span><strong id="uebergabe">-</strong></div>
@@ -59,11 +60,13 @@
     <div class="confirmation-row"><span>Uhrzeit</span><strong id="uhrzeit">-</strong></div>
   </div>
 
-  <div class="info-box mt-4">
+  <!-- 🔥 HINWEIS -->
+  <div class="info-box mt-4 fade-in">
     <p id="hinweistext" class="mb-0"></p>
   </div>
 
-  <div class="d-flex flex-column flex-md-row gap-2 mt-4">
+  <!-- 🔥 BUTTONS -->
+  <div class="d-flex flex-column flex-md-row gap-2 mt-4 fade-in">
     <a href="index.html" class="btn btn-primary">Startseite</a>
     <a href="registrierung.html" class="btn btn-outline-primary">Neue Spende</a>
   </div>
@@ -82,13 +85,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const gespeicherteDaten = localStorage.getItem("spendenDaten");
   const daten = gespeicherteDaten ? JSON.parse(gespeicherteDaten) : null;
 
-  // 🔥 Falls nichts gespeichert → zurück zur Registrierung
+  // 🔥 BESSERE UX statt harter Redirect
   if (!daten) {
-    window.location.href = "registrierung.html";
+    document.querySelector(".confirmation-card").innerHTML =
+      "<p>Keine Daten vorhanden. Bitte registrieren Sie eine Spende.</p>";
     return;
   }
 
-  // 👉 Datum/Uhrzeit aus Speicherung ODER fallback
   let datum = "-";
   let uhrzeit = "-";
 
@@ -114,22 +117,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   Object.keys(ausgabe).forEach((key) => {
     const el = document.getElementById(key);
-    if (el) {
-      el.textContent = ausgabe[key];
-    }
+    if (el) el.textContent = ausgabe[key];
   });
 
   const hinweis = document.getElementById("hinweistext");
 
   if (daten.uebergabe === "Abholung (Sammelfahrzeug)") {
     hinweis.textContent =
-      "Ihre Abholanfrage wurde registriert. Die Geschäftsstelle wird sich zeitnah bei Ihnen melden.";
+      "Ihre Abholanfrage wurde registriert. Wir melden uns zeitnah.";
   } else {
     hinweis.textContent =
       "Bitte bringen Sie Ihre Spende während der Öffnungszeiten zur Geschäftsstelle.";
   }
 
-  // 👉 Adresse bei Geschäftsstelle anpassen
   if (daten.uebergabe === "Übergabe an der Geschäftsstelle") {
     document.getElementById("strasse").textContent = "-";
     document.getElementById("plz").textContent = "-";
