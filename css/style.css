@@ -29,6 +29,20 @@ html {
 
 
 /* ==========================
+   🔥 PROGRESS BAR
+========================== */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 0;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  z-index: 9999;
+}
+
+
+/* ==========================
    HEADER
 ========================== */
 header {
@@ -41,6 +55,11 @@ header img {
 }
 
 /* NAVIGATION */
+nav {
+  display: flex;
+  gap: 10px;
+}
+
 nav a {
   position: relative;
   text-decoration: none;
@@ -122,6 +141,10 @@ section {
   border: 1px solid #ddd;
 }
 
+.form-control::placeholder {
+  color: #9ca3af;
+}
+
 .form-control:focus,
 .form-select:focus {
   box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
@@ -146,7 +169,7 @@ section {
 }
 
 .btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
 }
 
 .btn:active {
@@ -190,6 +213,7 @@ section {
   animation: fadeIn 0.4s ease;
   border: none;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform;
 }
 
 .card:hover {
@@ -288,6 +312,7 @@ section {
    RESPONSIVE
 ========================== */
 @media (max-width: 768px) {
+
   nav {
     flex-direction: column;
   }

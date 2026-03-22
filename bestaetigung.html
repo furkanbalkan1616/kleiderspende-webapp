@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bestätigung</title>
+
+  <title>Bestätigung Ihrer Kleiderspende</title>
+
+  <meta name="description" content="Bestätigung Ihrer Kleiderspende. Übersicht aller eingegebenen Daten.">
 
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -12,70 +16,84 @@
 
 <body>
 
-<header class="bg-dark text-white p-3 text-center">
-  <h1>Kleiderspenden Portal</h1>
+<header class="bg-dark text-white">
+  <div class="container d-flex justify-content-center align-items-center p-3">
+    <h1 class="m-0 fs-4">Kleiderspenden Portal</h1>
+  </div>
 </header>
 
-<main class="container mt-5">
+<main class="container mt-5 mb-5">
 
   <h2 class="mb-4 text-center">Ihre Spende wurde registriert ✅</h2>
 
-  <!-- 🔥 INFO -->
-  <div id="hinweistext" class="alert alert-info text-center mb-4"></div>
+  <!-- 🔥 Hinweis -->
+  <div id="hinweistext"
+       class="alert alert-info text-center mb-4"
+       role="status"
+       aria-live="polite"></div>
 
-  <!-- 🔥 DATEN -->
-  <div id="datenBox" class="card p-4 shadow">
+  <!-- 🔥 Daten -->
+  <section id="datenBox"
+           class="card p-4 shadow"
+           aria-labelledby="daten-title">
+
+    <h3 id="daten-title" class="mb-3">Ihre Angaben</h3>
 
     <div class="confirmation-row">
       <strong>Kleidung:</strong>
-      <span id="kleidung"></span>
+      <span id="kleidung">-</span>
     </div>
 
     <div class="confirmation-row">
       <strong>Krisengebiet:</strong>
-      <span id="krisengebiet"></span>
+      <span id="krisengebiet">-</span>
     </div>
 
     <div class="confirmation-row">
       <strong>Übergabeart:</strong>
-      <span id="uebergabe"></span>
+      <span id="uebergabe">-</span>
     </div>
 
     <div class="confirmation-row">
       <strong>Straße:</strong>
-      <span id="strasse"></span>
+      <span id="strasse">-</span>
     </div>
 
     <div class="confirmation-row">
       <strong>PLZ:</strong>
-      <span id="plz"></span>
+      <span id="plz">-</span>
     </div>
 
     <div class="confirmation-row">
       <strong>Ort:</strong>
-      <span id="ort"></span>
+      <span id="ort">-</span>
     </div>
 
     <div class="confirmation-row">
       <strong>Datum:</strong>
-      <span id="datum"></span>
+      <span id="datum">-</span>
     </div>
 
     <div class="confirmation-row">
       <strong>Uhrzeit:</strong>
-      <span id="uhrzeit"></span>
+      <span id="uhrzeit">-</span>
     </div>
 
-  </div>
+  </section>
 
+  <!-- 🔥 Button -->
   <div class="text-center mt-4">
-    <a href="index.html" class="btn btn-primary">Zur Startseite</a>
+    <a href="index.html" class="btn btn-primary">
+      Zur Startseite
+    </a>
   </div>
 
 </main>
 
-<footer class="text-center mt-5 p-3 bg-light">
-  <p class="small text-muted">© 2026 Kleiderspenden Verein</p>
+<footer class="text-center mt-5 p-3 bg-light border-top">
+  <a href="impressum.html">Impressum</a> |
+  <a href="datenschutz.html">Datenschutz</a>
+  <p class="small text-muted mt-2">© 2026 Kleiderspenden Verein</p>
 </footer>
 
 <script src="js/app.js"></script>

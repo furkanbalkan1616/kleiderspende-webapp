@@ -2,16 +2,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initForm();
   initBestaetigung();
-  initAnimation();
 
 });
 
 
 /* ==========================
-   🔐 SANITIZE
+   🔐 SANITIZE (SICHER)
 ========================== */
 function sanitize(input) {
-  return String(input).replace(/[<>]/g, "");
+  const div = document.createElement("div");
+  div.textContent = input;
+  return div.innerHTML;
 }
 
 
@@ -35,17 +36,21 @@ function initForm() {
   const kleidungSelect = document.getElementById("kleidung");
   const krisengebietSelect = document.getElementById("krisengebiet");
 
-  const geschaeftsstelle = {
-    ort: "Karlsruhe",
-    plz: "76133"
-  };
+  const GESCHAEFTS_PLZ_PREFIX = "76"; // Karlsruhe Beispiel
 
+
+  /* 🔄 Adresse ein-/ausblenden */
   function updateAdresseSichtbarkeit() {
-    if (abholungRadio.checked) {
-      adresseBereich.classList.remove("d-none");
-    } else {
-      adresseBereich.classList.add("d-none");
+    const isAbholung = abholungRadio.checked;
 
+    adresseBereich.classList.toggle("d-none", !isAbholung);
+
+    // required dynamisch setzen
+    strasseInput.required = isAbholung;
+    plzInput.required = isAbholung;
+    ortInput.required = isAbholung;
+
+    if (!isAbholung) {
       strasseInput.value = "";
       plzInput.value = "";
       ortInput.value = "";
@@ -56,6 +61,8 @@ function initForm() {
     }
   }
 
+
+  /* 🎨 Validierungsstatus */
   function setInvalid(field) {
     field.classList.add("is-invalid");
     field.classList.remove("is-valid");
@@ -70,13 +77,32 @@ function initForm() {
     field.classList.remove("is-invalid", "is-valid");
   }
 
+
+  /* ✅ VALIDIERUNG */
   function validateForm() {
+
     let errors = [];
     let firstErrorField = null;
 
     fehlermeldung.classList.add("d-none");
-    fehlermeldung.innerHTML = "";
+    fehlermeldung.textContent = "";
 
+    // Kleidung
+    if (!kleidungSelect.value) {
+      errors.push("Bitte eine Art der Kleidung auswählen.");
+      setInvalid(kleidungSelect);
+      firstErrorField ??= kleidungSelect;
+    } else setValid(kleidungSelect);
+
+    // Krisengebiet
+    if (!krisengebietSelect.value) {
+      errors.push("Bitte ein Krisengebiet auswählen.");
+      setInvalid(krisengebietSelect);
+      firstErrorField ??= krisengebietSelect;
+    } else setValid(krisengebietSelect);
+
+
+    /* 🚚 Abholung prüfen */
     if (abholungRadio.checked) {
 
       if (!strasseInput.value.trim()) {
@@ -87,17 +113,12 @@ function initForm() {
 
       const plz = plzInput.value.trim();
 
-      if (!plz) {
-        errors.push("Bitte eine Postleitzahl angeben.");
+      if (!/^\d{5}$/.test(plz)) {
+        errors.push("Die Postleitzahl muss genau 5 Ziffern enthalten.");
         setInvalid(plzInput);
         firstErrorField ??= plzInput;
       }
-      else if (!/^\d+$/.test(plz)) {
-        errors.push("PLZ darf nur Zahlen enthalten.");
-        setInvalid(plzInput);
-        firstErrorField ??= plzInput;
-      }
-      else if (plz.substring(0,2) !== geschaeftsstelle.plz.substring(0,2)) {
+      else if (plz.substring(0,2) !== GESCHAEFTS_PLZ_PREFIX) {
         errors.push("Adresse liegt nicht im Einzugsgebiet der Geschäftsstelle.");
         setInvalid(plzInput);
         firstErrorField ??= plzInput;
@@ -114,20 +135,10 @@ function initForm() {
 
     }
 
-    if (!kleidungSelect.value) {
-      errors.push("Bitte eine Art der Kleidung auswählen.");
-      setInvalid(kleidungSelect);
-      firstErrorField ??= kleidungSelect;
-    } else setValid(kleidungSelect);
 
-    if (!krisengebietSelect.value) {
-      errors.push("Bitte ein Krisengebiet auswählen.");
-      setInvalid(krisengebietSelect);
-      firstErrorField ??= krisengebietSelect;
-    } else setValid(krisengebietSelect);
-
+    /* ❌ Fehler anzeigen */
     if (errors.length > 0) {
-      fehlermeldung.innerHTML = errors.join("<br>");
+      fehlermeldung.textContent = errors.join(" | ");
       fehlermeldung.classList.remove("d-none");
       firstErrorField?.focus();
       return false;
@@ -136,19 +147,26 @@ function initForm() {
     return true;
   }
 
+
+  /* 🚀 SUBMIT */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
+    // UX: Button deaktivieren
+    const btn = form.querySelector("button");
+    btn.disabled = true;
+    btn.textContent = "Wird verarbeitet...";
+
     const daten = {
-      uebergabe: abholungRadio.checked ? "Abholung" : "Geschaeftsstelle",
+      uebergabe: abholungRadio.checked ? "Abholung" : "Geschäftsstelle",
       strasse: sanitize(strasseInput.value),
       plz: sanitize(plzInput.value),
       ort: sanitize(ortInput.value),
       kleidung: sanitize(kleidungSelect.value),
       krisengebiet: sanitize(krisengebietSelect.value),
-      datum: new Date().toISOString()
+      datum: new Date().toLocaleString("de-DE")
     };
 
     localStorage.setItem("spendenDaten", JSON.stringify(daten));
@@ -156,11 +174,14 @@ function initForm() {
     window.location.href = "bestaetigung.html";
   });
 
+
+  /* 🔁 Events */
   abholungRadio.addEventListener("change", updateAdresseSichtbarkeit);
   geschaeftsstelleRadio.addEventListener("change", updateAdresseSichtbarkeit);
 
   updateAdresseSichtbarkeit();
 }
+
 
 
 /* ==========================
@@ -182,7 +203,7 @@ function initBestaetigung() {
         Bitte registrieren Sie zuerst eine Spende.
       </p>
     `;
-    hinweis.textContent = "";
+    if (hinweis) hinweis.textContent = "";
     return;
   }
 
@@ -197,25 +218,10 @@ function initBestaetigung() {
   document.getElementById("datum").textContent = d.toLocaleDateString("de-DE");
   document.getElementById("uhrzeit").textContent = d.toLocaleTimeString("de-DE");
 
-  if (daten.uebergabe === "Abholung") {
-    hinweis.textContent = "Ihre Abholanfrage wurde registriert.";
-  } else {
-    hinweis.textContent = "Bitte bringen Sie Ihre Spende zur Geschäftsstelle.";
+  if (hinweis) {
+    hinweis.textContent =
+      daten.uebergabe === "Abholung"
+        ? "Ihre Abholanfrage wurde registriert."
+        : "Bitte bringen Sie Ihre Spende zur Geschäftsstelle.";
   }
-}
-
-
-/* ==========================
-   ✨ ANIMATION
-========================== */
-function initAnimation() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-      }
-    });
-  });
-
-  document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
 }

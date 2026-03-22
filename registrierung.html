@@ -44,7 +44,11 @@
 
   <form id="spendenForm" novalidate autocomplete="on">
 
-    <div id="fehlermeldung" class="alert alert-danger d-none fw-bold"></div>
+    <!-- 🔥 Fehlermeldung (ACCESSIBILITY FIX) -->
+    <div id="fehlermeldung"
+         class="alert alert-danger d-none fw-bold"
+         role="alert"
+         aria-live="assertive"></div>
 
     <!-- 🔥 Übergabe -->
     <fieldset class="mb-4 fade-in">
@@ -71,7 +75,6 @@
     <!-- 🔥 Adresse -->
     <div id="adresseBereich" class="mb-4 d-none fade-in">
 
-      <!-- ⭐ UX HINWEIS -->
       <p class="text-muted small">
         Hinweis: Die Adresse ist nur erforderlich, wenn Sie „Abholung“ auswählen.
       </p>
@@ -89,7 +92,13 @@
              class="form-control mb-2"
              placeholder="z. B. 76133"
              inputmode="numeric"
+             pattern="\d{5}"
+             aria-describedby="plzHelp"
              autocomplete="postal-code">
+
+      <div id="plzHelp" class="form-text">
+        Bitte geben Sie eine 5-stellige Postleitzahl ein.
+      </div>
 
       <label for="ort">Ort</label>
       <input type="text"
