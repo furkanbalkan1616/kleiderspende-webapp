@@ -1,14 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   initForm();
   initBestaetigung();
-  initAnimation(); // 🔥 WICHTIG: macht Inhalte sichtbar
-
+  initAnimation();
 });
 
 
 /* ==========================
-   🔐 SANITIZE (SICHER)
+   🔐 SANITIZE
 ========================== */
 function sanitize(input) {
   const div = document.createElement("div");
@@ -18,7 +16,7 @@ function sanitize(input) {
 
 
 /* ==========================
-   🟢 FORMULAR LOGIK
+   🟢 FORMULAR
 ========================== */
 function initForm() {
 
@@ -40,7 +38,6 @@ function initForm() {
   const GESCHAEFTS_PLZ_PREFIX = "76";
 
 
-  /* 🔄 Adresse ein-/ausblenden */
   function updateAdresseSichtbarkeit() {
     const isAbholung = abholungRadio.checked;
 
@@ -62,7 +59,6 @@ function initForm() {
   }
 
 
-  /* 🎨 Validierungsstatus */
   function setInvalid(field) {
     field.classList.add("is-invalid");
     field.classList.remove("is-valid");
@@ -78,7 +74,6 @@ function initForm() {
   }
 
 
-  /* ✅ VALIDIERUNG */
   function validateForm() {
 
     let errors = [];
@@ -87,22 +82,18 @@ function initForm() {
     fehlermeldung.classList.add("d-none");
     fehlermeldung.textContent = "";
 
-    // Kleidung
     if (!kleidungSelect.value) {
       errors.push("Bitte eine Art der Kleidung auswählen.");
       setInvalid(kleidungSelect);
       firstErrorField ??= kleidungSelect;
     } else setValid(kleidungSelect);
 
-    // Krisengebiet
     if (!krisengebietSelect.value) {
       errors.push("Bitte ein Krisengebiet auswählen.");
       setInvalid(krisengebietSelect);
       firstErrorField ??= krisengebietSelect;
     } else setValid(krisengebietSelect);
 
-
-    /* 🚚 Abholung prüfen */
     if (abholungRadio.checked) {
 
       if (!strasseInput.value.trim()) {
@@ -132,11 +123,8 @@ function initForm() {
         setInvalid(ortInput);
         firstErrorField ??= ortInput;
       } else setValid(ortInput);
-
     }
 
-
-    /* ❌ Fehler anzeigen */
     if (errors.length > 0) {
       fehlermeldung.textContent = errors.join(" | ");
       fehlermeldung.classList.remove("d-none");
@@ -148,7 +136,6 @@ function initForm() {
   }
 
 
-  /* 🚀 SUBMIT */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -165,7 +152,9 @@ function initForm() {
       ort: sanitize(ortInput.value),
       kleidung: sanitize(kleidungSelect.value),
       krisengebiet: sanitize(krisengebietSelect.value),
-      datum: new Date().toLocaleString("de-DE")
+
+      // ✅ FIX: richtiges Datum
+      datum: new Date().toISOString()
     };
 
     localStorage.setItem("spendenDaten", JSON.stringify(daten));
@@ -174,7 +163,6 @@ function initForm() {
   });
 
 
-  /* 🔁 Events */
   abholungRadio.addEventListener("change", updateAdresseSichtbarkeit);
   geschaeftsstelleRadio.addEventListener("change", updateAdresseSichtbarkeit);
 
@@ -226,17 +214,22 @@ function initBestaetigung() {
 
 
 /* ==========================
-   ✨ ANIMATION (FIX)
+   ✨ ANIMATION
 ========================== */
 function initAnimation() {
+
+  const elements = document.querySelectorAll(".fade-in");
+
+  if (elements.length === 0) return;
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add("visible");
-        observer.unobserve(entry.target); // Performance Boost
+        observer.unobserve(entry.target);
       }
     });
   });
 
-  document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+  elements.forEach(el => observer.observe(el));
 }
