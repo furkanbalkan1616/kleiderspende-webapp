@@ -15,7 +15,6 @@
 
 <body>
 
-<!-- 🔥 HEADER -->
 <header class="bg-dark text-white">
   <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
 
@@ -47,7 +46,7 @@
 
     <div id="fehlermeldung" class="alert alert-danger d-none fw-bold"></div>
 
-    <!-- 🔥 Übergabe (ACCESSIBILITY FIX) -->
+    <!-- 🔥 Übergabe -->
     <fieldset class="mb-4 fade-in">
       <legend class="form-label fw-semibold">Übergabeart</legend>
 
@@ -71,6 +70,12 @@
 
     <!-- 🔥 Adresse -->
     <div id="adresseBereich" class="mb-4 d-none fade-in">
+
+      <!-- ⭐ UX HINWEIS -->
+      <p class="text-muted small">
+        Hinweis: Die Adresse ist nur erforderlich, wenn Sie „Abholung“ auswählen.
+      </p>
+
       <label for="strasse">Straße & Hausnummer</label>
       <input type="text"
              id="strasse"
@@ -82,7 +87,7 @@
       <input type="text"
              id="plz"
              class="form-control mb-2"
-             placeholder="z. B. 70173"
+             placeholder="z. B. 76133"
              inputmode="numeric"
              autocomplete="postal-code">
 
@@ -90,7 +95,7 @@
       <input type="text"
              id="ort"
              class="form-control"
-             placeholder="z. B. Stuttgart"
+             placeholder="z. B. Karlsruhe"
              autocomplete="address-level2">
     </div>
 
@@ -112,15 +117,14 @@
       <label for="krisengebiet">Krisengebiet</label>
       <select id="krisengebiet" class="form-select mb-4" required>
         <option value="">Bitte auswählen...</option>
-        <option>Ukraine</option>
-        <option>Syrien</option>
-        <option>Türkei</option>
-        <option>Afrika</option>
-        <option>Sudan</option>
+        <option>Ukraine (Donezk)</option>
+        <option>Syrien (Aleppo)</option>
+        <option>Türkei (Erdbebengebiet)</option>
+        <option>Sudan (Darfur)</option>
+        <option>Äthiopien (Tigray)</option>
       </select>
     </div>
 
-    <!-- 🔥 BUTTON (WOW) -->
     <button type="submit" class="btn btn-primary fade-in">
       <i class="bi bi-check-lg me-2"></i>
       Registrierung abschließen

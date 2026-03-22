@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("spendenForm");
-  if (!form) return; // 🔥 Safety
+  if (!form) return;
 
   const fehlermeldung = document.getElementById("fehlermeldung");
 
@@ -15,14 +15,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const kleidungSelect = document.getElementById("kleidung");
   const krisengebietSelect = document.getElementById("krisengebiet");
 
-
   /* ==========================
      🔐 SANITIZE
   ========================== */
   function sanitize(input) {
-    return input.replace(/[<>]/g, "");
+    return String(input).replace(/[<>]/g, "");
   }
 
+  /* ==========================
+     🏢 GESCHÄFTSSTELLE
+  ========================== */
+  const geschaeftsstelle = {
+    ort: "Karlsruhe",
+    plz: "76133"
+  };
 
   /* ==========================
      🔄 ADRESSE TOGGLE
@@ -43,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-
   /* ==========================
      🎨 VALIDATION UI
   ========================== */
@@ -60,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function clearValidation(field) {
     field.classList.remove("is-invalid", "is-valid");
   }
-
 
   /* ==========================
      🔍 VALIDATE FORM
@@ -87,18 +91,25 @@ document.addEventListener("DOMContentLoaded", () => {
         errors.push("Bitte eine Postleitzahl angeben.");
         setInvalid(plzInput);
         firstErrorField ??= plzInput;
-      } 
+      }
       else if (!/^\d+$/.test(plz)) {
         errors.push("PLZ darf nur Zahlen enthalten.");
         setInvalid(plzInput);
         firstErrorField ??= plzInput;
       }
-      else if (!plz.startsWith("70")) {
-        errors.push("Adresse liegt nicht im Einzugsgebiet (PLZ muss mit 70 beginnen).");
+      else if (plz.length < 2) {
+        errors.push("PLZ ist zu kurz.");
         setInvalid(plzInput);
         firstErrorField ??= plzInput;
-      } 
-      else setValid(plzInput);
+      }
+      else if (plz.substring(0,2) !== geschaeftsstelle.plz.substring(0,2)) {
+        errors.push("Adresse liegt nicht im Einzugsgebiet der Geschäftsstelle.");
+        setInvalid(plzInput);
+        firstErrorField ??= plzInput;
+      }
+      else {
+        setValid(plzInput);
+      }
 
       if (!ortInput.value.trim()) {
         errors.push("Bitte einen Ort angeben.");
@@ -137,7 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-
   /* ==========================
      📩 SUBMIT
   ========================== */
@@ -154,8 +164,8 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const daten = {
         uebergabe: abholungRadio.checked
-          ? "Abholung (Sammelfahrzeug)"
-          : "Übergabe an der Geschäftsstelle",
+          ? "Abholung"
+          : "Geschaeftsstelle",
 
         strasse: sanitize(strasseInput.value.trim()),
         plz: sanitize(plzInput.value.trim()),
@@ -179,19 +189,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-
-  /* ==========================
-     🔁 EVENTS
-  ========================== */
   abholungRadio.addEventListener("change", updateAdresseSichtbarkeit);
   geschaeftsstelleRadio.addEventListener("change", updateAdresseSichtbarkeit);
 
   updateAdresseSichtbarkeit();
 
-
-  /* ==========================
-     ✨ SCROLL ANIMATION
-  ========================== */
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
