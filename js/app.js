@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initForm();
   initBestaetigung();
+  initAnimation(); // 🔥 WICHTIG: macht Inhalte sichtbar
 
 });
 
@@ -36,7 +37,7 @@ function initForm() {
   const kleidungSelect = document.getElementById("kleidung");
   const krisengebietSelect = document.getElementById("krisengebiet");
 
-  const GESCHAEFTS_PLZ_PREFIX = "76"; // Karlsruhe Beispiel
+  const GESCHAEFTS_PLZ_PREFIX = "76";
 
 
   /* 🔄 Adresse ein-/ausblenden */
@@ -45,7 +46,6 @@ function initForm() {
 
     adresseBereich.classList.toggle("d-none", !isAbholung);
 
-    // required dynamisch setzen
     strasseInput.required = isAbholung;
     plzInput.required = isAbholung;
     ortInput.required = isAbholung;
@@ -154,7 +154,6 @@ function initForm() {
 
     if (!validateForm()) return;
 
-    // UX: Button deaktivieren
     const btn = form.querySelector("button");
     btn.disabled = true;
     btn.textContent = "Wird verarbeitet...";
@@ -181,7 +180,6 @@ function initForm() {
 
   updateAdresseSichtbarkeit();
 }
-
 
 
 /* ==========================
@@ -224,4 +222,21 @@ function initBestaetigung() {
         ? "Ihre Abholanfrage wurde registriert."
         : "Bitte bringen Sie Ihre Spende zur Geschäftsstelle.";
   }
+}
+
+
+/* ==========================
+   ✨ ANIMATION (FIX)
+========================== */
+function initAnimation() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target); // Performance Boost
+      }
+    });
+  });
+
+  document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
 }
