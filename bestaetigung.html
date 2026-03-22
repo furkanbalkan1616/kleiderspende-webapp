@@ -9,8 +9,8 @@
 
   <meta name="description" content="Bestätigung Ihrer Kleiderspende. Übersicht aller eingegebenen Daten.">
 
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -24,66 +24,68 @@
 
 <main class="container mt-5 mb-5">
 
-  <h2 class="mb-4 text-center">Ihre Spende wurde registriert ✅</h2>
+  <h2 class="text-center mb-4">
+    <i class="bi bi-check-circle-fill text-success me-2"></i>
+    Ihre Spende wurde registriert
+  </h2>
 
   <!-- 🔥 Hinweis -->
   <div id="hinweistext"
-       class="alert alert-info text-center mb-4"
+       class="alert alert-info text-center mb-4 shadow-sm"
        role="status"
        aria-live="polite"></div>
 
   <!-- 🔥 Daten -->
-  <section id="datenBox"
-           class="card p-4 shadow"
-           aria-labelledby="daten-title">
+  <section class="card p-4 shadow-lg confirmation-card">
 
-    <h3 id="daten-title" class="mb-3">Ihre Angaben</h3>
+    <h3 class="mb-4 text-center">Ihre Angaben</h3>
 
     <div class="confirmation-row">
-      <strong>Kleidung:</strong>
+      <strong><i class="bi bi-bag me-2"></i>Kleidung</strong>
       <span id="kleidung">-</span>
     </div>
 
     <div class="confirmation-row">
-      <strong>Krisengebiet:</strong>
+      <strong><i class="bi bi-globe me-2"></i>Krisengebiet</strong>
       <span id="krisengebiet">-</span>
     </div>
 
     <div class="confirmation-row">
-      <strong>Übergabeart:</strong>
+      <strong><i class="bi bi-truck me-2"></i>Übergabeart</strong>
       <span id="uebergabe">-</span>
     </div>
 
     <div class="confirmation-row">
-      <strong>Straße:</strong>
+      <strong><i class="bi bi-geo-alt me-2"></i>Straße</strong>
       <span id="strasse">-</span>
     </div>
 
     <div class="confirmation-row">
-      <strong>PLZ:</strong>
+      <strong><i class="bi bi-mailbox me-2"></i>PLZ</strong>
       <span id="plz">-</span>
     </div>
 
     <div class="confirmation-row">
-      <strong>Ort:</strong>
+      <strong><i class="bi bi-building me-2"></i>Ort</strong>
       <span id="ort">-</span>
     </div>
 
     <div class="confirmation-row">
-      <strong>Datum:</strong>
+      <strong><i class="bi bi-calendar me-2"></i>Datum</strong>
       <span id="datum">-</span>
     </div>
 
     <div class="confirmation-row">
-      <strong>Uhrzeit:</strong>
+      <strong><i class="bi bi-clock me-2"></i>Uhrzeit</strong>
       <span id="uhrzeit">-</span>
     </div>
 
   </section>
 
   <!-- 🔥 Button -->
-  <div class="text-center mt-4">
-    <a href="index.html" class="btn btn-primary">
+  <div class="text-center mt-5">
+    <a href="index.html" class="btn btn-primary px-4 py-2">
+      <i class="bi bi-house me-2"></i>
       Zur Startseite
     </a>
   </div>
