@@ -1,7 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  initForm();
+  initBestaetigung();
+
+});
+
+
+/* ==========================
+   🔐 SANITIZE
+========================== */
+function sanitize(input) {
+  return String(input).replace(/[<>]/g, "");
+}
+
+
+/* ==========================
+   🟢 FORMULAR LOGIK
+========================== */
+function initForm() {
+
   const form = document.getElementById("spendenForm");
-  if (!form) return;
+  if (!form) return; // 👉 nur auf Formularseite aktiv
 
   const fehlermeldung = document.getElementById("fehlermeldung");
 
@@ -15,24 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const kleidungSelect = document.getElementById("kleidung");
   const krisengebietSelect = document.getElementById("krisengebiet");
 
-  /* ==========================
-     🔐 SANITIZE
-  ========================== */
-  function sanitize(input) {
-    return String(input).replace(/[<>]/g, "");
-  }
-
-  /* ==========================
-     🏢 GESCHÄFTSSTELLE
-  ========================== */
   const geschaeftsstelle = {
     ort: "Karlsruhe",
     plz: "76133"
   };
 
-  /* ==========================
-     🔄 ADRESSE TOGGLE
-  ========================== */
   function updateAdresseSichtbarkeit() {
     if (abholungRadio.checked) {
       adresseBereich.classList.remove("d-none");
@@ -49,9 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* ==========================
-     🎨 VALIDATION UI
-  ========================== */
   function setInvalid(field) {
     field.classList.add("is-invalid");
     field.classList.remove("is-valid");
@@ -66,16 +69,12 @@ document.addEventListener("DOMContentLoaded", () => {
     field.classList.remove("is-invalid", "is-valid");
   }
 
-  /* ==========================
-     🔍 VALIDATE FORM
-  ========================== */
   function validateForm() {
     let errors = [];
     let firstErrorField = null;
 
     fehlermeldung.classList.add("d-none");
     fehlermeldung.innerHTML = "";
-    fehlermeldung.setAttribute("aria-live", "assertive");
 
     if (abholungRadio.checked) {
 
@@ -97,11 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
         setInvalid(plzInput);
         firstErrorField ??= plzInput;
       }
-      else if (plz.length < 2) {
-        errors.push("PLZ ist zu kurz.");
-        setInvalid(plzInput);
-        firstErrorField ??= plzInput;
-      }
       else if (plz.substring(0,2) !== geschaeftsstelle.plz.substring(0,2)) {
         errors.push("Adresse liegt nicht im Einzugsgebiet der Geschäftsstelle.");
         setInvalid(plzInput);
@@ -117,10 +111,6 @@ document.addEventListener("DOMContentLoaded", () => {
         firstErrorField ??= ortInput;
       } else setValid(ortInput);
 
-    } else {
-      clearValidation(strasseInput);
-      clearValidation(plzInput);
-      clearValidation(ortInput);
     }
 
     if (!kleidungSelect.value) {
@@ -138,70 +128,72 @@ document.addEventListener("DOMContentLoaded", () => {
     if (errors.length > 0) {
       fehlermeldung.innerHTML = errors.join("<br>");
       fehlermeldung.classList.remove("d-none");
-
-      window.scrollTo({ top: 0, behavior: "smooth" });
       firstErrorField?.focus();
-
       return false;
     }
 
     return true;
   }
 
-  /* ==========================
-     📩 SUBMIT
-  ========================== */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
-    const button = form.querySelector("button");
+    const daten = {
+      uebergabe: abholungRadio.checked ? "Abholung" : "Geschaeftsstelle",
+      strasse: sanitize(strasseInput.value),
+      plz: sanitize(plzInput.value),
+      ort: sanitize(ortInput.value),
+      kleidung: sanitize(kleidungSelect.value),
+      krisengebiet: sanitize(krisengebietSelect.value),
+      datum: new Date().toISOString()
+    };
 
-    button.disabled = true;
-    button.textContent = "Wird verarbeitet...";
+    localStorage.setItem("spendenDaten", JSON.stringify(daten));
 
-    try {
-      const daten = {
-        uebergabe: abholungRadio.checked
-          ? "Abholung"
-          : "Geschaeftsstelle",
-
-        strasse: sanitize(strasseInput.value.trim()),
-        plz: sanitize(plzInput.value.trim()),
-        ort: sanitize(ortInput.value.trim()),
-        kleidung: sanitize(kleidungSelect.value),
-        krisengebiet: sanitize(krisengebietSelect.value),
-        datum: new Date().toISOString()
-      };
-
-      localStorage.setItem("spendenDaten", JSON.stringify(daten));
-
-      setTimeout(() => {
-        window.location.href = "bestaetigung.html";
-      }, 500);
-
-    } catch (error) {
-      console.error(error);
-
-      button.disabled = false;
-      button.textContent = "Registrierung abschließen";
-    }
+    window.location.href = "bestaetigung.html";
   });
 
   abholungRadio.addEventListener("change", updateAdresseSichtbarkeit);
   geschaeftsstelleRadio.addEventListener("change", updateAdresseSichtbarkeit);
 
   updateAdresseSichtbarkeit();
+}
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-      }
-    });
-  });
 
-  document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+/* ==========================
+   🟢 BESTÄTIGUNGSSEITE
+========================== */
+function initBestaetigung() {
 
-});
+  const datenBox = document.getElementById("datenBox");
+  if (!datenBox) return; // 👉 nur auf Bestätigungsseite aktiv
+
+  const hinweis = document.getElementById("hinweistext");
+
+  const daten = JSON.parse(localStorage.getItem("spendenDaten"));
+
+  if (!daten) {
+    datenBox.innerHTML = "<p>Keine Daten vorhanden.</p>";
+    return;
+  }
+
+  const d = new Date(daten.datum);
+
+  document.getElementById("kleidung").textContent = daten.kleidung;
+  document.getElementById("krisengebiet").textContent = daten.krisengebiet;
+  document.getElementById("uebergabe").textContent = daten.uebergabe;
+  document.getElementById("strasse").textContent = daten.strasse || "-";
+  document.getElementById("plz").textContent = daten.plz || "-";
+  document.getElementById("ort").textContent = daten.ort || "-";
+  document.getElementById("datum").textContent = d.toLocaleDateString("de-DE");
+  document.getElementById("uhrzeit").textContent = d.toLocaleTimeString("de-DE");
+
+  if (daten.uebergabe === "Abholung") {
+    hinweis.textContent = "Ihre Abholanfrage wurde registriert.";
+  } else {
+    hinweis.textContent = "Bitte bringen Sie Ihre Spende zur Geschäftsstelle.";
+  }
+
+}
