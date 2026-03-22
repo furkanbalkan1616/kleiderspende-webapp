@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initForm();
   initBestaetigung();
+  initAnimation();
 
 });
 
@@ -20,7 +21,7 @@ function sanitize(input) {
 function initForm() {
 
   const form = document.getElementById("spendenForm");
-  if (!form) return; // 👉 nur auf Formularseite aktiv
+  if (!form) return;
 
   const fehlermeldung = document.getElementById("fehlermeldung");
 
@@ -163,19 +164,25 @@ function initForm() {
 
 
 /* ==========================
-   🟢 BESTÄTIGUNGSSEITE
+   🟢 BESTÄTIGUNG
 ========================== */
 function initBestaetigung() {
 
   const datenBox = document.getElementById("datenBox");
-  if (!datenBox) return; // 👉 nur auf Bestätigungsseite aktiv
+  if (!datenBox) return;
 
   const hinweis = document.getElementById("hinweistext");
 
   const daten = JSON.parse(localStorage.getItem("spendenDaten"));
 
   if (!daten) {
-    datenBox.innerHTML = "<p>Keine Daten vorhanden.</p>";
+    datenBox.innerHTML = `
+      <p class="text-center">
+        Keine Daten vorhanden.<br>
+        Bitte registrieren Sie zuerst eine Spende.
+      </p>
+    `;
+    hinweis.textContent = "";
     return;
   }
 
@@ -195,5 +202,20 @@ function initBestaetigung() {
   } else {
     hinweis.textContent = "Bitte bringen Sie Ihre Spende zur Geschäftsstelle.";
   }
+}
 
+
+/* ==========================
+   ✨ ANIMATION
+========================== */
+function initAnimation() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  });
+
+  document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
 }
