@@ -17,7 +17,7 @@
 ========================== */
 body {
   font-family: system-ui, -apple-system, Arial, sans-serif;
-  background: linear-gradient(to bottom, #f8f9fb 0%, #f3f6fb 100%);
+  background: linear-gradient(to bottom, #f8f9fb 0%, #eef2f7 100%);
   margin: 0;
   padding: 0;
   color: var(--text);
@@ -54,7 +54,10 @@ header img {
   max-width: 100%;
 }
 
-/* NAVIGATION */
+
+/* ==========================
+   NAVIGATION
+========================== */
 nav {
   display: flex;
   gap: 10px;
@@ -109,7 +112,9 @@ p {
 }
 
 
-/* HERO */
+/* ==========================
+   HERO
+========================== */
 .hero-text h2 {
   font-size: 2.4rem;
   line-height: 1.2;
@@ -126,7 +131,7 @@ p {
    SECTIONS
 ========================== */
 section {
-  margin-bottom: 80px;
+  margin-bottom: 100px;
 }
 
 
@@ -180,7 +185,7 @@ section {
   border-radius: 10px;
   padding: 12px 20px;
   font-weight: 600;
-  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
 }
 
 .btn-primary:hover {
@@ -198,6 +203,27 @@ section {
 
 
 /* ==========================
+   🔥 SECONDARY BUTTON (FINAL)
+========================== */
+.btn-secondary-custom {
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
+  transition: all 0.25s ease;
+}
+
+.btn-secondary-custom:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
+}
+
+
+/* ==========================
    CARD
 ========================== */
 .card {
@@ -205,14 +231,14 @@ section {
   border-radius: 18px;
   box-shadow: 0px 10px 28px rgba(0, 0, 0, 0.08);
   animation: fadeIn 0.4s ease;
-  border: none;
+  border: 1px solid rgba(0,0,0,0.03);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   will-change: transform;
   backdrop-filter: blur(6px);
 }
 
 .card:hover {
-  transform: translateY(-6px) scale(1.01);
+  transform: translateY(-8px) scale(1.02);
   box-shadow: 0px 14px 34px rgba(0, 0, 0, 0.12);
 }
 
@@ -238,7 +264,7 @@ section {
 
 
 /* ==========================
-   🔥 PREMIUM BESTÄTIGUNG
+   BESTÄTIGUNG
 ========================== */
 .confirmation-card {
   display: flex;
