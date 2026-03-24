@@ -126,6 +126,19 @@ p {
   color: var(--muted);
 }
 
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-buttons .btn {
+  min-width: 220px;
+  text-align: center;
+}
+
 
 /* ==========================
    SECTIONS
@@ -192,20 +205,16 @@ section {
   background: linear-gradient(135deg, var(--primary-hover), #0b5ed7);
 }
 
-.btn-outline-primary,
-.btn-light {
-  border-radius: 10px;
-}
-
-.hero-buttons .btn {
-  min-width: 180px;
-}
-
 
 /* ==========================
-   🔥 SECONDARY BUTTON (FINAL)
+   SECONDARY BUTTON
 ========================== */
 .btn-secondary-custom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
   border-radius: 10px;
   font-weight: 600;
   padding: 12px 20px;
@@ -233,8 +242,6 @@ section {
   animation: fadeIn 0.4s ease;
   border: 1px solid rgba(0,0,0,0.03);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  will-change: transform;
-  backdrop-filter: blur(6px);
 }
 
 .card:hover {
@@ -245,21 +252,6 @@ section {
 .card p {
   color: var(--muted);
   font-size: 0.95rem;
-}
-
-
-/* ==========================
-   ADRESSE
-========================== */
-#adresseBereich {
-  opacity: 0;
-  transform: translateY(-6px);
-  transition: all 0.25s ease;
-}
-
-#adresseBereich:not(.d-none) {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 
@@ -284,47 +276,15 @@ section {
   border-bottom: none;
 }
 
-.confirmation-row strong {
-  color: #374151;
-  font-weight: 600;
-}
-
-.confirmation-row span {
-  font-weight: 500;
-}
-
-.alert {
-  border-radius: 12px;
-}
-
-
-/* ==========================
-   FOKUS
-========================== */
-:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-}
-
 
 /* ==========================
    ANIMATION
 ========================== */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-
-/* ==========================
-   SCROLL ANIMATION
-========================== */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
@@ -338,7 +298,7 @@ section {
 
 
 /* ==========================
-   RESPONSIVE
+   RESPONSIVE FIX (FINAL)
 ========================== */
 @media (max-width: 768px) {
 
@@ -346,17 +306,43 @@ section {
     flex-direction: column;
   }
 
-  .btn {
-    width: 100%;
-  }
-
-  .confirmation-row {
-    flex-direction: column;
-    gap: 6px;
-    align-items: flex-start;
+  /* HERO */
+  .hero-text {
+    text-align: center !important;
   }
 
   .hero-text h2 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+  }
+
+  .hero-text p {
+    font-size: 0.95rem;
+  }
+
+  /* BUTTONS */
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .hero-buttons .btn + .btn {
+    margin-top: 10px;
+  }
+
+  /* CONFIRMATION */
+  .confirmation-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  section {
+    margin-bottom: 60px;
   }
 }
