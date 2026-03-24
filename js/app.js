@@ -151,24 +151,31 @@ function initForm() {
 
 
   /* ==========================
-     📤 SUBMIT
+     📤 SUBMIT (FIXED!)
   ========================== */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
-    // UX Verbesserung
     submitBtn.disabled = true;
     submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Wird verarbeitet...`;
 
     const daten = {
       uebergabe: abholungRadio.checked ? "Abholung" : "Geschäftsstelle",
+
       strasse: sanitize(strasseInput.value),
       plz: sanitize(plzInput.value),
       ort: sanitize(ortInput.value),
-      kleidung: sanitize(kleidungSelect.value),
-      krisengebiet: sanitize(krisengebietSelect.value),
+
+      /* 🔥 WICHTIGER FIX */
+      kleidung: sanitize(
+        kleidungSelect.options[kleidungSelect.selectedIndex].text
+      ),
+      krisengebiet: sanitize(
+        krisengebietSelect.options[krisengebietSelect.selectedIndex].text
+      ),
+
       datum: new Date().toISOString()
     };
 
