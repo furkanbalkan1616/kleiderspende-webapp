@@ -93,15 +93,14 @@ function initForm() {
     fehlermeldung.classList.add("d-none");
     fehlermeldung.textContent = "";
 
-    // Kleidung
-    if (!kleidungSelect.value) {
+    // 🔥 FIX: SELECT VALIDIERUNG
+    if (kleidungSelect.selectedIndex === 0) {
       errors.push("Bitte eine Art der Kleidung auswählen.");
       setInvalid(kleidungSelect);
       firstErrorField ??= kleidungSelect;
     } else setValid(kleidungSelect);
 
-    // Krisengebiet
-    if (!krisengebietSelect.value) {
+    if (krisengebietSelect.selectedIndex === 0) {
       errors.push("Bitte ein Krisengebiet auswählen.");
       setInvalid(krisengebietSelect);
       firstErrorField ??= krisengebietSelect;
@@ -151,7 +150,7 @@ function initForm() {
 
 
   /* ==========================
-     📤 SUBMIT (FIXED!)
+     📤 SUBMIT (FIXED)
   ========================== */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -168,7 +167,7 @@ function initForm() {
       plz: sanitize(plzInput.value),
       ort: sanitize(ortInput.value),
 
-      /* 🔥 WICHTIGER FIX */
+      // 🔥 FIX: TEXT statt VALUE
       kleidung: sanitize(
         kleidungSelect.options[kleidungSelect.selectedIndex].text
       ),
