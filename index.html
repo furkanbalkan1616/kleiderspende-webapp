@@ -8,7 +8,7 @@
 <title>Kleiderspenden Portal</title>
 
 <meta name="description" content="Kleiderspenden einfach registrieren und Menschen in Krisengebieten helfen.">
-<meta name="author" content="DEIN NAME">
+<meta name="author" content="Furkan Balkan">
 <meta name="theme-color" content="#111827">
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -21,8 +21,10 @@
 
 <body>
 
-<div id="progress-bar"></div>
+<!-- Progress Bar -->
+<div id="progress-bar" aria-hidden="true"></div>
 
+<!-- HEADER -->
 <header class="bg-dark text-white">
   <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
 
@@ -41,21 +43,21 @@
   </div>
 </header>
 
-<main class="container mt-5 mb-5" role="main">
+<!-- MAIN -->
+<main class="container mt-5 mb-5">
 
   <!-- HERO -->
   <section id="hero" class="row align-items-center mb-5" aria-labelledby="hero-title">
-    <div class="col-12 col-md-6 hero-text text-center text-md-start">
+    <div class="col-12 col-md-6 text-center text-md-start">
 
       <h2 id="hero-title">Kleidung spenden – Menschen in Krisengebieten helfen</h2>
 
       <p class="mt-3">
         Registrieren Sie Ihre Kleiderspende schnell und unkompliziert.
-        Das Portal unterstützt eine strukturierte Erfassung und ermöglicht
-        eine zielgerichtete Verteilung an Menschen in Not.
+        Das Portal ermöglicht eine strukturierte Erfassung und eine gezielte Verteilung an Menschen in Not.
       </p>
 
-      <div class="hero-buttons d-flex flex-column flex-md-row gap-2 mt-4">
+      <div class="d-flex flex-column flex-md-row gap-2 mt-4">
 
         <a href="registrierung.html"
            class="btn btn-primary btn-lg px-4 shadow">
@@ -63,9 +65,8 @@
           Spende registrieren
         </a>
 
-        <!-- 🔥 VERBESSERTER BUTTON -->
         <a href="#ablauf"
-           class="btn btn-secondary-custom px-4"
+           class="btn btn-outline-secondary px-4"
            aria-label="Zum Abschnitt So funktioniert es scrollen">
           <i class="bi bi-arrow-down me-2"></i>
           So funktioniert es
@@ -84,7 +85,7 @@
   </section>
 
   <!-- ABLAUF -->
-  <section id="ablauf" aria-labelledby="ablauf-title">
+  <section id="ablauf" class="mb-5" aria-labelledby="ablauf-title">
     <div class="text-center mb-4">
       <h2 id="ablauf-title">So funktioniert das Portal</h2>
       <p class="text-muted">
@@ -94,7 +95,7 @@
 
     <div class="row g-4">
       <div class="col-12 col-md-4">
-        <article class="card h-100 p-4 text-center">
+        <article class="card h-100 p-4 text-center shadow-sm">
           <i class="bi bi-pencil-square fs-1 text-primary mb-3"></i>
           <h4>1. Spende erfassen</h4>
           <p>Wählen Sie Kleidung und Krisengebiet aus.</p>
@@ -102,7 +103,7 @@
       </div>
 
       <div class="col-12 col-md-4">
-        <article class="card h-100 p-4 text-center">
+        <article class="card h-100 p-4 text-center shadow-sm">
           <i class="bi bi-truck fs-1 text-primary mb-3"></i>
           <h4>2. Übergabe festlegen</h4>
           <p>Abgabe vor Ort oder Abholung.</p>
@@ -110,7 +111,7 @@
       </div>
 
       <div class="col-12 col-md-4">
-        <article class="card h-100 p-4 text-center">
+        <article class="card h-100 p-4 text-center shadow-sm">
           <i class="bi bi-check-circle fs-1 text-primary mb-3"></i>
           <h4>3. Bestätigung erhalten</h4>
           <p>Übersicht Ihrer Angaben nach Registrierung.</p>
@@ -124,27 +125,27 @@
     <div class="text-center mb-4">
       <h2 id="vorteile-title">Ihre Vorteile</h2>
       <p class="text-muted">
-        Das Portal wurde für eine einfache Nutzung entwickelt.
+        Das Portal wurde für eine einfache und effiziente Nutzung entwickelt.
       </p>
     </div>
 
     <div class="row g-4">
       <div class="col-12 col-md-4">
-        <article class="card h-100 p-4">
+        <article class="card h-100 p-4 shadow-sm">
           <h4><i class="bi bi-lightning-charge text-primary"></i> Schnell</h4>
           <p>Registrierung in wenigen Minuten.</p>
         </article>
       </div>
 
       <div class="col-12 col-md-4">
-        <article class="card h-100 p-4">
+        <article class="card h-100 p-4 shadow-sm">
           <h4><i class="bi bi-phone text-primary"></i> Responsiv</h4>
           <p>Nutzung auf allen Geräten möglich.</p>
         </article>
       </div>
 
       <div class="col-12 col-md-4">
-        <article class="card h-100 p-4">
+        <article class="card h-100 p-4 shadow-sm">
           <h4><i class="bi bi-shield-check text-primary"></i> Übersichtlich</h4>
           <p>Klare Struktur und einfache Bedienung.</p>
         </article>
@@ -154,6 +155,7 @@
 
 </main>
 
+<!-- FOOTER -->
 <footer class="text-center p-4 mt-5 bg-light border-top">
   <a href="impressum.html">Impressum</a> |
   <a href="datenschutz.html">Datenschutz</a>

@@ -1,83 +1,79 @@
-# Kleiderspenden Webanwendung
-## Projektbeschreibung
+## Kleiderspenden Webanwendung
+1. Projektbeschreibung
 
-Die entwickelte Webanwendung dient der strukturierten Erfassung von Kleiderspenden für Menschen in Krisengebieten.
-Nutzer haben die Möglichkeit, ihre Spende über ein benutzerfreundliches Formular zu registrieren und eine geeignete Übergabeart auszuwählen.
+Im Rahmen dieser Fallstudie wurde eine clientseitige Webanwendung zur strukturierten Erfassung von Kleiderspenden für Menschen in Krisengebieten entwickelt.
 
-Die Anwendung unterstützt sowohl die Abgabe in einer Geschäftsstelle als auch die Abholung durch ein Sammelfahrzeug.
-Nach erfolgreicher Eingabe wird eine Bestätigungsseite generiert, die alle relevanten Daten übersichtlich darstellt.
+Ziel der Anwendung ist es, Spendenprozesse zu digitalisieren und Nutzenden eine einfache Möglichkeit zu bieten, ihre Kleiderspenden zu registrieren und einer konkreten Krisenregion zuzuweisen.
 
-## Funktionen
+Die Anwendung ermöglicht sowohl die persönliche Übergabe an einer Geschäftsstelle als auch die Abholung durch ein Sammelfahrzeug. Nach erfolgreicher Registrierung wird eine Bestätigungsseite generiert, welche alle eingegebenen Daten übersichtlich darstellt.
 
-- Erfassung von Kleiderspenden über ein Formular
+2. Funktionen
 
+Die Webanwendung bietet folgende Funktionalitäten:
+
+- Erfassung von Kleiderspenden über ein interaktives Formular
 - Auswahl verschiedener Kleidungsarten (z. B. Jacken, Schuhe, Kinderkleidung)
-
 - Auswahl eines Ziel-Krisengebiets
-
 - Auswahl der Übergabeart:
-
-    - Geschäftsstelle Karlsruhe
-
-    - Abholung durch Sammelfahrzeug
-
+  - Übergabe an der Geschäftsstelle (Karlsruhe)
+  - Abholung durch ein Sammelfahrzeug
 - Dynamisches Ein- und Ausblenden der Adressfelder bei Auswahl „Abholung“
-
-- Validierung der Eingaben (z. B. Pflichtfelder, Postleitzahl-Format)
-
-- Einschränkung des Abholgebiets anhand der Postleitzahl (PLZ beginnt mit „76“)
-
-- Anzeige einer Bestätigungsseite mit allen übergebenen Daten (inkl. Datum und Uhrzeit)
-
+- Validierung der Benutzereingaben:
+  - Pflichtfeldprüfung
+  - Formatprüfung der Postleitzahl (5-stellig)
+- Einschränkung des Abholgebiets anhand der Postleitzahl (erste zwei Ziffern müssen „76“ entsprechen)
+- Anzeige einer Bestätigungsseite mit allen übergebenen Daten inklusive Datum und Uhrzeit
 - Responsives Design für Desktop, Tablet und Smartphone
 
-## Technische Umsetzung
+3. Technische Umsetzung
 
-Die Anwendung wurde als clientseitige Webanwendung umgesetzt und basiert auf folgenden Technologien:
+Die Anwendung wurde als clientseitige Webanwendung realisiert und basiert auf folgenden Technologien:
 
-- HTML5 zur Strukturierung der Inhalte
-
-- CSS3 zur Gestaltung und Layout-Anpassung
-
-- Bootstrap 5 für ein responsives und modernes UI
-
-- JavaScript zur Umsetzung der Formularlogik und Validierung
-
-- URL-Parameter zur Übergabe der Formulardaten an die Bestätigungsseite
-
+- HTML5 zur semantischen Strukturierung der Inhalte
+- CSS3 zur Gestaltung sowie für Layout- und Designanpassungen
+- Bootstrap 5 zur Umsetzung eines responsiven und modernen User Interfaces
+- JavaScript (Vanilla JS) zur Implementierung der Formularlogik, Validierung und Interaktivität
+- LocalStorage zur temporären Speicherung und Übergabe der Formulardaten an die Bestätigungsseite
 - Git zur Versionsverwaltung
-
 - GitHub Pages zur Veröffentlichung der Anwendung
 
-Zusätzlich wurden Aspekte der Benutzerfreundlichkeit (UX) sowie Barrierefreiheit berücksichtigt, wie z. B. klare Navigation, visuelles Feedback und semantische HTML-Strukturen.
+Zusätzlich wurden grundlegende Aspekte der Benutzerfreundlichkeit (UX) sowie der Barrierefreiheit (Accessibility) berücksichtigt, darunter:
 
-## Nutzung der Anwendung
+- Verwendung semantischer HTML-Elemente (z. B. <header>, <main>, <footer>, <fieldset>)
+- Einsatz von ARIA-Attributen zur Verbesserung der Zugänglichkeit
+- Visuelles Feedback bei fehlerhaften Eingaben
+- Klare und intuitive Navigationsstruktur
+
+4. Nutzung der Anwendung
+
+Die Nutzung der Anwendung erfolgt in folgenden Schritten:
 
 1. Aufrufen der Startseite
-
-2. Wechsel zur Registrierungsseite
-
-3. Auswahl von Kleidung und Krisengebiet
-
+2. Navigation zur Registrierungsseite
+3. Auswahl der Kleidungsart und des Ziel-Krisengebiets
 4. Auswahl der Übergabeart
-
-5. (Optional) Eingabe der Adresse bei Abholung
-
+5. (Optional) Eingabe der Abholadresse bei Auswahl „Abholung“
 6. Absenden des Formulars
+7. Anzeige der Bestätigungsseite mit allen eingegebenen Daten
 
-7. Anzeige der Bestätigungsseite mit allen Angaben
-
-## Online-Version
+5. Online-Version
 
 Die Anwendung ist unter folgendem Link erreichbar:
 
-https://furkanbalkan1616.github.io/kleiderspende-webapp/
+👉 https://furkanbalkan1616.github.io/kleiderspende-webapp/
 
-## Entwicklung & Testing
+6. Entwicklung & Testing
 
-Die Anwendung wurde lokal über einen HTTP-Server getestet (z. B. mit npx serve), um eine realistische Browserumgebung sicherzustellen.
-Der Code wurde mithilfe von Git versioniert und schrittweise weiterentwickelt.
+Die Anwendung wurde lokal mithilfe eines HTTP-Servers (z. B. npx serve) getestet, um eine realitätsnahe Browserumgebung sicherzustellen.
 
-## Autor
+Während der Entwicklung wurde besonderer Wert gelegt auf:
+
+- schrittweise Implementierung der Funktionalitäten
+- kontinuierliche Validierung und Testing der Eingaben
+- saubere und nachvollziehbare Code-Struktur
+
+Die Versionsverwaltung erfolgte über Git, wobei Änderungen regelmäßig dokumentiert und versioniert wurden.
+
+7. Autor
 
 Furkan Balkan

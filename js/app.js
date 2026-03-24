@@ -6,12 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 /* ==========================
-   🔐 SANITIZE
+   🔐 SANITIZE (SICHERHEIT)
 ========================== */
 function sanitize(input) {
   const div = document.createElement("div");
   div.textContent = input;
-  return div.innerHTML;
+  return div.textContent.trim();
 }
 
 
@@ -35,9 +35,14 @@ function initForm() {
   const kleidungSelect = document.getElementById("kleidung");
   const krisengebietSelect = document.getElementById("krisengebiet");
 
+  const submitBtn = form.querySelector("button[type='submit']");
+
   const GESCHAEFTS_PLZ_PREFIX = "76";
 
 
+  /* ==========================
+     🔁 ADRESSE TOGGLE
+  ========================== */
   function updateAdresseSichtbarkeit() {
     const isAbholung = abholungRadio.checked;
 
@@ -59,6 +64,9 @@ function initForm() {
   }
 
 
+  /* ==========================
+     🎨 VALIDIERUNG UI
+  ========================== */
   function setInvalid(field) {
     field.classList.add("is-invalid");
     field.classList.remove("is-valid");
@@ -74,6 +82,9 @@ function initForm() {
   }
 
 
+  /* ==========================
+     🔍 VALIDIERUNG
+  ========================== */
   function validateForm() {
 
     let errors = [];
@@ -82,18 +93,21 @@ function initForm() {
     fehlermeldung.classList.add("d-none");
     fehlermeldung.textContent = "";
 
+    // Kleidung
     if (!kleidungSelect.value) {
       errors.push("Bitte eine Art der Kleidung auswählen.");
       setInvalid(kleidungSelect);
       firstErrorField ??= kleidungSelect;
     } else setValid(kleidungSelect);
 
+    // Krisengebiet
     if (!krisengebietSelect.value) {
       errors.push("Bitte ein Krisengebiet auswählen.");
       setInvalid(krisengebietSelect);
       firstErrorField ??= krisengebietSelect;
     } else setValid(krisengebietSelect);
 
+    // Adresse nur bei Abholung
     if (abholungRadio.checked) {
 
       if (!strasseInput.value.trim()) {
@@ -109,7 +123,7 @@ function initForm() {
         setInvalid(plzInput);
         firstErrorField ??= plzInput;
       }
-      else if (plz.substring(0,2) !== GESCHAEFTS_PLZ_PREFIX) {
+      else if (plz.substring(0, 2) !== GESCHAEFTS_PLZ_PREFIX) {
         errors.push("Adresse liegt nicht im Einzugsgebiet der Geschäftsstelle.");
         setInvalid(plzInput);
         firstErrorField ??= plzInput;
@@ -136,14 +150,17 @@ function initForm() {
   }
 
 
+  /* ==========================
+     📤 SUBMIT
+  ========================== */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
-    const btn = form.querySelector("button");
-    btn.disabled = true;
-    btn.textContent = "Wird verarbeitet...";
+    // UX Verbesserung
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Wird verarbeitet...`;
 
     const daten = {
       uebergabe: abholungRadio.checked ? "Abholung" : "Geschäftsstelle",
@@ -152,17 +169,24 @@ function initForm() {
       ort: sanitize(ortInput.value),
       kleidung: sanitize(kleidungSelect.value),
       krisengebiet: sanitize(krisengebietSelect.value),
-
-      // ✅ FIX: richtiges Datum
       datum: new Date().toISOString()
     };
 
-    localStorage.setItem("spendenDaten", JSON.stringify(daten));
-
-    window.location.href = "bestaetigung.html";
+    try {
+      localStorage.setItem("spendenDaten", JSON.stringify(daten));
+      window.location.href = "bestaetigung.html";
+    } catch (error) {
+      fehlermeldung.textContent = "Fehler beim Speichern der Daten.";
+      fehlermeldung.classList.remove("d-none");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Registrierung abschließen";
+    }
   });
 
 
+  /* ==========================
+     🎯 EVENTS
+  ========================== */
   abholungRadio.addEventListener("change", updateAdresseSichtbarkeit);
   geschaeftsstelleRadio.addEventListener("change", updateAdresseSichtbarkeit);
 
@@ -180,9 +204,9 @@ function initBestaetigung() {
 
   const hinweis = document.getElementById("hinweistext");
 
-  const daten = JSON.parse(localStorage.getItem("spendenDaten"));
+  const datenRaw = localStorage.getItem("spendenDaten");
 
-  if (!daten) {
+  if (!datenRaw) {
     datenBox.innerHTML = `
       <p class="text-center">
         Keine Daten vorhanden.<br>
@@ -190,6 +214,15 @@ function initBestaetigung() {
       </p>
     `;
     if (hinweis) hinweis.textContent = "";
+    return;
+  }
+
+  let daten;
+
+  try {
+    daten = JSON.parse(datenRaw);
+  } catch {
+    datenBox.textContent = "Fehler beim Laden der Daten.";
     return;
   }
 
@@ -207,7 +240,7 @@ function initBestaetigung() {
   if (hinweis) {
     hinweis.textContent =
       daten.uebergabe === "Abholung"
-        ? "Ihre Abholanfrage wurde registriert."
+        ? "Ihre Abholanfrage wurde erfolgreich registriert."
         : "Bitte bringen Sie Ihre Spende zur Geschäftsstelle.";
   }
 }
@@ -219,7 +252,6 @@ function initBestaetigung() {
 function initAnimation() {
 
   const elements = document.querySelectorAll(".fade-in");
-
   if (elements.length === 0) return;
 
   const observer = new IntersectionObserver((entries) => {
